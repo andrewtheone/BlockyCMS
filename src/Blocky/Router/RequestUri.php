@@ -141,15 +141,18 @@ class RequestUri implements UriInterface
      */
     public function getPath() {
     	$path = $this->request->getServerParams()['REQUEST_URI'];
-
+        
+        //Remove starting subfolder from url. e.g. /Blocky/admin/?test=1 -> /admin/?test=1
 		if( $this->request->config['subfolder'] && (($length = strlen($this->request->config['subfolder'])) > 0) ) {
 			$path = substr($path, $length+1);
 		}
 
+        //Remove query params from the url e.g. /admin/?test=1 -> /admin/
         if( ($pos = strpos($path, "?")) !== false )
             $path = substr($path, 0, $os);
-        if($path[strlen($path)-1] == "/")
-            $path = substr($path, 0, strlen($path)-1);
+
+        //Remove ending / char from url. e.g. /admin
+        $path = rtrim($path, "/");
 
         return $path;
     }

@@ -107,8 +107,7 @@ class AdminService extends BaseService
 	{
 		$contentType = $this->app['content']->getContentType('adminuser');
 		$content = $this->app['content']->getContents($contentType->getSlug(), "username = ?", [$username]);
-
-		if(count($content) != 1) {
+		if(count($content) < 1) {
 			return false;
 		}
 

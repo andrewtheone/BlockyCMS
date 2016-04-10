@@ -10,7 +10,7 @@ use Blocky\BaseService;
  * @package default
  * @author 
  **/
-class ContentList implements \ArrayAccess, \Iterator
+class ContentList implements \ArrayAccess, \Iterator, \Countable
 {
 
     private $values = array();
@@ -33,7 +33,12 @@ class ContentList implements \ArrayAccess, \Iterator
         $this->where = $where;
         $this->args = $args;
         $this->contentTypeSlug = $contentTypeSlug;
-        $this->recordSize = null;
+        $this->recordSize = count($list);
+    }
+
+    public function count()
+    {
+        return $this->recordSize;
     }
 
     public function offsetSet($id, $value)
@@ -54,6 +59,7 @@ class ContentList implements \ArrayAccess, \Iterator
 
     public function offsetUnset($id)
     {
+        unset($this->values[$id]);
     }
 
     public function rewind()
