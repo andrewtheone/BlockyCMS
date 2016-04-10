@@ -1,0 +1,17 @@
+<h2>Ürlap kitöltve</h2>
+<div>
+	<span>Értékek: </span>
+	<ul>
+		{% for i, k in values %}
+		<li><strong>{{ contentType.getField(i).label|default(i) }}:</strong>{{ k }}</li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% if content %}
+<div>
+<p>
+Az ürlapot megtekintheted az <a href="{{ app.config.host }}/admin/content/edit/{{ contentType.getSlug() }}/{{ content.getValue(contentType.getFieldByType('slug')) }}">admin felületen!</a>
+</p>
+</div>
+{% endif %}

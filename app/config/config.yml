@@ -1,0 +1,44 @@
+host: http://host
+subfolder: 
+site_title: "Blocky"
+
+site:
+    title: "Blocky"
+    description: "..."
+    keywords: "..."
+
+theme: default
+
+mail:
+    transportation:
+        smtp: '127.0.0.1'
+        port: 25
+        username: 
+        password:
+    sender:
+        email: 'info@host.hu'
+        name: 'Info'
+    layout: '@theme/mail/_layout.twig'
+
+default_locale: hu
+
+pager:
+    page_attribute: oldal
+    limit_attribute: limit
+    limit: 10
+
+view:
+    pager: '@theme/_pager.twig'
+    layout: '@theme/_layout.twig'
+    record_view: '@theme/record.twig'
+    record_list: '@theme/list.twig'
+
+default_content_manger: 'Blocky\Backend\Content\BaseContentManager'
+
+extensions:
+    - 'Blocky\Fields\FieldsExtension'
+    - 'Blocky\Seo\SeoExtension'
+    - 'Blocky\Forms\FormsExtension'
+    - 'Blocky\Frontend\FrontendExtension'
+    - 'Blocky\Backend\BackendExtension'
+    - 'Blocky\Ecommerce\EcommerceExtension'

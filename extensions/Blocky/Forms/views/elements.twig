@@ -1,0 +1,38 @@
+{% macro text(label, name, value) %}
+<div class="input-group">
+	<label for="{{ name }}">{{ label }}</label>
+	<input type="text" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}">
+</div>
+{% endmacro %}
+
+{% macro select(label, options, selected) %}
+<div class="input-group">
+	<label for="{{ name }}">{{ label }}</label>
+	<select  class="form-control" name="{{ name }}">
+		{% for i, v in options %}
+			<option value="{{ i }}" {% if(i == selected) %} selected {% endif %}>{{ v }}</option>
+		{% endfor %}
+	</select>
+</div>
+{% endmacro %}
+
+{% macro textarea(label, name, value) %}
+<div class="input-group">
+	<label for="{{ name }}">{{ label }}</label>
+	<textarea  class="form-control" rows="5"  name="{{ name }}">{{ value }}</textarea>
+</div>
+{% endmacro %}
+
+{% macro formOpen(formName, refer) %}
+	<form action="/forms/process" method="post" class="form-horizontal">
+	<input name="form" type="hidden" value="{{ formName }}">
+	<input name="refer" type="hidden" value="{{ refer }}">
+{% endmacro %}
+
+{% macro formClose() %}
+	</form>
+{% endmacro %}
+
+{% macro submit(text) %}
+<button type="submit" class="btn btn-default">{{ text }}</button>
+{% endmacro %}

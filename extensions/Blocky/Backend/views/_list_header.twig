@@ -1,0 +1,8 @@
+<tr class="warning">
+	<th>#</th>
+	{% for inputName, field in contentType.getFields() %}
+		{% if((field.type == "text") )%}
+			<th>{{ field.label|default(inputName) }}</th>
+		{% endif %}
+	{% endfor %}
+</tr>

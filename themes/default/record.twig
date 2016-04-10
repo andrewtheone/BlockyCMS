@@ -1,0 +1,34 @@
+{% if content.getContentType().record_layout is defined %}
+{% include(content.getContentType().record_layout) %}
+{% else %}
+{% include(app.config.view.layout) %}
+{% endif %}
+
+{% macro fieldVars(fields, data) %}
+	{% for inputName, options in fields %}
+		{% if options.type == 'image' %}
+			<img src="{{ attribute(data, inputName)|image([400,400]) }}">
+		{% elseif( options.type == 'select') %}
+
+		{% elseif( options.type == 'grid') %}
+
+		{% elseif( options.type == 'html') %}
+			<span>{{ options.label|default(inputName) }}</span>: {{ attribute(data, inputName)|raw }}<br>
+		{% elseif( options.type == 'repeater') %}
+			<div>
+				<span>{{options.label|default(inputName)}}:</span>
+				{% for row in attribute(data, inputName) %}
+					{{ _self.fieldVars(options.fields, row, options) }}
+				{% endfor %}
+			</div>
+		{% else %}
+			<span>{{ options.label|default(inputName) }}</span>: {{ attribute(data, inputName) }}<br>
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% block content %}
+{% import _self as forms %}
+{{ forms.fieldVars(content.getContentType().getFields(), content) }}
+
+{% endblock %}

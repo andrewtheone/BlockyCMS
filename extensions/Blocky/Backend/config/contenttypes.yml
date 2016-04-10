@@ -1,0 +1,28 @@
+adminuser:
+    name: Admin felhasználók
+    singular_name: Admin felhasználó
+    show_menu: false
+    syncable: false
+    fields:
+        username:
+            type: text
+            label: Felhasználónév
+        slug:
+            type: slug
+            uses: username
+            visible: false
+        display_name:
+            type: text
+            label: Megjelenítendő név
+        avatar:
+            type: image
+        salt:
+            type: random
+            visible: false
+        password:
+            type: password
+            label: Jelszó
+            uses: salt
+        permissions:
+            type: permission
+            label: Jogosultsági kör

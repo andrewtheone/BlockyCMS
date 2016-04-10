@@ -1,0 +1,13 @@
+{% set pages = ceil(count/limit) %}
+
+
+{% if(pages >= 1) %}
+<div class="pagination pagination-centered">
+  <ul class="pagination">
+
+  	{% for i in 1..(pages) %}
+  		<li><a href="{{ path }}{{attr}}={{i}}{% if(app.config.pager.limit != limit) %}&limit={{ limit }}{% endif %}">{{i}}</a></li>
+  	{% endfor %}
+  </ul>
+</div>
+{% endif %}

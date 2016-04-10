@@ -1,0 +1,47 @@
+{% extends "@backend/layout.twig" %}
+
+{% block content %}
+
+	<div class="panel panel-success" >
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-lg-7">
+					<h2>{{ contentType.getName() }}</h2>
+				</div>
+				<div class="col-lg-5">
+					<div class="panel-ctrls">
+						<form action="/admin/content/list/{{ contentType.getSlug() }}" method="get">
+						<div class="input-group" style="width: 100%; margin: 0px; margin-top: -12px">
+							<input type="text" name="term" class="form-control1" placeholder="Keresés..." value="{{ app.router.request.getAttribute('term')|default("") }}" style="line-height: 40px;">
+							<div class="input-group-addon"><button class="btn btn-primary" style="padding:0px 5px 0px 5px"><i class="fa fa-pencil"></i></button></div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body no-padding" style="display: block;">
+			<table class="table table-striped">
+				<thead>
+					{% if( contentType.getOption('backend_list_header', null)) %}
+						{% include (contentType.getOption('backend_list_header')) with {contentType: contentType} %}
+					{% else %}
+						{% include ("@backend/_list_header.twig") with {contentType: contentType} %}
+					{% endif %}
+				</thead>
+				<tbody>
+					{% for content in contents %}
+						{% if( contentType.getOption('backend_list_item', null)) %}
+							{% include (contentType.getOption('backend_list_item')) with {contentType: contentType, content: content} %}
+						{% else %}
+							{% include ("@backend/_list_item.twig") with {contentType: contentType, content: content} %}
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+
+			{{ pager(contents, '@backend/_pager.twig') }}
+		</div>
+	</div>
+
+{% endblock %}

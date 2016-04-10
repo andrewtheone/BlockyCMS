@@ -1,0 +1,9 @@
+not_found:
+    path: /page-not-found
+    handler: { _controller: 'Blocky\Frontend\Controller\FrontendController', _action: 'recordView' }
+    record: { _contenttype: 'Page', _slug: '404' }
+
+homepage:
+    path: ''
+    handler: { _controller: 'Blocky\Frontend\Controller\FrontendController', _action: 'templateView' }
+    template: '@theme/homepage.twig'

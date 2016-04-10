@@ -1,0 +1,7 @@
+<ul>
+{% for content in results %}
+	<li>
+	<a href="/admin/content/edit/{{ content.getContentType().getSlug() }}/{{ content.getValue(content.getContentType().getFieldByType('slug')) }}">{{ content.getValue(content.getContentType().getFieldByType('text')) }} - {{ content.getContentType().getSingularName() }}</a>
+	</li>
+{% endfor %}
+</ul>

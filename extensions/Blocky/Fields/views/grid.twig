@@ -1,0 +1,12 @@
+
+<div class="form-group" data-field-type="grid">
+	{% if label != false %}
+	<label for="{{name}}" class="col-sm-2 control-label">{{ label|default(name) }}</label>
+	{% endif %}
+	<div class="col-sm-10">
+		<div data-grid-container data-grid-data="{{value|default([])|json_encode}}" data-grid-columns="{{columns}}" style='width: 100%; border-right: 1px solid #DDD; border-bottom: 1px solid #DDD; background-color: #F8F8F8;z-index: 1;'></div>
+		<input data-grid-value type="hidden" name="{{ inputKey }}" class="form-control1" id="{{name}}" value="{{value|default([])|json_encode}}">
+
+		<p class="help-block">{{ help|default('') }}</p>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+
+<div class="form-group" data-field-type="html">
+	{% if label != false %}
+	<label for="{{name}}" class="col-sm-12 control-label">{{ label|default(name) }}</label>
+	{% endif %}
+	<div class="col-sm-12">
+		<textarea data-ckeditor-container name={{ inputKey }}>{{ value }}</textarea>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+<li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+<span>Tartalmak</span>
+{% for slug, ct in app.content.getContentTypes() %}
+{% if (ct.show_menu) %}
+<li class="menu-list">
+	<a href="#"><i class="lnr lnr-cog"></i>
+		<span>{{ ct.name }}</span></a>
+		<ul class="sub-menu-list">
+			<li><a href="/admin/content/list/{{slug}}">Lista</a> </li>
+			<li><a href="/admin/content/edit/{{slug}}">Új {{ct.singular_name}}</a></li>
+		</ul>
+</li>
+{% endif %}
+{% endfor %}
+<span>Kiegészítők</span>
+{% for k, menu in app.config.backend_menu %}
+<li class="menu-list">
+	<a href="{% if menu.href is defined %}{{ menu.href }}{% else %}#{% endif %}"><i class="lnr {% if menu.icon is defined %}{{ menu.icon }}{% else %}lnr-cog{% endif %}"></i>
+		<span>{{ menu.name }}</span></a>
+		{% if menu.children is defined %}
+			<ul class="sub-menu-list">
+				{% for child in menu.children %}
+				<li><a href="{{ child.href }}">{{ child.name }}</a> </li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+</li>
+{% endfor %}

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+{{ snippet('BLOCKY::BEFORE_HEAD') }}
+<head>
+{{ snippet('BLOCKY::START_HEAD') }}
+<title>Blocky Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+ 	{% for asset in app.view.getAssets('style') %}
+		<link href="{{asset}}" rel='stylesheet' type='text/css' />
+	{% endfor %}
+{{ snippet('BLOCKY::END_HEAD') }}
+</head> 
+{{ snippet('BLOCKY::BEFORE_BODY') }}
+ <body class="sticky-header">
+{{ snippet('BLOCKY::START_BODY') }}
+    <section>
+    <!-- left side start-->
+		<div class="left-side sticky-left-side">
+
+			<!--logo and iconic logo start-->
+			<div class="logo">
+				<h1><a href="/admin">Blocky <span>Admin</span></a></h1>
+			</div>
+			<div class="logo-icon text-center">
+				<a href="index.html"><i class="lnr lnr-home"></i> </a>
+			</div>
+
+			<!--logo and iconic logo end-->
+			<div class="left-side-inner">
+
+				<!--sidebar nav start-->
+					<ul class="nav nav-pills nav-stacked custom-nav">
+					{% include('@backend/_left_navigation.twig') %}
+					</ul>
+				<!--sidebar nav end-->
+			</div>
+		</div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+		<div class="main-content main-content2 main-content2copy">
+			<!-- header-starts -->
+			<div class="header-section">
+			 
+			<!--toggle button start-->
+			<a class="toggle-btn  menu-collapsed"><i class="fa fa-bars"></i></a>
+			<!--toggle button end-->
+
+			<!--notification menu start -->
+			<div class="menu-right">
+
+				<div class="user-panel-top">  
+
+	
+					<div class="profile_details_left">
+						<ul class="nofitications-dropdown">
+							<li class="login_box" id="loginContainer" data-field-type='searchAll'>
+								<div class="search-box">
+									<div id="sb-search" class="sb-search sb-search-open">
+											<input class="sb-search-input" placeholder="Keresés" type="search" id="search">
+											<input class="sb-search-submit" type="submit" value="">
+											<span class="sb-icon-search"> </span>
+										<div class="search-autosuggestion-wrapper">
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="profile_details">		
+						<ul>
+							<li class="dropdown profile_details_drop">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									<div class="profile_img">	
+										<span style="background:url({{ app.admin.user.avatar|image([40,40]) }}) no-repeat center"> </span> 
+										 <div class="user-name">
+											<p>{{ app.admin.user.username }}<span></span></p>
+										 </div>
+										 <i class="lnr lnr-chevron-down"></i>
+										 <i class="lnr lnr-chevron-up"></i>
+										<div class="clearfix"></div>	
+									</div>	
+								</a>
+								<ul class="dropdown-menu drp-mnu">
+									<li> <a href="#"><i class="fa fa-sign-out"></i> Kilépés</a> </li>
+								</ul>
+							</li>
+							<div class="clearfix"> </div>
+						</ul>
+					</div>				             	
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<!--notification menu end -->
+			</div>
+	<!-- //header-ends -->
+			<div id="page-wrapper">
+				<div class="graphs">
+				{% block content %}
+				{% endblock %}
+				</div>
+			</div>
+		<!--footer section start-->
+			<footer>
+			   <p>Used Memory: {{getMemoryUsage()}}</p>
+			</footer>
+        <!--footer section end-->
+	</section>
+	
+	{% for asset in app.view.getAssets('js') %}
+		<script src="{{asset}}"></script>
+	{% endfor %}
+
+{{ snippet('BLOCKY::END_BODY') }}
+</body>
+</html>

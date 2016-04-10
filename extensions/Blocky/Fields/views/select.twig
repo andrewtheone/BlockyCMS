@@ -1,0 +1,33 @@
+
+<div class="form-group" data-field-type="{{ data_field_type|default('select') }}">
+	{% if label != false %}
+	<label for="{{name}}" class="col-sm-2 control-label">{{ label|default(name) }}</label>
+	{% endif %}
+	<div class="{% if label != false %} col-sm-12 {% else %} col-sm-10 {% endif %}">
+		{% if(foreign) %}
+		<div class="input-group" style="width: 100%; margin: 0px;">
+			{% set options = getContents(foreign) %}
+			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
+
+			{% for k, option in options %}
+				<option value="{{ option.getID() }}" {% if value|isIDContained(option.getID()) %} selected {% endif %}>{{option.title}}</option>
+			{% endfor %}
+			</select>
+		</div>
+		{% else %}
+		<div class="input-group" style="width: 100%; margin: 0px;">
+			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
+
+			{% for k, option in options %}
+				{% if valueKeyName is defined %}
+				<option value="{{k}}" {% if value==k %} selected {% endif %}>{{ attribute(option, valueKeyName) }}</option>
+				{% else %}
+				<option value="{{k}}" {% if value==k %} selected {% endif %}>{{option}}</option>
+				{% endif %}
+			{% endfor %}
+			</select>
+		</div>
+		{% endif %}
+		<p class="help-block">{{ help|default('') }}</p>
+	</div>
+</div>

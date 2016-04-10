@@ -1,0 +1,86 @@
+{% extends "@backend/layout.twig" %}
+
+{% block content %}
+{% for message in app.session.getFlashMessages('error') %}
+<p>error: {{ message }}<br></p>
+{% endfor %}
+{% set currentLocale = app.router.request.getAttribute('locale')|default(app.config.default_locale) %}
+<div class="col-lg-12 cloud">
+	<div class="row">
+		{% if(content.getID() == 0) %}
+			<form method="post" action="/admin/content/edit/{{content.getContentType().getSlug()}}/{{content.getID()}}" class="form-horizontal">
+		{% else %}
+			<form method="post" action="/admin/content/edit/{{content.getContentType().getSlug()}}/{{content.getValue(content.getContentType().getSlugName()) }}?locale={{ currentLocale }}" class="form-horizontal">
+		{% endif %}
+		
+		<div class="col-lg-9">
+			<div class="">
+				<div class="panel-heading">
+					<h4 class="panel-title">{{ content.getContentType().getName() }}</h4>
+				</div>
+				<div class="panel-body panel-body2">
+						<div>
+							<ul class="nav nav-tabs" role="tablist">
+							{% set itr = 0 %}
+							{% for name, data in content.getContentType().getGroups() %}
+								<li role="presentation" class="{% if itr == 0 %}active{% endif %}"><a href="#{{name}}" role="tab" data-toggle="tab">{{data.name}}</a></li>
+								{% set itr = itr+1 %}
+							{% endfor %}
+							</ul>
+
+							<div class="tab-content">
+								{% set itr = 0 %}
+								{% for name, data in content.getContentType().getGroups() %}
+									<div role="tabpanel" class="tab-pane {% if itr == 0 %}active{% endif %}" id="{{name}}">
+										{% for _inputName,_field in data.fields %}
+											{% if (_field.visible is not defined) or (_field.visible == true) %}
+												{% include content.getContentType.getFieldType(_inputName).getTemplate() with _field|merge({inputKey: 'content['~_inputName~']', name: _inputName, value: content.getValue(_inputName), content: content}) %}
+											{% endif %}
+										{% endfor %}
+									</div>
+									{% set itr = itr+1 %}
+								{% endfor %}
+							</div>
+						</div>
+
+						<input type="submit">
+
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3">
+				<div class="panel panel-repeat-item">
+					<div class="panel-heading">
+						<div class="col-lg-5">
+							Mentés
+						</div>
+					</div>
+					<div class="panel-body panel-body2">
+
+						<div class="row">
+							{% include app.content.getField('select').getTemplate() with {label: false, options: ['Elérhető', 'Nem elérhető'], value: 0, content: content, inputKey: 'content[status]'} %}
+						</div>
+						{% if (content.getContentType().hasLocales()) %}
+
+							<input type="hidden" name="content[locale]" value="{{ currentLocale }}">
+							<div class="row">
+							{% include app.content.getField('select').getTemplate() with {data_field_type: "selectLocale", label: false, options: app.config.locales, valueKeyName: 'name', value: currentLocale, content: content, inputKey: '_noKey'} %}
+							</div>
+						{% endif %}
+						{% if (content.getID() != 0) %}
+
+							<div class="row">
+							{% include app.content.getField('select').getTemplate() with {data_field_type: "select", label: "Oldal", options: {'both': 'Mindkettő', 'dev': 'Teszt oldal', 'prod':'Éles oldal'}, value: content.bean.site, content: content, inputKey: 'content[site]'} %}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			<div class="panel-body panel-body2">
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+
+
+{% endblock %}

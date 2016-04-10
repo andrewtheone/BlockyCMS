@@ -1,0 +1,25 @@
+{% import "@forms/elements.twig" as inputs %}
+
+{{ inputs.formOpen(formName, app.config.host~app.router.request.getServerParams().REQUEST_URI) }}
+
+{% for _inputName, _field in formContentType.getFields() %}
+	{% if (((formOptions.fields is defined) and (formOptions.fields|in_array(_inputName))) or (formOptions.fields is not defined)) %}
+		{% if (['text']|in_array(_field.type)) %}
+		<div class="row">
+			{{ inputs.text(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+		</div>
+		{% endif %}
+
+		{% if (['html']|in_array(_field.type)) %}
+		<div class="row">
+			{{ inputs.textarea(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+		</div>
+		{% endif %}
+	{% endif %}
+{% endfor %}
+
+<div class="row">
+	{{ inputs.submit('Rendben') }}
+</div>
+
+{{ inputs.formClose() }}

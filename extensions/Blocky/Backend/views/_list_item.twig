@@ -1,0 +1,19 @@
+{% set inputs = [] %}
+{% set fieldItr = 0 %}
+{% for inputName, field in contentType.getFields() %}
+	{% if((field.type == "text") and (fieldItr < 4) )%}
+		{% set inputs = inputs|merge([inputName]) %}
+		{% set fieldItr = fieldItr+1 %}
+	{% endif %}
+{% endfor %}
+
+<tr>
+	<td>{{content.getID()}}</td>
+	{% for i, input in inputs %}
+		{% if (i == 0) %}
+		<td><a href="/admin/content/edit/{{contentType.getSlug()}}/{{content.getValue(contentType.getSlugName())}}">{{ content.getValue(input) }}<a/></td>
+		{% else %}
+		<td>{{ content.getValue(input) }}</td>
+		{% endif %}
+	{% endfor %}
+</tr>
