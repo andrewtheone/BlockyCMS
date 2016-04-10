@@ -212,7 +212,7 @@ var initSearchAll = function(container) {
 		if(val.length < 4)
 			return;
 
-		$.get("/admin/search?term="+val, function(resp) {
+		$.get($(body).attr('data-base-path')+"/admin/search?term="+val, function(resp) {
 			cont.html(resp);
 			cont.fadeIn();
 		})

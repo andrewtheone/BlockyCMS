@@ -15,7 +15,7 @@
 {{ snippet('BLOCKY::END_HEAD') }}
 </head> 
 {{ snippet('BLOCKY::BEFORE_BODY') }}
- <body class="sticky-header">
+ <body class="sticky-header" data-base-path="{{ app.config.host }}">
 {{ snippet('BLOCKY::START_BODY') }}
     <section>
     <!-- left side start-->

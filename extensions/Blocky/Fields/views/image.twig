@@ -1,7 +1,7 @@
 {% set fieldVars = value|default({path: null, attribs: {}}) %}
 {% set vars = {
     dropzone: {
-    	url: app.config.host ~ '/admin/upload',
+    	url: app.path.link('/admin/upload'),
     	type: 'image'
     },
     currentImage: fieldVars.path,

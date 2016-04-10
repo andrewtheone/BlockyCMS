@@ -36,6 +36,30 @@ class PathService extends BaseService implements \ArrayAccess
 		return $this->values[$parent]."/".$file;
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function link($link)
+	{
+		return $this->app['config']['host'].$link;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function redirect($to)
+	{
+		header("Location: ".$this->app['config']['host'].$to);
+		exit();
+		return;
+	}
+
     public function offsetSet($id, $value)
     {
     	$this->values[$id] = $value;

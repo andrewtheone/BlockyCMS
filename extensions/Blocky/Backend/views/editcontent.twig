@@ -8,9 +8,9 @@
 <div class="col-lg-12 cloud">
 	<div class="row">
 		{% if(content.getID() == 0) %}
-			<form method="post" action="/admin/content/edit/{{content.getContentType().getSlug()}}/{{content.getID()}}" class="form-horizontal">
+			<form method="post" action="{{ app.path.link('/admin/content/edit/' ~ content.getContentType().getSlug() ~ '/' ~ content.getID() )}}" class="form-horizontal">
 		{% else %}
-			<form method="post" action="/admin/content/edit/{{content.getContentType().getSlug()}}/{{content.getValue(content.getContentType().getSlugName()) }}?locale={{ currentLocale }}" class="form-horizontal">
+			<form method="post" action="{{ app.path.link('/admin/content/edit/' ~ content.getContentType().getSlug() ~ '/' ~ content.getValue(content.getContentType().getSlugName())) }}?locale={{ currentLocale }}" class="form-horizontal">
 		{% endif %}
 		
 		<div class="col-lg-9">

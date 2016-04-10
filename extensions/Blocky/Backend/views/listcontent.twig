@@ -10,7 +10,7 @@
 				</div>
 				<div class="col-lg-5">
 					<div class="panel-ctrls">
-						<form action="/admin/content/list/{{ contentType.getSlug() }}" method="get">
+						<form action="{{ app.path.link('/admin/content/list/' ~ contentType.getSlug()) }}" method="get">
 						<div class="input-group" style="width: 100%; margin: 0px; margin-top: -12px">
 							<input type="text" name="term" class="form-control1" placeholder="Keresés..." value="{{ app.router.request.getAttribute('term')|default("") }}" style="line-height: 40px;">
 							<div class="input-group-addon"><button class="btn btn-primary" style="padding:0px 5px 0px 5px"><i class="fa fa-pencil"></i></button></div>

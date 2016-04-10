@@ -1,4 +1,4 @@
-<li><a href="index.html"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
+<li><a href="{{ app.path.link('/') }}"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
 <span>Tartalmak</span>
 {% for slug, ct in app.content.getContentTypes() %}
 {% if (ct.show_menu) %}
@@ -6,8 +6,8 @@
 	<a href="#"><i class="lnr lnr-cog"></i>
 		<span>{{ ct.name }}</span></a>
 		<ul class="sub-menu-list">
-			<li><a href="/admin/content/list/{{slug}}">Lista</a> </li>
-			<li><a href="/admin/content/edit/{{slug}}">Új {{ct.singular_name}}</a></li>
+			<li><a href="{{ app.path.link('/admin/content/list/' ~ slug) }}">Lista</a> </li>
+			<li><a href="{{ app.path.link('/admin/content/edit/' ~ slug) }}">Új {{ct.singular_name}}</a></li>
 		</ul>
 </li>
 {% endif %}
@@ -20,7 +20,7 @@
 		{% if menu.children is defined %}
 			<ul class="sub-menu-list">
 				{% for child in menu.children %}
-				<li><a href="{{ child.href }}">{{ child.name }}</a> </li>
+				<li><a href="{{ app.path.link(child.href) }}">{{ child.name }}</a> </li>
 				{% endfor %}
 			</ul>
 		{% endif %}
