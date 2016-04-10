@@ -149,7 +149,7 @@ class RequestUri implements UriInterface
 
         //Remove query params from the url e.g. /admin/?test=1 -> /admin/
         if( ($pos = strpos($path, "?")) !== false )
-            $path = substr($path, 0, $os);
+            $path = substr($path, 0, $pos);
 
         //Remove ending / char from url. e.g. /admin
         $path = rtrim($path, "/");
