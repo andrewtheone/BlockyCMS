@@ -140,11 +140,17 @@ class RequestUri implements UriInterface
      * @return string The URI path.
      */
     public function getPath() {
-    	$a = $this->request->getServerParams()['REQUEST_URI'];
-    	$a = explode("?", $a);
-    	$path = $a[0];
+    	$path = $this->request->getServerParams()['REQUEST_URI'];
+
+		if( $this->request->config['subfolder'] && (($length = strlen($this->request->config['subfolder'])) > 0) ) {
+			$path = substr($path, $length+1);
+		}
+
+        if( ($pos = strpos($path, "?")) !== false )
+            $path = substr($path, 0, $os);
         if($path[strlen($path)-1] == "/")
             $path = substr($path, 0, strlen($path)-1);
+
         return $path;
     }
 

@@ -46,12 +46,9 @@ class RouterService extends BaseService
 	{
 		$this->router = new RouterContainer();
 		$this->map = $this->router->getMap();
-		$this->request = new Request();
+		$this->request = new Request($this->app["config"]);
 
 		$path = $this->request->getUri()->getPath();
-		if( $this->app['config']['subfolder'] && (($length = strlen($this->app['config']['subfolder'])) > 0) ) {
-			$path = substr($path, $length);
-		}
 		if( strpos($path, "/admin") === 0 ) {
 			$this->app['site'] = 'backend';
 		}

@@ -22,14 +22,17 @@ class Request implements ServerRequestInterface
 	 **/
 	public $requestUri;
 
+    public $config;
+
 	/**
 	 * undocumented function
 	 *
 	 * @return void
 	 * @author 
 	 **/
-	public function __construct()
+	public function __construct(&$conf)
 	{
+        $this->config = $conf;
 		$this->requestUri = new RequestUri($this);
 	}
 
