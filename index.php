@@ -9,5 +9,5 @@ ini_set('display_errors', 1);
 require_once __DIR__."/app/bootstrap.php";
 
 $end_time = microtime(TRUE);
-echo gettext("backend.search");
+
 echo $end_time - $start_time;

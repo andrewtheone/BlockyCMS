@@ -84,13 +84,7 @@ class Application extends Container
             substr($this['config']['fallback_locale'], 0, 2)
         ));
         setlocale(LC_ALL, array_unique($locale));
-		//echo $this['locale']['locale'];
-		//if(setlocale(LC_ALL, $this['locale']['locale']) === false) {
-			/*var_dump(setlocale(LC_ALL, 'en_US'));
-			putenv('LANGUAGE=en_US.UTF-8');
-			putenv('LANG=en_US.UTF-8');
-			putenv('LC_ALL=en_US.UTF-8');*/
-		//}
+
 		// Specify location of translation tables
 		bindtextdomain("blocky", $this['path']['translations']);
 
