@@ -2,6 +2,7 @@
 
 namespace Blocky\Content;
 
+use Blocky\Config\YamlWrapper;
 use Blocky\BaseService;
 use Blocky\Event\EventData;
 
@@ -35,7 +36,7 @@ class ContentService extends BaseService
 	 **/
 	public function boot()
 	{
-		$cts = yaml_parse_file($this->app['path']->to('config', 'contenttypes.yml'));
+		$cts = YamlWrapper::parse($this->app['path']->to('config', 'contenttypes.yml'));
 
 		foreach($cts as $key => $v) {
 			$this->addContentType($key, $v);

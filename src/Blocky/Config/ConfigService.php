@@ -23,17 +23,17 @@ class ConfigService extends BaseService implements \ArrayAccess
 	 **/
 	public function boot()
 	{
-		$this->values = yaml_parse_file($this->app['path']->to('config', 'config.yml'));
+		$this->values = YamlWrapper::parse($this->app['path']->to('config', 'config.yml'));
         if(file_exists($this->app['path']['root']."/app/cache/installed.yml")) {
-            $this->values['installed'] = yaml_parse_file($this->app['path']['root']."/app/cache/installed.yml");
+            $this->values['installed'] = YamlWrapper::parse($this->app['path']['root']."/app/cache/installed.yml");
         } else {
             $this->values['installed'] = [];
         }
 		$this->app['path']['theme'] = $this->app['path']['themes']."/".$this->values['theme'];
         $this->app['path']['theme_url'] = $this->values['host']."/themes/".$this->values['theme'];
         $this->app['path']['files_url'] = $this->values['host']."/files";
-		$this->values['routes'] = yaml_parse_file($this->app['path']->to('config', 'routes.yml'));
-        $this->values['locales'] = yaml_parse_file($this->app['path']->to('config', 'locales.yml'));
+		$this->values['routes'] = YamlWrapper::parse($this->app['path']->to('config', 'routes.yml'));
+        $this->values['locales'] = YamlWrapper::parse($this->app['path']->to('config', 'locales.yml'));
         if(!array_key_exists('backend_menu', $this->values)) {
             $this->values['backend_menu'] = [];
         }

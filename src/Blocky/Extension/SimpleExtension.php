@@ -2,6 +2,8 @@
 
 namespace Blocky\Extension;
 
+use Blocky\Config\YamlWrapper;
+
 /**
  * undocumented class
  *
@@ -74,14 +76,14 @@ class SimpleExtension
 			copy($this->app['path']['extensions']."/".$extension."/config/".$config, $this->app['path']['config']."/".$config);
 		} else {
 			if(!$this->isInstalled()) {
-				$_content = yaml_parse_file($this->app['path']['config']."/".$config);
-				$_bare = yaml_parse_file($this->app['path']['extensions']."/".$extension."/config/".$config);
+				$_content = YamlWrapper::parse($this->app['path']['config']."/".$config);
+				$_bare = YamlWrapper::parse($this->app['path']['extensions']."/".$extension."/config/".$config);
 				$_content = array_merge([], $_content, $_bar);
-				file_put_contents($this->app['path']['config']."/".$config, yaml_emit($_content));
+				YamlWrapper::emit($this->app['path']['config']."/".$config, $_content);
 			}
 		}
 
-		return yaml_parse_file($this->app['path']['config']."/".$config);
+		return YamlWrapper::parse($this->app['path']['config']."/".$config);
 	}
 
 	/**
@@ -95,12 +97,11 @@ class SimpleExtension
 		$_config = [];
 
 		if(file_exists($this->app['path']['config']."/".$config)) {
-			$_config = yaml_parse_file($this->app['path']['config']."/".$config);
+			$_config = YamlWrapper::parse($this->app['path']['config']."/".$config);
 		}
 
 		$_config = array_merge([], $_config, $extension);
-		$_config = yaml_emit($_config);
-		file_put_contents($this->app['path']['config']."/".$config, $_config);
+		YamlWrapper::emit($this->app['path']['config']."/".$config, $_config);
 	}
 
 	/**

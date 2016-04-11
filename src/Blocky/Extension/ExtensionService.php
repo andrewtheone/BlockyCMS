@@ -2,6 +2,7 @@
 
 namespace Blocky\Extension;
 
+use Blocky\Config\YamlWrapper;
 use Blocky\BaseService;
 
 /**
@@ -36,8 +37,7 @@ class ExtensionService extends BaseService
 
 			$class->install();
 
-			$content = yaml_emit($exts);
-			file_put_contents($this->app['path']['root']."/app/cache/installed.yml", $content);
+			YamlWrapper::emit($this->app['path']['root']."/app/cache/installed.yml", $exts);
 		}
 	}
 
