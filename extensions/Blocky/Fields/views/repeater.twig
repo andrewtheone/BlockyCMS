@@ -37,7 +37,7 @@
 						{% for _inputName, _options in fields %}
 							<div class="row">
 								<div class="col-sm-12">
-							{% include app.content.getField(_options.type).getTemplate() with _options|merge({ repeated: true, inputKey: inputKey ~ '[__BLOCKY_REPEATER_ID__]['~_inputName~']', name: _inputName, label: _options.label|default(_inputName), value: '', contentType: content.getContentType()}) %}
+							{% include _options.template|default(app.content.getField(_options.type).getTemplate()) with _options|merge({ repeated: true, inputKey: inputKey ~ '[__BLOCKY_REPEATER_ID__]['~_inputName~']', name: _inputName, label: _options.label|default(_inputName), value: '', contentType: content.getContentType()}) %}
 								</div>
 							</div>
 						{% endfor %}

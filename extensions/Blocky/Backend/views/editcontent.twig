@@ -34,7 +34,7 @@
 									<div role="tabpanel" class="tab-pane {% if itr == 0 %}active{% endif %}" id="{{name}}">
 										{% for _inputName,_field in data.fields %}
 											{% if (_field.visible is not defined) or (_field.visible == true) %}
-												{% include content.getContentType.getFieldType(_inputName).getTemplate() with _field|merge({inputKey: 'content['~_inputName~']', name: _inputName, value: content.getValue(_inputName), content: content}) %}
+												{% include _field.template|default(content.getContentType.getFieldType(_inputName).getTemplate()) with _field|merge({inputKey: 'content['~_inputName~']', name: _inputName, value: content.getValue(_inputName), content: content}) %}
 											{% endif %}
 										{% endfor %}
 									</div>
