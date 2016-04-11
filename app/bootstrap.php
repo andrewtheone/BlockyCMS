@@ -27,6 +27,7 @@ $application['path']['root'] = __DIR__."/..";
 $application['path']['themes'] = __DIR__."/../themes";
 $application['path']['files'] = __DIR__."/../files";
 $application['path']['config'] = __DIR__."/config";
+$application['path']['translations'] = __DIR__."/translations";
 $application['path']['views'] = __DIR__."/views";
 $application['path']['extensions'] = __DIR__."/../extensions";
 $application['path']['cache'] = __DIR__."/cache";
@@ -35,6 +36,5 @@ $application['path']['cache'] = __DIR__."/cache";
 $application['event']->trigger("Blocky::BootsrapFinished");
 $application['event']->trigger("Blocky::Halting");
 
-return $app;
 //@deprecated
 //$application['event']->trigger('Bootstrap::CoreLoaded');

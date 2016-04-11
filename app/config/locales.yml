@@ -1,9 +1,9 @@
-hu:
+hu_HU:
     name: Magyar
     flag: valami.gif
-en:
+en_GB:
     name: Angol
     flag: valami.gif
-de:
+de_DE:
     name: Német
     flag: valami.gif

@@ -34,6 +34,7 @@ $application['path']['config'] = __DIR__."/app/config";
 $application['path']['views'] = __DIR__."/app/views";
 $application['path']['extensions'] = __DIR__."/extensions";
 $application['path']['cache'] = __DIR__."/app/cache";
+$application['path']['translations'] = __DIR__."/app/translations";
 
 $application['event']->on('Blocky::onRequest', function() use(&$application, &$argv) {
 	$core = new Blocky\CLI\Core($application);

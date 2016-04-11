@@ -1,4 +1,4 @@
-host: http://host
+host: http://rusty.bonzoportal.hu
 subfolder: 
 site_title: "Blocky"
 
@@ -20,7 +20,8 @@ mail:
         name: 'Info'
     layout: '@theme/mail/_layout.twig'
 
-default_locale: hu
+default_locale: en_GB
+fallback_locale: en_US
 
 pager:
     page_attribute: oldal

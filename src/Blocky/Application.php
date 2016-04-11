@@ -40,7 +40,6 @@ class Application extends Container
 		$this->register(new Provider\ExtensionServiceProvider(), []);
 		$this->register(new Provider\LocaleServiceProvider(), []);
 
-
 		$this['event']->on('Blocky::BootsrapFinished', [$this, 'onBootstrapFinished']);
 		$this['event']->on('Blocky::ApplicationInitialized', [$this, 'onApplicationInitialized']);
 
@@ -70,6 +69,33 @@ class Application extends Container
 		}
 		unset($extensions);
 		unset($classes);
+
+		putenv('LANGUAGE='.$this['locale']['locale']);
+		putenv('LANG='.$this['locale']['locale']);
+		putenv('LC_ALL='.$this['locale']['locale']);
+
+        $locale = array_merge([], array(
+            $this['locale']['locale'] . '.UTF-8',
+            $this['locale']['locale'] . '.utf8',
+            $this['locale']['locale'],
+            $this['config']['fallback_locale'] . '.UTF-8',
+            $this['config']['fallback_locale'] . '.utf8',
+            $this['config']['fallback_locale'],
+            substr($this['config']['fallback_locale'], 0, 2)
+        ));
+        setlocale(LC_ALL, array_unique($locale));
+		//echo $this['locale']['locale'];
+		//if(setlocale(LC_ALL, $this['locale']['locale']) === false) {
+			/*var_dump(setlocale(LC_ALL, 'en_US'));
+			putenv('LANGUAGE=en_US.UTF-8');
+			putenv('LANG=en_US.UTF-8');
+			putenv('LC_ALL=en_US.UTF-8');*/
+		//}
+		// Specify location of translation tables
+		bindtextdomain("blocky", $this['path']['translations']);
+
+		// Choose domain
+		textdomain("blocky");
 
 		$this['event']->trigger("Blocky::onRequest");
 	}
