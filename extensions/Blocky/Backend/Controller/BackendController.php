@@ -114,6 +114,11 @@ class BackendController extends SimpleController
 			$locale = $this->app['config']['default_locale'];
 		}
 
+		if( !$this->app['admin']->hasPermission($contentType->getReadPermission()) ) {
+			$this->app['session']->setFlashMessage('error', _('backend.no_permission'));
+			$this->app['path']->redirect('/admin');
+		}
+
 		$content = null;
 		if($contentType->hasLocales()) {
 			
@@ -171,6 +176,10 @@ class BackendController extends SimpleController
 		}
 
 		if($this->request->getMethod() == "POST") {
+			if( !$this->app['admin']->hasPermission($contentType->getWritePermission()) ) {
+				$this->app['session']->setFlashMessage('error', _('backend.no_permission'));
+				$this->app['path']->redirect('/admin');
+			}
 			try {
 				$postData = $this->request->getAttribute('content');
 				$content->fromArray($postData);
@@ -197,9 +206,27 @@ class BackendController extends SimpleController
 	 * @return void
 	 * @author 
 	 **/
+	public function logout()
+	{
+		$this->app['session']['admin'] = null;
+		
+		$this->app['path']->redirect('/admin');
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function contentList()
 	{
 		$contentType = $this->app['content']->getContentType( $this->route->getAttribute('contenttype') );
+		
+		if( !$this->app['admin']->hasPermission($contentType->getReadPermission()) ) {
+			$this->app['session']->setFlashMessage('error', _('backend.no_permission'));
+			$this->app['path']->redirect('/admin');
+		}
 
 		if( ($term = $this->request->getAttribute('term', null)) != null) {
 			$results = [];

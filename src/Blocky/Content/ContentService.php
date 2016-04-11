@@ -149,13 +149,17 @@ class ContentService extends BaseService
 	 **/
 	public function getPermissions()
 	{
-		$permissions = [];
+		$permissions = ['admin'];
 
 		foreach($this->contentTypes as $ct)
 			foreach($ct->getPermissions() as $p)
 				if(!in_array($p, $permissions))
 					$permissions[] = $p;
 
+		foreach($this->app['config']['backend_menu'] as $menu) {
+			if(array_key_exists('permission', $menu))
+				$permissions[] = $menu['permission'];
+		}
 		return $permissions;
 	}
 

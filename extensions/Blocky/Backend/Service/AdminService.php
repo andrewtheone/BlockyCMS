@@ -80,7 +80,7 @@ class AdminService extends BaseService
 		if(!$this->isLoggedIn())
 			return false;
 
-		return in_array($permission, $this->permissions);
+		return in_array($permission, $this->user['permissions']) || in_array('admin', $this->user['permissions']);
 	}
 
 	/**

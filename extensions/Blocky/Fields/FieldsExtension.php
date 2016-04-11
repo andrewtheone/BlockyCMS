@@ -138,7 +138,7 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 	 **/
 	public function twigImageFilter($a, $b, $image, $size = null)
 	{
-		if((!$image) || (count($image) == 0)) {
+		if((!$image) || (strlen($image) == 0)) {
 			return "";
 		}
 

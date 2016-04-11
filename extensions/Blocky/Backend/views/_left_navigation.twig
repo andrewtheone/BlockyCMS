@@ -1,20 +1,24 @@
 <li><a href="{{ app.path.link('/') }}"><i class="lnr lnr-power-switch"></i><span>Dashboard</span></a></li>
 <span>{% trans 'backend.nav.contents' %}</span>
 {% for slug, ct in app.content.getContentTypes() %}
-{% if (ct.show_menu) %}
+
+{% if ((ct.show_menu) and (app.admin.hasPermission(ct.getReadPermission()))) %}
 <li class="menu-list">
 	<a href="#"><i class="lnr lnr-cog"></i>
 		<span>{{ ct.name }}</span></a>
 		<ul class="sub-menu-list">
 			<li><a href="{{ app.path.link('/admin/content/list/' ~ slug) }}">{% trans 'backend.nav.content_list' %}</a> </li>
 			{% set name = ct.getSingularName() %}
+			{% if (app.admin.hasPermission(ct.getWritePermission())) %}
 			<li><a href="{{ app.path.link('/admin/content/edit/' ~ slug) }}">{% trans %}backend.nav.content_new {{ name }}{% endtrans %}</a></li>
+			{% endif %}
 		</ul>
 </li>
 {% endif %}
 {% endfor %}
 <span>Kiegészítők</span>
 {% for k, menu in app.config.backend_menu %}
+{% if (((menu.permission is defined) and (app.admin.hasPermission(menu.permission))) or (menu.permission is not defined)) %}
 <li class="menu-list">
 	<a href="{% if menu.href is defined %}{{ menu.href }}{% else %}#{% endif %}"><i class="lnr {% if menu.icon is defined %}{{ menu.icon }}{% else %}lnr-cog{% endif %}"></i>
 		<span>{{ menu.name }}</span></a>
@@ -26,4 +30,5 @@
 			</ul>
 		{% endif %}
 </li>
+{% endif %}
 {% endfor %}

@@ -63,6 +63,7 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 			[
 				'name' => 'Admin felhasználók',
 				'icon' => 'lnr-users',
+				'permission' => 'admin-user-management',
 				'children' => [
 					[
 						'name' => 'Lista',
@@ -131,6 +132,11 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 				'name' => 'backend_login',
 				'path' => '/admin/login',
 				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'login']
+			],
+			[
+				'name' => 'backend_logout',
+				'path' => '/admin/logout',
+				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'logout']
 			],
 			[
 				'name' => 'backend_homepage',
