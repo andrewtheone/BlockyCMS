@@ -19,7 +19,9 @@ class YamlWrapper
 	 **/
 	static function parse($path)
 	{
-		return yaml_parse_file($path);
+		$content = @yaml_parse_file($path);
+
+		return ($content)?$content:[];
 	}
 
 	/**
