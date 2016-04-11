@@ -9,7 +9,8 @@ $loader->registerNamespaces([
 	'RedBeanPHP' => __DIR__.'/../vendors/RedBean/src',
 	'Aura' => __DIR__.'/../vendors/Aura/src',
 	'Psr' => __DIR__.'/../vendors/Psr/src',
-	'Pimple' => __DIR__.'/../vendors/Pimple/src'
+	'Pimple' => __DIR__.'/../vendors/Pimple/src',
+	'MatthiasMullie' => __DIR__.'/../vendors/MatthiasMullie/src'
 ]);
 
 $loader->registerNamespaceFallbacks([__DIR__.'/../extensions']);

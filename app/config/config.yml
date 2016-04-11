@@ -7,6 +7,9 @@ site:
     description: "..."
     keywords: "..."
 
+assets:
+    minify: false
+
 theme: default
 
 mail:

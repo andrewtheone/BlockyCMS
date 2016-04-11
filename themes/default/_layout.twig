@@ -18,11 +18,9 @@
     <meta name="author" content="">
     <title>{% if(pageVars.title) %}{{ pageVars.title }} - {% endif %}{{app.config.site_title}}</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ app.path.theme_url }}/assets/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="{{ app.path.theme_url }}/assets/css/1-col-portfolio.css" rel="stylesheet">
+    {% for asset in app.view.getAssets('style') %}
+        <link href="{{asset}}" rel='stylesheet' type='text/css' />
+    {% endfor %}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -100,11 +98,9 @@
     </div>
     <!-- /.container -->
 
-    <!-- jQuery -->
-    <script src="{{ app.path.theme_url }}/assets/js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ app.path.theme_url }}/assets/js/bootstrap.min.js"></script>
+    {% for asset in app.view.getAssets('js') %}
+        <script src="{{asset}}"></script>
+    {% endfor %}
 
 </body>
 

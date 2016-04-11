@@ -5,7 +5,7 @@ namespace Blocky\View;
 use Blocky\BaseService;
 use Blocky\Extension\TwigFilterProvider;
 use Blocky\Extension\TwigFunctionProvider;
-
+use MatthiasMullie\Minify;
 /**
  * undocumented class
  *
@@ -50,8 +50,10 @@ class ViewService extends BaseService
 	 **/
 	public function addAsset($type, $path, $priority)
 	{
-		$path = str_replace("@theme", $this->app['config']['host']."/themes/".$this->app['config']['theme'], $path);
-		$path = str_replace("@extensions", $this->app['config']['host']."/extensions", $path);
+		if((!$this->app['config']['assets']['minify']) || ($this->app['site'] == 'backend')) {
+			$path = str_replace("@theme", $this->app['config']['host']."/themes/".$this->app['config']['theme'], $path);
+			$path = str_replace("@extensions", $this->app['config']['host']."/extensions", $path);
+		}
 
 		if(!array_key_exists($priority, $this->assets[$type])) 
 			$this->assets[$type][$priority] = [];
@@ -80,20 +82,41 @@ class ViewService extends BaseService
 			$list = array_merge($list, $a);
 		}
 
-		/*$hash = crc32(implode(",", $list));
+		if($this->app['config']['assets']['minify'] && ($this->app['site'] == 'frontend')) {
+			$hash = crc32(implode(",", $list));
 
-		if(!file_exists($this->app['path']['files']."/".$hash.".".$ext)) {
-			$content = "";
-			foreach($list as $path) {
-				$path = str_replace("@theme", $this->app['path']['root']."/themes/".$this->app['config']['theme'], $path);
-				$path = str_replace("@extensions", $this->app['path']['root']."/extensions", $path);
+			if(!file_exists($this->app['path']['files']."/".$hash.".".$ext)) {
+				if($ext == "js") {
+					$minifier = new Minify\JS();
+				} else {
+					$minifier = new Minify\CSS();
+				}
 
-				$content .= file_get_contents($path);
+				foreach($list as $path) {
+					$filePath = str_replace("@theme", $this->app['path']['root']."/themes/".$this->app['config']['theme'], $path);
+					$filePath = str_replace("@extensions", $this->app['path']['root']."/extensions", $filePath);
+					
+					$content = "";
+					if(file_exists($filePath.".packing")) {
+						$content = file_get_contents($filePath.".packing");
+					} else {
+						$content = file_get_contents($filePath);
+					}
+					
+
+					$content = str_replace("@theme", $this->app['config']['host']."/themes/".$this->app['config']['theme'], $content);
+					$content = str_replace("@extensions", $this->app['config']['host']."/extensions", $content);
+
+					$minifier->add($content);
+				}
+
+				$minifier->minify($this->app['path']['files']."/".$hash.".".$ext);
 			}
 
-			file_put_contents($this->app['path']['files']."/".$hash.".".$ext, $content);
+			return [$this->app['path']['files_url']."/".$hash.".".$ext];
+			
 		}
-		return [$this->app['path']['files_url']."/".$hash.".".$ext];*/
+
 		return $list;
 	}
 

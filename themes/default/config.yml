@@ -1,0 +1,7 @@
+assets:
+    css:
+        - '@theme/assets/css/bootstrap.css'
+        - '@theme/assets/css/1-col-portfolio.css'
+    js:
+        - '@theme/assets/js/jquery.js'
+        - '@theme/assets/js/bootstrap.js'

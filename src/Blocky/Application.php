@@ -3,6 +3,7 @@
 namespace Blocky;
 
 use Pimple\Container;
+use Blocky\Config\YamlWrapper;
 
 /**
  * Blockys main core
@@ -91,6 +92,20 @@ class Application extends Container
 		// Choose domain
 		textdomain("blocky");
 
+		$themeConfig = YamlWrapper::parse($this['path']['theme']."/config.yml");
+
+		if(array_key_exists('assets', $themeConfig)) {
+			if(array_key_exists('js', $themeConfig['assets'])) {
+				foreach($themeConfig['assets']['js'] as $js) {
+					$this['view']->addAsset('js', $js, 100);
+				}
+			}
+			if(array_key_exists('css', $themeConfig['assets'])) {
+				foreach($themeConfig['assets']['css'] as $css) {
+					$this['view']->addAsset('style', $css, 100);
+				}
+			}
+		}
 		$this['event']->trigger("Blocky::onRequest");
 	}
 
