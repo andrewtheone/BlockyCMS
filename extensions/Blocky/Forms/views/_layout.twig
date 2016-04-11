@@ -10,6 +10,12 @@
 		</div>
 		{% endif %}
 
+		{% if (['password']|in_array(_field.type)) %}
+		<div class="row">
+			{{ inputs.password(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+		</div>
+		{% endif %}
+
 		{% if (['html']|in_array(_field.type)) %}
 		<div class="row">
 			{{ inputs.textarea(_field.label|default(_inputName), "form_data["~_inputName~"]") }}

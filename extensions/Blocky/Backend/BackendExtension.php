@@ -9,6 +9,7 @@ use Blocky\Extension\TwigFunctionProvider;
 use Blocky\Extension\BackendMenuItemProvider;
 use Blocky\Extension\ContentTypeProvider;
 use Blocky\Extension\FieldTypeProvider;
+use Blocky\Config\YamlWrapper;
 
 /**
  * undocumented class
@@ -100,7 +101,7 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 	 **/
 	public function getContentTypes()
 	{
-		return yaml_parse_file(__DIR__."/config/contenttypes.yml");
+		return YamlWrapper::parse(__DIR__."/config/contenttypes.yml");
 	}
 
 	/**

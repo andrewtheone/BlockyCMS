@@ -7,6 +7,9 @@ adminuser:
         username:
             type: text
             label: Felhasználónév
+            validators:
+                regexp: empty
+                message: Felhasználónév nem lehet üres!
         slug:
             type: slug
             uses: username
@@ -23,6 +26,9 @@ adminuser:
             type: password
             label: Jelszó
             uses: salt
+            validators:
+                regexp: empty
+                message: Jelszó nem lehet üres!
         permissions:
             type: permission
             label: Jogosultsági kör
