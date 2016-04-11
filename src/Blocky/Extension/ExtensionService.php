@@ -18,7 +18,7 @@ class ExtensionService extends BaseService
 	 *
 	 * @var string
 	 **/
-	var $extensions = [];
+	public $extensions = [];
 
 	/**
 	 * undocumented function

@@ -46,7 +46,7 @@ class Request implements ServerRequestInterface
      * @return array
      */
     public function getServerParams() {
-    	return $_SERVER;
+    	return $_SERVER?$_SERVER:[];
     }
 
     /**

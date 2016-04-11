@@ -34,5 +34,7 @@ $application['path']['cache'] = __DIR__."/cache";
 
 $application['event']->trigger("Blocky::BootsrapFinished");
 $application['event']->trigger("Blocky::Halting");
+
+return $app;
 //@deprecated
 //$application['event']->trigger('Bootstrap::CoreLoaded');

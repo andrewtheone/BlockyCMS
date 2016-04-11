@@ -9,6 +9,7 @@ use Blocky\Extension\TwigFunctionProvider;
 use Blocky\Extension\BackendMenuItemProvider;
 use Blocky\Extension\ContentTypeProvider;
 use Blocky\Extension\FieldTypeProvider;
+use Blocky\Extension\CommandProvider;
 use Blocky\Config\YamlWrapper;
 
 /**
@@ -17,7 +18,7 @@ use Blocky\Config\YamlWrapper;
  * @package default
  * @author 
  **/
-class BackendExtension extends SimpleExtension implements ServiceProvider, FieldTypeProvider, BackendRouteProvider, TwigFunctionProvider, BackendMenuItemProvider, ContentTypeProvider
+class BackendExtension extends SimpleExtension implements ServiceProvider, FieldTypeProvider, BackendRouteProvider, TwigFunctionProvider, BackendMenuItemProvider, ContentTypeProvider, CommandProvider
 {
 	/**
 	 * undocumented function
@@ -265,6 +266,19 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 		$g = $this->app['content']->getContents($contenttype, $where, $args);
 
 		return $g;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getCommands()
+	{
+		return [
+			new Command\BrewLanguageCommand()
+		];
 	}
 
 	/**
