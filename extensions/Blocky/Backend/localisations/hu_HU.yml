@@ -1,3 +1,14 @@
 ---
 backend.search: "Keres\xE9s"
+backend.logout: "Kil\xE9p\xE9s"
+backend.nav.content_list: Lista
+backend.nav.content_new %name%: "\xDAj %name%"
+backend.nav.contents: Tartalmak
+backend.content.save: "Ment\xE9s"
+backend.site_type: Odal
+backend.site_type.both: "Mindkett\u0151"
+backend.site_type.dev: Test oldal
+backend.site_type.prod: "\xC9les oldal"
+backend.content.active: "El\xE9rhet\u0151"
+backend.content.inactive: "Nem el\xE9rhet\u0151"
 ...

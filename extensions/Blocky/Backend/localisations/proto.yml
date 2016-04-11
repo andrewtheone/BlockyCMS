@@ -1,1 +1,12 @@
 backend.search: 
+backend.logout: 
+backend.nav.content_list: 
+"backend.nav.content_new %name%": ~
+backend.nav.contents: 
+backend.content.save: 
+backend.site_type: 
+backend.site_type.both:
+backend.site_type.dev:
+backend.site_type.prod:
+backend.content.active: 
+backend.content.inactive: 

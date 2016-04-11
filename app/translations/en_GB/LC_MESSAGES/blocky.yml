@@ -1,3 +1,14 @@
 ---
 backend.search: Search
+backend.logout: Logout
+backend.nav.content_list: List
+backend.nav.contents: Contents
+backend.content.save: Save
+backend.site_type: Site
+backend.site_type.both: Both
+backend.site_type.dev: Test site
+backend.site_type.prod: Production site
+backend.content.active: Published
+backend.content.inactive: Draft
+backend.nav.content_new %name%: New %name%
 ...

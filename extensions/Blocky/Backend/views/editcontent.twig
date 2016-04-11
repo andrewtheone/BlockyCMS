@@ -52,13 +52,13 @@
 				<div class="panel panel-repeat-item">
 					<div class="panel-heading">
 						<div class="col-lg-5">
-							Mentés
+							{% trans 'backend.content.save' %}
 						</div>
 					</div>
 					<div class="panel-body panel-body2">
 
 						<div class="row">
-							{% include app.content.getField('select').getTemplate() with {label: false, options: ['Elérhető', 'Nem elérhető'], value: 0, content: content, inputKey: 'content[status]'} %}
+							{% include app.content.getField('select').getTemplate() with {label: false, options: ['backend.content.active'|trans, 'backend.content.inactive'|trans], value: 0, content: content, inputKey: 'content[status]'} %}
 						</div>
 						{% if (content.getContentType().hasLocales()) %}
 
@@ -70,7 +70,7 @@
 						{% if (content.getID() != 0) %}
 
 							<div class="row">
-							{% include app.content.getField('select').getTemplate() with {data_field_type: "select", label: "Oldal", options: {'both': 'Mindkettő', 'dev': 'Teszt oldal', 'prod':'Éles oldal'}, value: content.bean.site, content: content, inputKey: 'content[site]'} %}
+							{% include app.content.getField('select').getTemplate() with {data_field_type: "select", label: "backend.site_type"|trans, options: {'both': 'backend.site_type.both'|trans, 'dev': 'backend.site_type.dev'|trans, 'prod':'backend.site_type.prod'|trans}, value: content.bean.site, content: content, inputKey: 'content[site]'} %}
 							</div>
 						{% endif %}
 					</div>

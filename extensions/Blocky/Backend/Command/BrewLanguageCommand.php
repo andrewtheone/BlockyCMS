@@ -76,11 +76,12 @@ class BrewLanguageCommand extends SimpleCommand
 			foreach($content as $k => $v) {
 				// we dont store keys which does not have content is a specific locale, so later on we can determin by the key, which translation is missing
 				if($v && strlen($v) > 0) {
+					//$poContent[] = "#| Translating..";
 					$poContent[] = 'msgid "'.str_replace("\"","\\\"", $k).'"';
 					$poContent[] = 'msgstr "'.str_replace("\"","\\\"", $v).'"';
 				}
 			}
-
+			print_r($poContent);
 			file_put_contents($this->app['path']['root']."/app/translations/".$locale."/LC_MESSAGES/blocky.po", implode("\r\n", $poContent));
 
 			self::phpmo_convert($this->app['path']['root']."/app/translations/".$locale."/LC_MESSAGES/blocky.po", $this->app['path']['root']."/app/translations/".$locale."/LC_MESSAGES/blocky.mo");
@@ -178,11 +179,11 @@ class BrewLanguageCommand extends SimpleCommand
 	/* @link http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files */
 	static function phpmo_parse_po_file($in) {
 		// read .po file
-		$fh = fopen($in, 'r');
+		/*$fh = fopen($in, 'r');
 		if ($fh === false) {
 			// Could not open file resource
 			return false;
-		}
+		}*/
 
 		// results array
 		$hash = array ();
@@ -193,13 +194,16 @@ class BrewLanguageCommand extends SimpleCommand
 		$fuzzy = false;
 
 		// iterate over lines
-		while(($line = fgets($fh, 65536)) !== false) {
+		$lines = file_get_contents($in);
+		$lines = explode("\r\n", $lines);
+		print_r($lines);
+		foreach($lines as $line) {
 			$line = trim($line);
 			if ($line === '')
 				continue;
-
+			//echo $line;
 			list ($key, $data) = preg_split('/\s/', $line, 2);
-			
+
 			switch ($key) {
 				case '#,' : // flag...
 					$fuzzy = in_array('fuzzy', preg_split('/,\s*/', $data));
@@ -222,6 +226,13 @@ class BrewLanguageCommand extends SimpleCommand
 					// untranslated-string
 				case 'msgid_plural' :
 					// untranslated-string-plural
+					if (sizeof($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp)) {
+						if (!$fuzzy)
+							$hash[] = $temp;
+						$temp = array ();
+						$state = null;
+						$fuzzy = false;
+					}
 					$state = $key;
 					$temp[$state] = $data;
 					break;
@@ -248,15 +259,14 @@ class BrewLanguageCommand extends SimpleCommand
 								break;
 							default :
 								// parse error
-								fclose($fh);
+								//fclose($fh);
 								return FALSE;
 						}
 					}
 					break;
 			}
 		}
-		fclose($fh);
-		
+		//fclose($fh);
 		// add final entry
 		if ($state == 'msgstr')
 			$hash[] = $temp;
