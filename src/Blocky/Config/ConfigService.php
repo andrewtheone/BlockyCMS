@@ -24,7 +24,7 @@ class ConfigService extends BaseService implements \ArrayAccess
 	public function boot()
 	{
 		$this->values = YamlWrapper::parse($this->app['path']->to('config', 'config.yml'));
-        if(file_exists($this->app['path']['root']."/app/cache/installed.yml")) {
+        if(file_exists($this->app['path']['root']."/app/cache/installed.yml") && ($this->values['environment'] == "prod")) {
             $this->values['installed'] = YamlWrapper::parse($this->app['path']['root']."/app/cache/installed.yml");
         } else {
             $this->values['installed'] = [];
