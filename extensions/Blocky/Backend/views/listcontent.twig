@@ -12,8 +12,8 @@
 					<div class="panel-ctrls">
 						<form action="{{ app.path.link('/admin/content/list/' ~ contentType.getSlug()) }}" method="get">
 						<div class="input-group" style="width: 100%; margin: 0px; margin-top: -12px">
-							<input type="text" name="term" class="form-control1" placeholder="Keresés..." value="{{ app.router.request.getAttribute('term')|default("") }}" style="line-height: 40px;">
-							<div class="input-group-addon"><button class="btn btn-primary" style="padding:0px 5px 0px 5px"><i class="fa fa-pencil"></i></button></div>
+							<input type="text" name="term" class="form-control1" placeholder="{% trans 'backend.search' %}..." value="{{ app.router.request.getAttribute('term')|default("") }}" style="line-height: 40px;">
+							<div class="input-group-addon"><button class="btn btn-primary" style="padding:0px 5px 0px 5px"><i class="fa fa-search"></i></button></div>
 						</div>
 						</div>
 					</div>
@@ -38,6 +38,13 @@
 						{% endif %}
 					{% endfor %}
 				</tbody>
+				<tfooter>
+					{% if( contentType.getOption('backend_list_footer', null)) %}
+						{% include (contentType.getOption('backend_list_footer')) with {contentType: contentType} %}
+					{% else %}
+						{% include ("@backend/_list_footer.twig") with {contentType: contentType} %}
+					{% endif %}
+				</tfooter>
 			</table>
 
 			{{ pager(contents, '@backend/_pager.twig') }}

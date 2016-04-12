@@ -1,0 +1,11 @@
+{% set fieldItr = 0 %}
+{% for inputName, field in contentType.getFields() %}
+	{% if((field.type == "text") and (fieldItr < 4) )%}
+		{% set fieldItr = fieldItr+1 %}
+	{% endif %}
+{% endfor %}
+
+<tr>
+	<td colspan="{{ fieldItr }}">Akciók</td>
+
+</tr>

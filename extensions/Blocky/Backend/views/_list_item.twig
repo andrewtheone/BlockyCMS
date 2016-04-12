@@ -8,6 +8,7 @@
 {% endfor %}
 
 <tr>
+	<td><input type="checkbox" name="list[content]" value="{{content.getID()}}"></td>
 	<td>{{content.getID()}}</td>
 	{% for i, input in inputs %}
 		{% if (i == 0) %}
