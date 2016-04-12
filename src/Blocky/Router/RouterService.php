@@ -5,6 +5,7 @@ namespace Blocky\Router;
 use Blocky\BaseService;
 use Aura\Router\RouterContainer;
 use Blocky\Event\EventData;
+use Blocky\Config\YamlWrapper;
 
 /**
  * undocumented class
@@ -51,6 +52,21 @@ class RouterService extends BaseService
 		$path = $this->request->getUri()->getPath();
 		if( strpos($path, "/admin") === 0 ) {
 			$this->app['site'] = 'backend';
+		} else {
+			$themeConfig = YamlWrapper::parse($this['path']['theme']."/config.yml");
+
+			if(array_key_exists('assets', $themeConfig)) {
+				if(array_key_exists('js', $themeConfig['assets'])) {
+					foreach($themeConfig['assets']['js'] as $js) {
+						$this['view']->addAsset('js', $js, 100);
+					}
+				}
+				if(array_key_exists('css', $themeConfig['assets'])) {
+					foreach($themeConfig['assets']['css'] as $css) {
+						$this['view']->addAsset('style', $css, 100);
+					}
+				}
+			}
 		}
 
 		$this->app['event']->on('Blocky::onRequest', [$this, 'onRequest']);
