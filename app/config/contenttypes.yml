@@ -1,2 +1,206 @@
 ---
+test:
+  name: Tests
+  singular_name: Test
+  fields:
+    title:
+      label: Title
+      type: text
+      group: Adatok
+    slug:
+      label: Slug
+      placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
+      uses: title
+      type: slug
+    email:
+      group: "M\xE1s adatok"
+      type: text
+    asd:
+      type: text
+    ize:
+      type: text
+      label: "Iz\xE9"
+      placeholder: "Iz\xE9 placeholder"
+      help: "valami sz\xF6vegmutyi"
+newsitem:
+  name: "H\xEDrek"
+  singular_name: "H\xEDr"
+  localizable: true
+  fields:
+    title:
+      label: Title
+      type: text
+      validators:
+        regexp: empty
+        message: "A title nem lehet \xFCres!"
+    slug:
+      label: Slug
+      placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
+      uses: title
+      type: slug
+    cover:
+      label: cover
+      type: image
+    text:
+      type: html
+      label: Teaser
+    properties:
+      type: grid
+      label: Props
+      columns: "N\xE9v, \xC9rt\xE9k, Kond\xEDci\xF3"
+    meta:
+      type: meta
+      group: Meta
+product:
+  name: "Term\xE9kek"
+  singular_name: "Term\xE9k"
+  fields:
+    title:
+      label: "Megnevez\xE9s"
+      type: text
+    slug:
+      label: "El\xE9r\xE9si \xFAt"
+      placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
+      uses: title
+      type: slug
+    newitems:
+      label: select news
+      type: select
+      multiple: true
+      foreign: newsitem
+    attributes:
+      label: Attributumok
+      singular_name: Attributum
+      type: repeater
+      group: Attributumok
+      fields:
+        name:
+          type: text
+        value:
+          type: text
+        icon:
+          label: Icon
+          type: image
+    images:
+      label: "K\xE9pek"
+      singular_name: "K\xE9p"
+      type: repeater
+      group: "K\xE9pek"
+      fields:
+        image:
+          label: image
+          type: image
+pilot:
+  name: "Pil\xF3t\xE1k"
+  singular_name: Pilota
+  fields:
+    name:
+      type: text
+      label: "N\xE9v"
+      group: Adatok
+    slug:
+      type: slug
+      uses: name
+    image:
+      type: image
+    brief:
+      label: "\xC9lete"
+      type: html
+    career:
+      label: Karrier
+      type: html
+    informations:
+      type: grid
+      label: "Infirm\xE1ci\xF3k"
+      columns: "N\xE9v, \xC9rt\xE9k"
+    results:
+      label: "Eredm\xE9nyek"
+      singular_name: "eredm\xE9ny"
+      type: repeater
+      group: "Eredm\xE9nyek"
+      fields:
+        name:
+          type: text
+        table:
+          type: grid
+          label: Tabella
+          columns: Year, Entrant, Car, 1, 2, WDC, Points
+inception:
+  name: Inceptions
+  singular_name: Inception
+  fields:
+    title:
+      label: "Megnevez\xE9s"
+      type: text
+    slug:
+      label: "El\xE9r\xE9si \xFAt"
+      placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
+      uses: title
+      type: slug
+    attributes:
+      label: Attributumok
+      singular_name: Attributum
+      type: repeater
+      asd: true
+      fields:
+        name:
+          type: text
+        value:
+          type: text
+        images:
+          label: "K\xE9pek"
+          singular_name: "K\xE9pe"
+          type: repeater
+          asd: false
+          fields:
+            icon:
+              type: image
+extrainception:
+  name: Extra Inceptions
+  singular_name: Extra Inception
+  fields:
+    title:
+      label: "Megnevez\xE9s"
+      type: text
+    slug:
+      label: "El\xE9r\xE9si \xFAt"
+      placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
+      uses: title
+      type: slug
+    attributes:
+      label: Attributumok
+      singular_name: Attributum
+      type: repeater
+      asd: true
+      fields:
+        name:
+          type: text
+        value:
+          type: text
+        images:
+          label: "K\xE9pek"
+          singular_name: "K\xE9pe"
+          type: repeater
+          asd: false
+          fields:
+            icon:
+              type: image
+            attributes:
+              label: Attributumok
+              singular_name: Attributum
+              type: repeater
+              asd: true
+              fields:
+                name:
+                  type: text
+                value:
+                  type: text
+                images:
+                  label: "K\xE9pek"
+                  singular_name: "K\xE9pe"
+                  type: repeater
+                  asd: false
+                  fields:
+                    icon:
+                      type: image
 ...
