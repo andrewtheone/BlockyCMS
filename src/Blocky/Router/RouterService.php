@@ -58,12 +58,12 @@ class RouterService extends BaseService
 			if(array_key_exists('assets', $themeConfig)) {
 				if(array_key_exists('js', $themeConfig['assets'])) {
 					foreach($themeConfig['assets']['js'] as $js) {
-						$this['view']->addAsset('js', $js, 100);
+						$this->app['view']->addAsset('js', $js, 100);
 					}
 				}
 				if(array_key_exists('css', $themeConfig['assets'])) {
 					foreach($themeConfig['assets']['css'] as $css) {
-						$this['view']->addAsset('style', $css, 100);
+						$this->app['view']->addAsset('style', $css, 100);
 					}
 				}
 			}
