@@ -1,6 +1,6 @@
 {% import "@forms/elements.twig" as inputs %}
 
-{{ inputs.formOpen(formName, app.config.host~app.router.request.getServerParams().REQUEST_URI) }}
+{{ inputs.formOpen(formName, app.path.link("/forms/process"), app.router.request.getServerParams().REQUEST_URI) }}
 
 {% for _inputName, _field in formContentType.getFields() %}
 	{% if (((formOptions.fields is defined) and (formOptions.fields|in_array(_inputName))) or (formOptions.fields is not defined)) %}

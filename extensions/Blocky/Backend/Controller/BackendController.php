@@ -27,7 +27,7 @@ class BackendController extends SimpleController
 			if($this->app['admin']->isLoggedIn()) {
 				return;
 			}
-			header("Location: /admin/login");
+			$this->app['path']->redirect("/admin/login");
 			exit();
 		}
 	}
@@ -41,7 +41,7 @@ class BackendController extends SimpleController
 	public function login()
 	{
 		if($this->app['admin']->isLoggedIn()) {
-			header("Location: /admin");
+			$this->app['path']->redirect("/admin");
 			exit();
 			return;
 		}
@@ -50,7 +50,7 @@ class BackendController extends SimpleController
 			
 			if($isLoggedIn) {
 				$this->app['event']->trigger('Blocky::Halting');
-				header("Location: /admin");
+				$this->app['path']->redirect("/admin");
 				exit();
 				return;
 			}
@@ -89,7 +89,7 @@ class BackendController extends SimpleController
 				$this->app['session']->setFlashMessage('error', $ex->getMessage());
 			}
 
-			header("Location: /admin/content/edit/".$content->getContentType()->getSlug()."/".$content->getValue($content->getContentType()->getSlugName()));
+			$this->app['path']->redirect("/admin/content/edit/".$content->getContentType()->getSlug()."/".$content->getValue($content->getContentType()->getSlugName()));
 			exit();
 		}
 
@@ -193,7 +193,7 @@ class BackendController extends SimpleController
 				$this->app['session']->setFlashMessage('error', $ex->getMessage());
 			}
 
-			header("Location: /admin/content/edit/".$content->getContentType()->getSlug()."/".$content->getValue($content->getContentType()->getSlugName())."?locale=".$locale);
+			$this->app['path']->redirect("/admin/content/edit/".$content->getContentType()->getSlug()."/".$content->getValue($content->getContentType()->getSlugName())."?locale=".$locale);
 			exit();
 		}
 

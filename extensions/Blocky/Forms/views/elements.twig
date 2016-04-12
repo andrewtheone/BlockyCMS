@@ -30,8 +30,8 @@
 </div>
 {% endmacro %}
 
-{% macro formOpen(formName, refer) %}
-	<form action="/forms/process" method="post" class="form-horizontal">
+{% macro formOpen(formName, href, refer) %}
+	<form action="{{ href }}" method="post" class="form-horizontal">
 	<input name="form" type="hidden" value="{{ formName }}">
 	<input name="refer" type="hidden" value="{{ refer }}">
 {% endmacro %}

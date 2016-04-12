@@ -32,10 +32,10 @@ class FormController extends SimpleController
 		
 		$content = null;
 		$contentType = $this->app['content']->getContentType($form['contenttype']);
-		
+
 		$managerClass = array_key_exists('manager', $form)?$form['manager']:"Blocky\Forms\BaseFormManager";
 		$manager = new $managerClass($this->app, $formName, $refer, $form, $values, $contentType, $content);
-		
+
 		try {
 			$manager->onProcess(BaseFormManager::PROCESS_INITIAL);
 
@@ -86,13 +86,15 @@ class FormController extends SimpleController
 			}
 		} catch(ContentSaveException $ex) {
 			$manager->onProcess(BaseFormManager::PROCESS_VALIDATION_ERROR, $ex);
+
+
 			$this->app['session']->setFlashMessage('error', $ex->getMessage());
-			header("Location: ".$refer);
+			$this->app['path']->redirect($refer);
 			exit();
 			return;
 		}
 
-		header("Location: ".$refer);
+		$this->app['path']->redirect($refer);
 		exit();
 		return;
 	}
