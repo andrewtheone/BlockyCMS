@@ -62,10 +62,16 @@
 						</div>
 						{% if (content.getContentType().hasLocales()) %}
 
+
 							<input type="hidden" name="content[locale]" value="{{ currentLocale }}">
-							<div class="row">
-							{% include app.content.getField('select').getTemplate() with {data_field_type: "selectLocale", label: false, options: app.config.locales, valueKeyName: 'name', value: currentLocale, content: content, inputKey: '_noKey'} %}
-							</div>
+							{% if(content.getID() != 0) %}
+								<div class="row">
+								{% include app.content.getField('select').getTemplate() with {data_field_type: "selectLocale", label: false, options: app.config.locales, valueKeyName: 'name', value: currentLocale, content: content, inputKey: '_noKey'} %}
+								</div>
+							{% else %}
+								{% set name = currentLocale %}
+								<div class="row">{% trans %}backend.content.first_default_language {{ name }}{% endtrans %}</div>
+							{% endif %}
 						{% endif %}
 						{% if (content.getID() != 0) %}
 
