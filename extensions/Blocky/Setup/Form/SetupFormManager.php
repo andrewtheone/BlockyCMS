@@ -29,6 +29,7 @@ class SetupFormManager extends BaseFormManager
 			$adminuser = new Content($adminuserContenType, $adminuserBean);
 
 			$this->formData['permissions'] = ['admin'];
+
 			$adminuser->fromArray($this->formData);
 
 			$this->app['content']->storeContent($adminuser);

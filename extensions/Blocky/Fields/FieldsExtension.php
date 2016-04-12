@@ -150,8 +150,7 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 				$path = $this->app['path']['files'].$image['path'];
 			}
 		}
-
-		if(($path == null) || (!file_exists($path)))
+		if(($path == null) || (!is_file($path)))
 			return "";
 
 		

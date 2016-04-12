@@ -1,1 +1,5 @@
+{% for message in app.session.getFlashMessages('error') %}
+<p>error: {{ message }}<br></p>
+{% endfor %}
+
 {{ forms_form('setup_admin') }}

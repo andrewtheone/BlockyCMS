@@ -29,6 +29,13 @@ class AdminService extends BaseService
 	public $content;
 
 	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	public $permissions;
+
+	/**
 	 * undocumented function
 	 *
 	 * @return void
@@ -37,7 +44,12 @@ class AdminService extends BaseService
 	public function boot()
 	{
 		$this->user = $this->app['session']['admin'];
-
+		$this->permissions = [];
+		if($this->user) {
+			$user = $this->app['content']->getContents("adminuser", "where username = ?", [$this->user['username']]);
+			$this->user = $user[0];
+			$this->permissions = $this->user->permissions;
+		}
 	}
 
 	/**
@@ -80,7 +92,7 @@ class AdminService extends BaseService
 		if(!$this->isLoggedIn())
 			return false;
 
-		return in_array($permission, $this->user['permissions']) || in_array('admin', $this->user['permissions']);
+		return in_array($permission, $this->permissions) || in_array('admin', $this->permissions);
 	}
 
 	/**

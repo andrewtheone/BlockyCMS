@@ -73,7 +73,7 @@
 								<div class="row">{% trans %}backend.content.first_default_language {{ name }}{% endtrans %}</div>
 							{% endif %}
 						{% endif %}
-						{% if (content.getID() != 0) %}
+						{% if (content.getContentType().syncable != false) %}
 
 							<div class="row">
 							{% include app.content.getField('select').getTemplate() with {data_field_type: "select", label: "backend.site_type"|trans, options: {'both': 'backend.site_type.both'|trans, 'dev': 'backend.site_type.dev'|trans, 'prod':'backend.site_type.prod'|trans}, value: content.bean.site, content: content, inputKey: 'content[site]'} %}

@@ -68,13 +68,13 @@ class ExtensionService extends BaseService
 
 		unset($routes);
 
-		//register extension services
-		if($class instanceof ServiceProvider) {
-			$services = $class->getServices();
-			foreach($services as $name => $serviceProvider) {
-				$this->app[$name] = call_user_func_array($serviceProvider, [$this->app]);
+		//register extension contenttypes
+		if($class instanceof ContentTypeProvider) {
+			$cts = $class->getContentTypes();
+			foreach($cts as $slug => $desc) {
+				$this->app['content']->addContentType($slug, $desc);
 			}
-			unset($services);
+			unset($cts);
 		}
 
 		//register extension field types
@@ -85,6 +85,16 @@ class ExtensionService extends BaseService
 			}
 			unset($fields);
 		}
+		
+		//register extension services
+		if($class instanceof ServiceProvider) {
+			$services = $class->getServices();
+			foreach($services as $name => $serviceProvider) {
+				$this->app[$name] = call_user_func_array($serviceProvider, [$this->app]);
+			}
+			unset($services);
+		}
+
 
 		//register extension twig filters
 		if($class instanceof TwigFilterProvider) {
@@ -108,14 +118,6 @@ class ExtensionService extends BaseService
 			unset($function);
 		}
 
-		//register extension contenttypes
-		if($class instanceof ContentTypeProvider) {
-			$cts = $class->getContentTypes();
-			foreach($cts as $slug => $desc) {
-				$this->app['content']->addContentType($slug, $desc);
-			}
-			unset($cts);
-		}
 
 		//register extension contenttypes
 		if($class instanceof TwigSnippetProvider) {

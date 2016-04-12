@@ -8,8 +8,12 @@ adminuser:
             type: text
             label: Felhasználónév
             validators:
-                regexp: empty
-                message: Felhasználónév nem lehet üres!
+                -
+                    regexp: empty
+                    message: Felhasználónév nem lehet üres!
+                -
+                    regexp: '/[a-z]/'
+                    message: A felhasználónév névnek karaktert is tartalmaznia kell
         slug:
             type: slug
             uses: username

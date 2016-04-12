@@ -89,6 +89,17 @@ class ContentType
 	 * @return void
 	 * @author 
 	 **/
+	public function getContents($where = '', $whereArgs = [])
+	{
+		return $this->app['content']->getContents($this->getSlug(), $where, $whereArgs);
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function setSlug($slug)
 	{
 		$this->slug = $slug;
