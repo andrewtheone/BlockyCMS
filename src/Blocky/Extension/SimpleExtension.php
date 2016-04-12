@@ -69,6 +69,30 @@ class SimpleExtension
 	 * @return void
 	 * @author 
 	 **/
+	public function extendConfig($config, $data = [])
+	{
+		if(!is_array($data)) {
+			$extension = str_replace(['::', 'Extension'], ['/', ''], $this->getName());
+			$srcConfig = $this->app['path']['extensions']."/".$extension."/config/".$data;
+			$data = YamlWrapper::parse($srcConfig);
+		}
+
+		$destConfig = [];
+		if(file_exists($this->app['path']['config']."/".$config)) {
+			$destConfig = YamlWrapper::parse($this->app['path']['config']."/".$config);
+		}
+
+		$destConfig = array_merge([], $destConfig, $data);
+
+		YamlWrapper::emit($this->app['path']['config']."/".$config, $destConfig);
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function getConfig($config)
 	{
 		if(!file_exists($this->app['path']['config']."/".$config)) {
@@ -84,24 +108,6 @@ class SimpleExtension
 		}
 
 		return YamlWrapper::parse($this->app['path']['config']."/".$config);
-	}
-
-	/**
-	 * undocumented function
-	 *
-	 * @return void
-	 * @author 
-	 **/
-	public function extendConfig($config, $extension = [])
-	{
-		$_config = [];
-
-		if(file_exists($this->app['path']['config']."/".$config)) {
-			$_config = YamlWrapper::parse($this->app['path']['config']."/".$config);
-		}
-
-		$_config = array_merge([], $_config, $extension);
-		YamlWrapper::emit($this->app['path']['config']."/".$config, $_config);
 	}
 
 	/**

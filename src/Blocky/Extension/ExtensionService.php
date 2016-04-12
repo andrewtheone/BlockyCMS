@@ -38,6 +38,37 @@ class ExtensionService extends BaseService
 			$class->install();
 
 			YamlWrapper::emit($this->app['path']['root']."/app/cache/installed.yml", $exts);
+
+			//register extension routes
+			$routes = [];
+
+			if(($class instanceof FrontendRouteProvider)) {
+				$routes = $class->getFrontendRoutes();
+			}
+
+			foreach($routes as $route) {
+				$class->extendConfig("routes.yml", [
+					$route['name'] => $route
+				]);
+			}
+
+			$routes = [];
+			if(($class instanceof BackendRouteProvider)) {
+				$routes = $class->getBackendRoutes();
+			}
+
+			foreach($routes as $route) {
+				$class->extendConfig("routes.yml", [
+					$route['name'] => $route
+				]);
+			}
+
+			//register extension contenttypes
+			if($class instanceof ContentTypeProvider) {
+				$cts = $class->getContentTypes();
+
+				$class->extendConfig("contenttypes.yml", $cts);
+			}
 		}
 	}
 
@@ -51,31 +82,6 @@ class ExtensionService extends BaseService
 	{
 		$this->extensions[$class->getName()] = $class;
 
-		//register extension routes
-		$routes = [];
-		if(($class instanceof FrontendRouteProvider) && ($this->app['site'] == 'frontend')) {
-			$routes = $class->getFrontendRoutes();
-		}
-
-		if(($class instanceof BackendRouteProvider) && ($this->app['site'] == 'backend')) {
-			$routes = $class->getBackendRoutes();
-		}
-
-		foreach($routes as $route) {
-			//registerRoute($name, $path, $data)
-			$this->app['router']->registerRoute($route['name'], $route['path'], $route);
-		}
-
-		unset($routes);
-
-		//register extension contenttypes
-		if($class instanceof ContentTypeProvider) {
-			$cts = $class->getContentTypes();
-			foreach($cts as $slug => $desc) {
-				$this->app['content']->addContentType($slug, $desc);
-			}
-			unset($cts);
-		}
 
 		//register extension field types
 		if($class instanceof FieldTypeProvider) {
@@ -85,7 +91,7 @@ class ExtensionService extends BaseService
 			}
 			unset($fields);
 		}
-		
+
 		//register extension services
 		if($class instanceof ServiceProvider) {
 			$services = $class->getServices();

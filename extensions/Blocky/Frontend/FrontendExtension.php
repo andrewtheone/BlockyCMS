@@ -48,6 +48,17 @@ class FrontendExtension extends SimpleExtension implements FrontendRouteProvider
 	 * @return void
 	 * @author 
 	 **/
+	public function install()
+	{
+		$this->extendConfig("forms.yml", "forms.yml");
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function getName()
 	{
 		return "Blocky::FrontendExtension";

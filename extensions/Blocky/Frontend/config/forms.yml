@@ -1,0 +1,10 @@
+contactus:
+  store: true
+  contenttype: newsitem
+  fields:
+  - title
+  - text
+  email:
+    to: andrewxxtheone@gmail.com
+    subject: Kontakt form
+    template: '@forms/email.twig'

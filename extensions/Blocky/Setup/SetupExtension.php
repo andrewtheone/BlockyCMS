@@ -52,13 +52,7 @@ class SetupExtension extends SimpleExtension implements BackendRouteProvider, Co
 	 **/
 	public function install()
 	{
-		$this->extendConfig("forms.yml", [
-			'setup_admin' => [
-				'contenttype' => 'setupadmin',
-				'store' => false,
-				'manager' => "Blocky\Setup\Form\SetupFormManager"
-			]
-		]);
+		$this->extendConfig("forms.yml", "forms.yml");
 	}
 
 	/**

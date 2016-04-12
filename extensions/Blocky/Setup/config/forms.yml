@@ -1,0 +1,4 @@
+setup_admin:
+  contenttype: setupadmin
+  store: false
+  manager: Blocky\Setup\Form\SetupFormManager
