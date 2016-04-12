@@ -17,14 +17,14 @@
     <meta name="keywords" content="{{ pageVars.meta_keywords }}">
     <meta name="author" content="">
     <title>{% if(pageVars.title) %}{{ pageVars.title }} - {% endif %}{{app.config.site_title}}</title>
-
+    {# 
     {% for asset in app.view.getAssets('style') %}
         <style>
             @import url({{asset}});
         </style>
-        {# <link href="{{asset}}" rel='stylesheet' type='text/css' /> #}
+       <link href="{{asset}}" rel='stylesheet' type='text/css' />
     {% endfor %}
-
+     #}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -100,11 +100,36 @@
 
     </div>
     <!-- /.container -->
-
+    {#
     {% for asset in app.view.getAssets('js') %}
         <script src="{{asset}}"></script>
     {% endfor %}
+    #}
 
+    <script>
+        function loadjscssfile(filename, filetype){
+            if (filetype=="js"){ //if filename is a external JavaScript file
+                var fileref=document.createElement('script')
+                fileref.setAttribute("type","text/javascript")
+                fileref.setAttribute("src", filename)
+            }
+            else if (filetype=="css"){ //if filename is an external CSS file
+                var fileref=document.createElement("link")
+                fileref.setAttribute("rel", "stylesheet")
+                fileref.setAttribute("type", "text/css")
+                fileref.setAttribute("href", filename)
+            }
+            if (typeof fileref!="undefined")
+                document.getElementsByTagName("head")[0].appendChild(fileref)
+        }
+        {% for asset in app.view.getAssets('js') %}
+            loadjscssfile("{{ asset }}", "js")
+        {% endfor %}
+
+        {% for asset in app.view.getAssets('style') %}
+            loadjscssfile("{{ asset }}", "css")
+        {% endfor %}
+    </script>
 </body>
 
 </html>
