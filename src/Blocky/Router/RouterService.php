@@ -53,7 +53,7 @@ class RouterService extends BaseService
 		if( strpos($path, "/admin") === 0 ) {
 			$this->app['site'] = 'backend';
 		} else {
-			$themeConfig = YamlWrapper::parse($this['path']['theme']."/config.yml");
+			$themeConfig = YamlWrapper::parse($this->app['path']['theme']."/config.yml");
 
 			if(array_key_exists('assets', $themeConfig)) {
 				if(array_key_exists('js', $themeConfig['assets'])) {
