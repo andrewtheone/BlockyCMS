@@ -1,4 +1,4 @@
-host: http://host
+host: http://rusty.bonzoportal.hu
 subfolder: 
 site_title: "Blocky"
 
@@ -8,7 +8,7 @@ site:
     keywords: "..."
 
 assets:
-    minify: false
+    minify: true
 
 theme: default
 

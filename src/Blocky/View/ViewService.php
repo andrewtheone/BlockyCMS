@@ -84,8 +84,7 @@ class ViewService extends BaseService
 
 		if($this->app['config']['assets']['minify'] && ($this->app['site'] == 'frontend')) {
 			$hash = crc32(implode(",", $list));
-
-			if(!file_exists($this->app['path']['files']."/".$hash.".".$ext)) {
+			if(!file_exists($this->app['path']['files']."/cache/".$hash.".".$ext)) {
 				if($ext == "js") {
 					$minifier = new Minify\JS();
 				} else {
@@ -110,10 +109,10 @@ class ViewService extends BaseService
 					$minifier->add($content);
 				}
 
-				$minifier->minify($this->app['path']['files']."/".$hash.".".$ext);
+				$minifier->minify($this->app['path']['files']."/cache/".$hash.".".$ext);
 			}
 
-			return [$this->app['path']['files_url']."/".$hash.".".$ext];
+			return [$this->app['path']['files_url']."/cache/".$hash.".".$ext];
 			
 		}
 

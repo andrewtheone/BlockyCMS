@@ -82,6 +82,8 @@ class FormsExtension extends SimpleExtension implements FrontendRouteProvider, S
 					'app' => $self->app
 				];
 
+				$self->addAsset('js', '@this/assets/js/ajaxform.jquery.js');
+
 				return new \Twig_Markup($self->app['view']->twig->render($formLayout, $args), "utf-8");
 			},
 			'forms_captchaImage' => function($a, $b) {
