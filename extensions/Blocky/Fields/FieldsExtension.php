@@ -138,12 +138,26 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 	 **/
 	public function twigImageFilter($a, $b, $image, $size = null)
 	{
-		if((!$image) || (strlen($image) == 0)) {
-			return "";
+		$path = null;
+		$isImageField = true;
+
+		if(!is_array($image)) {
+			$isImageField = false;
+
+			$path = $this->app['path']['root'].$image;
+		} else {
+			if(array_key_exists('path', $image)) {
+				$path = $this->app['path']['files'].$image['path'];
+			}
 		}
 
+		if(($path == null) || (!file_exists($path)))
+			return "";
+
+		
+		// todo: themes/default/assets/images.png|image([400,400])
+
 		if($size) {
-			$path = $this->app['path']['files'].$image['path'];
 			$resized_path = explode("/", $path);
 			
 			$file = $resized_path[count($resized_path)-1];
@@ -159,7 +173,10 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 				file_put_contents($resized_path, $imagick->getImageBlob());
 			}
 
-			return str_replace($this->app['path']['files'], $this->app['path']['files_url'], $resized_path);
+			if($isImageField) {
+				return str_replace($this->app['path']['files'], $this->app['path']['files_url'], $resized_path);
+			}
+			return str_replace($this->app['path']['root'], $this->app['config']['host'], $resized_path);
 		}
 
 		return $this->app['path']['files_url'].$image['path'];
