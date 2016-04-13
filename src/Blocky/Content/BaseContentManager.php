@@ -71,6 +71,17 @@ class BaseContentManager
 	 * @return void
 	 * @author 
 	 **/
+	public function formatValue($inputName, $value)
+	{
+		return $value;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function afterFromArray(&$data)
 	{
 		if(array_key_exists('locale', $data)) {

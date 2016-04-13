@@ -224,7 +224,9 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 		$attr = $this->app['config']['pager']['page_attribute'];
 		if($pageAttr)
 			$attr = $pageAttr;
-		
+
+		$ctt_attr = $this->app['config']['pager']['contenttype_attribute'];
+
 		if(!$limit) {
 			$limit = $this->app['config']['pager']['limit'];
 		}
@@ -233,6 +235,9 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 		if($template) {
 			$pagerTmpl = $template;
 		}
+
+		$ctt_slug = $this->app['router']->request->getAttribute($ctt_attr, $list->contentTypeSlug);
+
 
 		$page = $this->app['router']->request->getAttribute($attr , 1);
 
@@ -258,7 +263,7 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 		}  else {
 			$path .= "?";
 		}
-		return new \Twig_Markup($a->render($pagerTmpl, ['app' => $this->app, 'path' => $path, 'count' => $count, 'limit' => $limit, 'page' => $page, 'attr' => $attr]), 'utf-8');
+		return new \Twig_Markup($a->render($pagerTmpl, ['app' => $this->app, 'ctt_attr' => $ctt_attr, 'ctt_slug' => $ctt_slug, 'path' => $path, 'count' => $count, 'limit' => $limit, 'page' => $page, 'attr' => $attr]), 'utf-8');
 	}
 
 	/**

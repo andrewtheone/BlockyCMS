@@ -91,7 +91,10 @@ class ContentService extends BaseService
 			$limit = $this->app['router']->request->getAttribute( $this->app['config']['pager']['limit_attribute'], $this->app['config']['pager']['limit']);
 			$page = $this->app['router']->request->getAttribute( $this->app['config']['pager']['page_attribute'], 1);
 			$page--;
-			$where .= " LIMIT ".($page)*($limit).", ".$limit;
+			
+			$pagerContentTypeValue = $this->app['router']->request->getAttribute($this->app['config']['pager']['contenttype_attribute'], null);
+			if(($pagerContentTypeValue == null) || ($pagerContentTypeValue == $contentSlug))
+				$where .= " LIMIT ".($page)*($limit).", ".$limit;
 		}
 
 		if($ct->getOption('syncable', true) && $needClosing) {
@@ -101,6 +104,8 @@ class ContentService extends BaseService
 				$where = str_replace("LIMIT", ") LIMIT", $where);
 			}
 		}
+		
+		$a = $this->app['storage'];
 
 		$beans = $this->app['storage']->findBean($ct->getSlug(), $where, $args);
 
@@ -119,14 +124,16 @@ class ContentService extends BaseService
 	 **/
 	public function storeContent(Content $ct)
 	{
-		$ct->getManager()->beforeSave();
-
-		$this->app['storage']->storeBean($ct->getBean());
-
-		$ct->getManager()->afterSave();
 
 		$eventData = new EventData();
 		$eventData['content'] = $ct;
+		$ct->getManager()->beforeSave();
+		$this->app['event']->trigger('Blocky::contentBeforeSave', $eventData);
+
+		$this->app['storage']->storeBean($ct->getBean());
+		$eventData['content'] = $ct;
+
+		$ct->getManager()->afterSave();
 		$this->app['event']->trigger('Blocky::contentSaved', $eventData);
 	}
 

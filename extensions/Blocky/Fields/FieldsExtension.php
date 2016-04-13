@@ -56,7 +56,8 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			new FieldType\Grid(),
 			new FieldType\Html(),
 			new FieldType\Password(),
-			new FieldType\Random()
+			new FieldType\Random(),
+			new FieldType\Timestamp()
 		];
 	}
 

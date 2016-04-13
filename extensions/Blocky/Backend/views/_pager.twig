@@ -6,10 +6,8 @@
   <ul class="pagination">
 
   	{% for i in 1..(pages) %}
-  		{% set _path %}
-  		{{ path }}{{attr}}={{i}}{% if(app.config.pager.limit != limit) %}&limit={{ limit }}{% endif %}
-  		{% endset %}
-  		<li><a href="{{ app.path.link(_path) }}">{{i}}</a></li>
+  		{% set _path %}{{ path }}{{attr}}={{i}}&{{ctt_attr}}={{ctt_slug}}{% if(app.config.pager.limit != limit) %}&limit={{ limit }}{% endif %}{% endset %}
+  		<li><a href="{{ app.path.link(_path)|raw }}">{{i}}</a></li>
 
   	{% endfor %}
   </ul>

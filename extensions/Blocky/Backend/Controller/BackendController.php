@@ -222,11 +222,17 @@ class BackendController extends SimpleController
 	public function contentList()
 	{
 		$contentType = $this->app['content']->getContentType( $this->route->getAttribute('contenttype') );
-		
+
 		if( !$this->app['admin']->hasPermission($contentType->getReadPermission()) ) {
 			$this->app['session']->setFlashMessage('error', _('backend.no_permission'));
 			$this->app['path']->redirect('/admin');
 		}
+		$custom_where = "";
+
+		if(array_key_exists('list', $contentType->getOption('custom_query'))) {
+			$custom_where = " ".$contentType->getOption('custom_query')['list'];
+		}
+
 
 		if( ($term = $this->request->getAttribute('term', null)) != null) {
 			$results = [];
@@ -240,10 +246,11 @@ class BackendController extends SimpleController
 				$whereArgs[] = "%".$term."%";
 			}
 
-			$contents = $this->app['content']->getContents($contentType->getSlug(), "WHERE (".implode(" OR ", $where).") GROUP BY slug", $whereArgs);
+			$contents = $this->app['content']->getContents($contentType->getSlug(), "WHERE (".implode(" OR ", $where).") GROUP BY slug ".$custom_where, $whereArgs);
 
 		} else {
-			$contents = $this->app['content']->getContents( $this->route->getAttribute('contenttype'), "GROUP BY slug" );
+
+			$contents = $this->app['content']->getContents( $this->route->getAttribute('contenttype'), "GROUP BY slug ".$custom_where );
 		}
 		$this->render("@backend/listcontent.twig", ['contentType' => $contentType, 'contents' => $contents]);
 	}

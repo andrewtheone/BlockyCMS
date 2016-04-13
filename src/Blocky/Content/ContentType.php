@@ -80,7 +80,8 @@ class ContentType
 			'list_view' => $this->app['config']['view']['record_list'],
 			'localizable' => false,
 			'show_menu' => true,
-			'syncable' => true
+			'syncable' => true,
+			'custom_query' => []
 		];
 	}
 
@@ -180,7 +181,7 @@ class ContentType
 	 **/
 	public function getField($inputName)
 	{
-		return $this->fields[$inputName];
+		return (array_key_exists($inputName, $this->fields)?$this->fields[$inputName]:null);
 	}
 
 	/**
@@ -258,6 +259,8 @@ class ContentType
 	 **/
 	public function getFieldType($inputName)
 	{
+		if(!array_key_exists($inputName, $this->fields))
+			return null;
 		return $this->app['content']->getField( $this->fields[$inputName]['type'] );
 	}
 

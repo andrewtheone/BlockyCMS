@@ -80,10 +80,11 @@ class Content
 		
 		$fieldType = $this->getContentType()->getFieldType($inputName);
 
-		if(!$fieldType)
-			return $val;
+		if(!$fieldType) {
+			return $this->getManager()->formatValue($inputName, $val);
+		}
 
-		return $fieldType->extractValue($this, $val, $this->getContentType()->getField($inputName));
+		return $this->getManager()->formatValue($inputName, $fieldType->extractValue($this, $val, $this->getContentType()->getField($inputName)));
 	}
 
 	/**

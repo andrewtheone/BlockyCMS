@@ -1,0 +1,35 @@
+adminlog:
+    name: Naplók
+    singular_name: Napló
+    show_menu: false
+    syncable: false
+    manager: 'Blocky\Logger\Content\AdminLogManager'
+    backend_list_header: '@logger/_list_header.twig'
+    backend_list_footer: '@logger/_list_footer.twig'
+    backend_list_item: '@logger/_list_item.twig'
+    custom_query:
+        list: "order by date desc"
+    fields:
+        title:
+            type: text
+        slug:
+            type: slug
+            uses: title
+        contenttype:
+            type: text
+        content_slug:
+            type: text
+        content_before:
+            type: loghistory
+        content_after:
+            type: loghistory
+        admin:
+            type: select
+            foreign: adminuser
+        search_query:
+            type: text
+        locale:
+            type: text
+        date:
+            type: timestamp
+            default: now

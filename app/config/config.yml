@@ -24,6 +24,7 @@ default_locale: en_GB
 fallback_locale: en_US
 pager:
   page_attribute: oldal
+  contenttype_attribute: tartalom
   limit_attribute: limit
   limit: 10
 view:
@@ -36,8 +37,9 @@ extensions:
 - Blocky\Fields\FieldsExtension
 - Blocky\Seo\SeoExtension
 - Blocky\Forms\FormsExtension
-- Blocky\Frontend\FrontendExtension
 - Blocky\Backend\BackendExtension
 - Blocky\Ecommerce\EcommerceExtension
+- Blocky\Logger\LoggerExtension
 - Blocky\Setup\SetupExtension
+- Blocky\Frontend\FrontendExtension
 ...
