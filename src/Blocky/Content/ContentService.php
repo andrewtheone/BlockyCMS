@@ -91,7 +91,7 @@ class ContentService extends BaseService
 			$limit = $this->app['router']->request->getAttribute( $this->app['config']['pager']['limit_attribute'], $this->app['config']['pager']['limit']);
 			$page = $this->app['router']->request->getAttribute( $this->app['config']['pager']['page_attribute'], 1);
 			$page--;
-			
+
 			$pagerContentTypeValue = $this->app['router']->request->getAttribute($this->app['config']['pager']['contenttype_attribute'], null);
 			if(($pagerContentTypeValue == null) || ($pagerContentTypeValue == $contentSlug))
 				$where .= " LIMIT ".($page)*($limit).", ".$limit;
@@ -114,6 +114,27 @@ class ContentService extends BaseService
 		}
 
 		return new ContentList($contentSlug, $results, $where, $args);
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function createContent($contentType, $bean = null, $data = [])
+	{
+		if(!is_object($contentType)) {
+			$contentType = $this->getContentType($contentType);
+		}
+		if(!$bean) {
+			$bean = $this->app['storage']->createBean($contentType->getSlug());
+		}
+
+		$content = new Content($contentType, $bean);
+		$content->fromArray($data);
+
+		return $content;
 	}
 
 	/**

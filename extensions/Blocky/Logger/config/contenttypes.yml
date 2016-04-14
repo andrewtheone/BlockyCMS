@@ -7,6 +7,7 @@ adminlog:
     backend_list_header: '@logger/_list_header.twig'
     backend_list_footer: '@logger/_list_footer.twig'
     backend_list_item: '@logger/_list_item.twig'
+    backend_content_edit: '@logger/editcontent.twig'
     custom_query:
         list: "order by date desc"
     fields:

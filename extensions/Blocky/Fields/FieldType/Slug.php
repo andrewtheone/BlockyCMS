@@ -69,7 +69,7 @@ class Slug extends SimpleField implements SimpleFieldInterface
 		$slug = $this->slugify($content->getValue($options['uses']));
 
 		$contentType = $content->getContentType();
-		$list = $contentType->getContents("where ".$contentType->getFieldByType('slug')." like ?", [$slug."%"]);
+		$list = $contentType->getContents("where ".$contentType->getFieldByType('slug')." like ? LIMIT 0,9999", [$slug."%"]);
 
 		if(count($list) > 0) {
 			$slug .= "-".(count($list)+1);

@@ -73,6 +73,7 @@ class ContentType
 
 		$this->options = [
 			'backend_content_list' => '@backend/listcontent.twig',
+			'backend_content_edit' => '@backend/editcontent.twig',
 			'backend_list_header' => '@backend/_list_header.twig',
 			'backend_list_footer' => '@backend/_list_footer.twig',
 			'backend_list_item' => '@backend/_list_item.twig',

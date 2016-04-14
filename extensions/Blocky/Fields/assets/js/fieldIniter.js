@@ -223,33 +223,52 @@ var initSearchAll = function(container) {
 	})
 }
 
+var isInitable = function(container) {
+	var parentForm = container.closest("form");
+	var i = parentForm.attr('data-field-init');
+
+	if(i == null)
+		return true;
+
+	if(parseInt(i) == 1)
+		return true;
+	return false;
+}
+
 $(document).ready(function() {
 
 	$("[data-field-type='image']").each(function() {
-		initImageField( $(this) )
+		if(isInitable($(this)))
+			initImageField( $(this) )
 	})
 
 	$("[data-field-type='repeater']").each(function() {
-		initRepeaterField( $(this) )
+		if(isInitable($(this)))
+			initRepeaterField( $(this) )
 	})
 
 	$("[data-field-type='select']").each(function() {
-		initSelect2Field($(this))
+		if(isInitable($(this)))
+			initSelect2Field($(this))
 	})
 
 	$("[data-field-type='grid']").each(function() {
-		initGridField($(this))
+		if(isInitable($(this)))
+			initGridField($(this))
 	})
 
 	$("[data-field-type='html']").each(function() {
-		initHtmlField($(this))
+		if(isInitable($(this)))
+			initHtmlField($(this))
 	})
 
 	$("[data-field-type='selectLocale']").each(function() {
-		initSelectLocale($(this))
+		if(isInitable($(this)))
+			initSelectLocale($(this))
 	})
 
 	$("[data-field-type='searchAll']").each(function() {
-		initSearchAll($(this));
+		if(isInitable($(this)))
+			initSearchAll($(this));
 	})
 })

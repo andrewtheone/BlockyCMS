@@ -95,7 +95,7 @@ class BackendController extends SimpleController
 
 		$content = $this->app['content']->getContent($this->route->getAttribute('contenttype'), $this->route->getAttribute('id'));
 
-		$this->render("@backend/editcontent.twig", ['content' => $content]);
+		$this->render($content->getContentType()->getOption('backend_content_edit'), ['content' => $content]);
 	}
 
 	/**
@@ -197,7 +197,7 @@ class BackendController extends SimpleController
 			exit();
 		}
 
-		$this->render("@backend/editcontent.twig", ['content' => $content]);
+		$this->render($content->getContentType()->getOption('backend_content_edit'), ['content' => $content]);
 	}
 
 	/**
