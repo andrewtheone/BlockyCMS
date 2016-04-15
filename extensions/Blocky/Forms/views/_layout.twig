@@ -1,24 +1,31 @@
 {% import "@forms/elements.twig" as inputs %}
 
-{{ inputs.formOpen(formName, app.path.link("/forms/process"), app.router.request.getServerParams().REQUEST_URI) }}
+{{ inputs.formOpen(formName, app.path.link("/forms/process"), app.router.request.getServerParams().REQUEST_URI, formAjax) }}
+
+{% set content = content|default(null) %}
+{% set errors = app.forms.getErrors(formName) %}
+
+{% if content == null %}
+	{% set content = app.forms.getPreviousState(formName)|default({}) %}
+{% endif %}
 
 {% for _inputName, _field in formContentType.getFields() %}
 	{% if (((formOptions.fields is defined) and (formOptions.fields|in_array(_inputName))) or (formOptions.fields is not defined)) %}
 		{% if (['text']|in_array(_field.type)) %}
 		<div class="row">
-			{{ inputs.text(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+			{{ inputs.text(_field.label|default(_inputName), "form_data["~_inputName~"]", attribute(content, _inputName)|default(''), errors[_inputName]|default('')) }}
 		</div>
 		{% endif %}
 
 		{% if (['password']|in_array(_field.type)) %}
 		<div class="row">
-			{{ inputs.password(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+			{{ inputs.password(_field.label|default(_inputName), "form_data["~_inputName~"]", attribute(content, _inputName)|default(''), errors[_inputName]|default('')) }}
 		</div>
 		{% endif %}
 
 		{% if (['html']|in_array(_field.type)) %}
 		<div class="row">
-			{{ inputs.textarea(_field.label|default(_inputName), "form_data["~_inputName~"]") }}
+			{{ inputs.textarea(_field.label|default(_inputName), "form_data["~_inputName~"]", attribute(content, _inputName)|default(''), errors[_inputName]|default('')) }}
 		</div>
 		{% endif %}
 	{% endif %}

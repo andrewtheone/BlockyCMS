@@ -61,15 +61,14 @@ class FormsExtension extends SimpleExtension implements FrontendRouteProvider, S
 	{
 		$self = $this;
 		return [
-			'forms_ajaxForm' => function($a, $b, $formName) {
-
-			},
-			'forms_form' => function($a, $b, $formName) use($self) {
+			'forms_ajaxForm' => function($a, $b, $formName, $content = null, $additionalOptions = []) use($self)  {
 				$formOptions = $self->app['forms']->getForm($formName);
 				
 				$formContentType = null;
 				if(array_key_exists('contenttype', $formOptions))
 					$formContentType = $self->app['content']->getContentType($formOptions['contenttype']);
+
+				$formOptions = array_merge([], $formOptions, $additionalOptions);
 
 				$formLayout = "@forms/_layout.twig";
 				if(array_key_exists('layout', $formOptions))
@@ -79,10 +78,36 @@ class FormsExtension extends SimpleExtension implements FrontendRouteProvider, S
 					'formOptions' => $formOptions,
 					'formContentType' => $formContentType,
 					'formName' => $formName,
-					'app' => $self->app
+					'app' => $self->app,
+					'formAjax' => true,
+					'content' => $content
 				];
 
 				$self->addAsset('js', '@this/assets/js/ajaxform.jquery.js');
+
+				return new \Twig_Markup($self->app['view']->twig->render($formLayout, $args), "utf-8");
+			},
+			'forms_form' => function($a, $b, $formName, $content = null, $additionalOptions = []) use($self) {
+				$formOptions = $self->app['forms']->getForm($formName);
+				
+				$formContentType = null;
+				if(array_key_exists('contenttype', $formOptions))
+					$formContentType = $self->app['content']->getContentType($formOptions['contenttype']);
+
+				$formOptions = array_merge([], $formOptions, $additionalOptions);
+
+				$formLayout = "@forms/_layout.twig";
+				if(array_key_exists('layout', $formOptions))
+					$formLayout = $formOptions['layout'];
+
+				$args = [
+					'formOptions' => $formOptions,
+					'formContentType' => $formContentType,
+					'formName' => $formName,
+					'app' => $self->app,
+					'formAjax' => false,
+					'content' => $content
+				];
 
 				return new \Twig_Markup($self->app['view']->twig->render($formLayout, $args), "utf-8");
 			},

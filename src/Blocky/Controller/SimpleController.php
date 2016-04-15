@@ -66,4 +66,15 @@ class SimpleController
 		
 		echo $this->app['view']->twig->render($template, $arr);
 	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function json($data)
+	{
+		die(json_encode($data));
+	}
 } // END class SimpleController

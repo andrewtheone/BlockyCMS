@@ -45,10 +45,10 @@ class BaseContentManager
 				foreach($validators as $validator) {
 					if($validator['regexp'] == 'empty') {
 						if(strlen($value) == 0) 
-							throw new Exception\ContentSaveException($validator['message']);
+							throw new Exception\ContentSaveException($validator['message'], $inputName);
 					} else 
 					if(preg_match($validator['regexp'], $value) !== 1) {
-						throw new Exception\ContentSaveException($validator['message']);
+						throw new Exception\ContentSaveException($validator['message'], $inputName);
 					}
 				}
 			}

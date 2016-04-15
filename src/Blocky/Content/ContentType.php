@@ -103,6 +103,17 @@ class ContentType
 	 * @return void
 	 * @author 
 	 **/
+	public function createContent($bean = null, $data = [])
+	{
+		return $this->app['content']->createContent($this, $bean, $data);
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function setSlug($slug)
 	{
 		$this->slug = $slug;

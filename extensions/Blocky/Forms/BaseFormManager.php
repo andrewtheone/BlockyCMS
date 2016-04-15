@@ -46,6 +46,27 @@ class BaseFormManager
 	 *
 	 * @var string
 	 **/
+	const PROCESS_VALIDE = 0x07;
+
+	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	const PROCESS_GET_RESPONSE_JSON = 0x08;
+
+	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	const PROCESS_GET_REDIRECT_ROUTE = 0x09;
+
+	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
 	public $app;
 
 	/**

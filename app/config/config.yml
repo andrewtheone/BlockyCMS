@@ -1,5 +1,5 @@
 ---
-host: http://host
+host: http://rusty.bonzoportal.hu
 subfolder: ~
 site_title: Blocky
 environment: dev

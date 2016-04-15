@@ -27,6 +27,7 @@ class FormController extends SimpleController
 		$formName = $this->request->getAttribute('form');
 		$refer = $this->request->getAttribute('refer');
 		$values = $this->request->getAttribute('form_data');
+		$type = $this->request->getAttribute('type');
 
 		$form = $this->app['forms']->getForm($formName);
 		
@@ -87,14 +88,41 @@ class FormController extends SimpleController
 		} catch(ContentSaveException $ex) {
 			$manager->onProcess(BaseFormManager::PROCESS_VALIDATION_ERROR, $ex);
 
+			$this->app['session']->setFlashMessage('forms.errors.'.$formName, ['field' => $ex->getField(), 'message' => $ex->getMessage()]);
+			
+			if($type == "ajax") {
+				$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
+				if(!is_array($data))
+					$data = ['success' => 0, 'errors' => $this->app['session']->getFlashMessages('forms.errors.'.$formName), '__fallback' => true];
 
-			$this->app['session']->setFlashMessage('error', $ex->getMessage());
-			$this->app['path']->redirect($refer);
+				$this->json($data);
+			}
+			$this->app['session']->setFlashMessage('forms.data.'.$formName, $values);
+
+			$route = $manager->onProcess(BaseFormManager::PROCESS_GET_REDIRECT_ROUTE);
+			if(!is_string($route))
+				$route = $refer;
+			$this->app['path']->redirect($route);
+
 			exit();
 			return;
 		}
+		
+		$manager->onProcess(BaseFormManager::PROCESS_VALIDE);
+		
+		if($type == "ajax") {
+			$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
+			if(!is_array($data))
+				$data = ['success' => 1, 'errors' => [], '__fallback' => true];
 
-		$this->app['path']->redirect($refer);
+			$this->json($data);
+		}
+
+		$this->app['session']->setFlashMessage('forms.data.'.$formName, null);
+		$route = $manager->onProcess(BaseFormManager::PROCESS_GET_REDIRECT_ROUTE);
+		if(!is_string($route))
+			$route = $refer;
+		$this->app['path']->redirect($route);
 		exit();
 		return;
 	}

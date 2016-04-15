@@ -1,39 +1,44 @@
-{% macro text(label, name, value) %}
+{% macro text(label, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
 	<input type="text" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}">
+	<p class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro password(label, name, value) %}
+{% macro password(label, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
 	<input type="password" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}">
+	<p class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro select(label, options, selected) %}
+{% macro select(label, options, selected, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
-	<select  class="form-control" name="{{ name }}">
+	<select class="form-control" name="{{ name }}">
 		{% for i, v in options %}
 			<option value="{{ i }}" {% if(i == selected) %} selected {% endif %}>{{ v }}</option>
 		{% endfor %}
 	</select>
+	<p class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro textarea(label, name, value) %}
+{% macro textarea(label, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
 	<textarea  class="form-control" rows="5"  name="{{ name }}">{{ value }}</textarea>
+	<p class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro formOpen(formName, href, refer) %}
-	<form action="{{ href }}" method="post" class="form-horizontal">
+{% macro formOpen(formName, href, refer, isAjax) %}
+	<form action="{{ href }}" method="post" class="form-horizontal form-{{ formName }}" {% if isAjax %} data-form-ajax {% endif %}>
 	<input name="form" type="hidden" value="{{ formName }}">
 	<input name="refer" type="hidden" value="{{ refer }}">
+	<input name="type" type="hidden" value="{% if isAjax %}ajax{% else %}standard{% endif %}">
 {% endmacro %}
 
 {% macro formClose() %}
