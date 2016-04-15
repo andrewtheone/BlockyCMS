@@ -21,9 +21,10 @@ class BaseContentManager extends BCM
 	 **/
 	public function afterFromArray(&$data)
 	{
-		if(array_key_exists('locale', $data)) {
-			$this->content->bean->locale = $data['locale'];
-		}
+		if(is_array($data))
+			if(array_key_exists('locale', $data)) {
+				$this->content->bean->locale = $data['locale'];
+			}
 	}
 
 

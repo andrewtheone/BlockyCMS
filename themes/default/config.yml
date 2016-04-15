@@ -5,3 +5,4 @@ assets:
     js:
         - '@theme/assets/js/jquery.js'
         - '@theme/assets/js/bootstrap.js'
+        - '1000|@theme/assets/js/customForms.js'

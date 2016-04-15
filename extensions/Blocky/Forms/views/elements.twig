@@ -34,8 +34,8 @@
 </div>
 {% endmacro %}
 
-{% macro formOpen(formName, href, refer, isAjax) %}
-	<form action="{{ href }}" method="post" class="form-horizontal form-{{ formName }}" {% if isAjax %} data-form-ajax {% endif %}>
+{% macro formOpen(formName, href, refer, isAjax, handler) %}
+	<form action="{{ href }}" method="post" class="form-horizontal form-{{ formName }}" {% if isAjax %} data-form-ajax data-handler="{{ handler }}" {% endif %}>
 	<input name="form" type="hidden" value="{{ formName }}">
 	<input name="refer" type="hidden" value="{{ refer }}">
 	<input name="type" type="hidden" value="{% if isAjax %}ajax{% else %}standard{% endif %}">

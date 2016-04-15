@@ -1,6 +1,6 @@
 {% import "@forms/elements.twig" as inputs %}
 
-{{ inputs.formOpen(formName, app.path.link("/forms/process"), app.router.request.getServerParams().REQUEST_URI, formAjax) }}
+{{ inputs.formOpen(formName, app.path.link("/forms/process"), app.router.request.getServerParams().REQUEST_URI, formAjax, formOptions.handler|default("simpleHandler")) }}
 
 {% set content = content|default(null) %}
 {% set errors = app.forms.getErrors(formName) %}

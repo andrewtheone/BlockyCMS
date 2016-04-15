@@ -18,7 +18,9 @@
 	{{ parent() }}
 	chitti chatty <span class="glyphicon glyphicon-glass"></span>
 <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
-	{{ forms_form('contactus') }}
+	{{ forms_ajaxForm('contactus', null, {
+	handler: 'customContactUs'
+	}) }}
 
 	<img src="{{ "/themes/default/assets/images/squirell.jpg"|image([200, 200]) }}">
 {% endblock %}
