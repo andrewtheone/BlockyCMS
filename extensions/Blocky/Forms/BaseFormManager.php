@@ -112,6 +112,13 @@ class BaseFormManager
 	public $refer;
 
 	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	public $isValid;
+
+	/**
 	 * undocumented function
 	 *
 	 * @return void
@@ -126,6 +133,7 @@ class BaseFormManager
 		$this->formData = $formData;
 		$this->contentType = $contentType;
 		$this->content = $content;
+		$this->isValid = true;
 	}
 
 	/**

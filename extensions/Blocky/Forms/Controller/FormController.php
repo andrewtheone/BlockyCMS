@@ -93,7 +93,7 @@ class FormController extends SimpleController
 			if($type == "ajax") {
 				$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
 				if(!is_array($data))
-					$data = ['success' => 0, 'errors' => $this->app['session']->getFlashMessages('forms.errors.'.$formName), '__fallback' => true];
+					$data = ['success' => 0, 'redirect' => '__none__', 'messages' => [], 'errors' => $this->app['session']->getFlashMessages('forms.errors.'.$formName), '__fallback' => true];
 
 				$this->json($data);
 			}
@@ -113,15 +113,29 @@ class FormController extends SimpleController
 		if($type == "ajax") {
 			$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
 			if(!is_array($data))
-				$data = ['success' => 1, 'errors' => [], '__fallback' => true];
+				$data = ['success' => 1, 'redirect' => (array_key_exists('success_redirect', $form)?$form['success_redirect']:'__none__'), 'messages' => (array_key_exists('success_message', $form)?[$form['success_message']]:[]), 'errors' => [], '__fallback' => true];
 
 			$this->json($data);
 		}
 
 		$this->app['session']->setFlashMessage('forms.data.'.$formName, null);
+		
+		if(array_key_exists('success_message', $form)) {
+			$this->app['session']->setFlashMessage('success', $form['success_message']);
+		}
+
 		$route = $manager->onProcess(BaseFormManager::PROCESS_GET_REDIRECT_ROUTE);
-		if(!is_string($route))
-			$route = $refer;
+		if(!is_string($route)) {
+			if(array_key_exists('success_redirect', $form)) {
+				if($form['success_redirect'] != "__self__") {
+					$route = $form['success_redirect'];
+				} 
+			}
+
+			if(!is_string($route))
+				$route = $refer;
+		}
+
 		$this->app['path']->redirect($route);
 		exit();
 		return;

@@ -40,12 +40,23 @@
  				var key = resp.errors[i].field;
  				var msg = resp.errors[i].message;
  				this.form.find("[name='form_data["+key+"]']").each(function() {
- 					$(this).parent().find(".error").html(msg);
+ 					$( $(this).attr('data-error-element') ).html(msg);
  				})
  			}
  		} else {
- 			alert("sikeres form kitöltés");
  			this.form.trigger("reset");
+ 			if(resp.messages.length > 0) {
+ 				for(var i in resp.messages) {
+ 					alert(resp.messages[i]);
+ 				}
+ 			}
+ 			var redir = resp.redirect;
+ 			if(redir == "__none__")
+ 				return;
+ 			if(redir == "__self__")
+ 				return window.location.reload();
+
+ 			window.location = redir;
  		}
  	}
 

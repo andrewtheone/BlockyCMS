@@ -1,36 +1,36 @@
-{% macro text(label, name, value, error) %}
+{% macro text(formName, label, key, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
-	<input type="text" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}">
-	<p class="help-block error">{{ error|default('') }}</p>
+	<input type="text" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}" data-error-element="#{{formName}}-{{key}}-error">
+	<p id="{{formName}}-{{key}}-error" class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro password(label, name, value, error) %}
+{% macro password(formName, label, key, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
-	<input type="password" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}">
-	<p class="help-block error">{{ error|default('') }}</p>
+	<input type="password" class="form-control" placeholder="" name="{{ name }}" value="{{ value }}" data-error-element="#{{formName}}-{{key}}-error">
+	<p id="{{formName}}-{{key}}-error" class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro select(label, options, selected, error) %}
+{% macro select(formName, label, key, options, selected, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
-	<select class="form-control" name="{{ name }}">
+	<select class="form-control" name="{{ name }}" data-error-element="#{{formName}}-{{key}}-error">
 		{% for i, v in options %}
 			<option value="{{ i }}" {% if(i == selected) %} selected {% endif %}>{{ v }}</option>
 		{% endfor %}
 	</select>
-	<p class="help-block error">{{ error|default('') }}</p>
+	<p id="{{formName}}-{{key}}-error" class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 
-{% macro textarea(label, name, value, error) %}
+{% macro textarea(formName, label, key, name, value, error) %}
 <div class="input-group">
 	<label for="{{ name }}">{{ label }}</label>
-	<textarea  class="form-control" rows="5"  name="{{ name }}">{{ value }}</textarea>
-	<p class="help-block error">{{ error|default('') }}</p>
+	<textarea class="form-control" rows="5" name="{{ name }}" data-error-element="#{{formName}}-{{key}}-error">{{ value }}</textarea>
+	<p id="{{formName}}-{{key}}-error" class="help-block error">{{ error|default('') }}</p>
 </div>
 {% endmacro %}
 

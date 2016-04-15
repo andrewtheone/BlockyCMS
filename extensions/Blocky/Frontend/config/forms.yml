@@ -8,3 +8,5 @@ contactus:
     to: andrewxxtheone@gmail.com
     subject: Kontakt form
     template: '@forms/email.twig'
+  success_redirect: __none__
+  success_message: 'Üzenetedet megkaptuk, nem sokára felkeresünk'
