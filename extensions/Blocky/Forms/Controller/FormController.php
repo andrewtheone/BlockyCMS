@@ -114,7 +114,6 @@ class FormController extends SimpleController
 			$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
 			if(!is_array($data))
 				$data = ['success' => 1, 'redirect' => (array_key_exists('success_redirect', $form)?$form['success_redirect']:'__none__'), 'messages' => (array_key_exists('success_message', $form)?[$form['success_message']]:[]), 'errors' => [], '__fallback' => true];
-
 			$this->json($data);
 		}
 

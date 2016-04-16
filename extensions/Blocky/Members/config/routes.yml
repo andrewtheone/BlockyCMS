@@ -1,0 +1,12 @@
+members_login:
+  path: "/members/login"
+  handler:
+    _controller: Blocky\Frontend\Controller\FrontendController
+    _action: templateView
+  template: '@members/pages/login.twig'
+members_signup:
+  path: "/members/signup"
+  handler:
+    _controller: Blocky\Frontend\Controller\FrontendController
+    _action: templateView
+  template: '@members/pages/signup.twig'

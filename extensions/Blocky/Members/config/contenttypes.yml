@@ -1,0 +1,42 @@
+member:
+    name: Felhasználók
+    singular_name: Felhasználók
+    syncable: false
+    fields:
+        username:
+            label: Felhasználónév
+            type: text
+            validators:
+                -
+                    regexp: empty
+                    message: Nem lehet üres a felhasználónév
+                -
+                    regexp: unique
+                    message: Ez a felhasználónév már foglalt
+        slug:
+            type: slug
+            uses: username
+        email:
+            label: 'E-mail'
+            type: text
+            validators:
+                -
+                    regexp: '/\@/'
+                    message: 'Valós e-mail címet adj meg!'
+                -
+                    regexp: unique
+                    message: 'Ez az e-mail cím már foglalt'
+        salt:
+            visible: false
+            type: random
+        password:
+            label: 'Jelszó'
+            type: password
+            uses: salt
+            validators:
+                -
+                    regexp: empty
+                    message: Nem lehet üres a jelszó
+        created_at:
+            type: timestamp
+            default: now

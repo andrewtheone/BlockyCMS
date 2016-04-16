@@ -1,0 +1,4 @@
+contenttype: member
+login:
+    username_field: username
+    password_field: password

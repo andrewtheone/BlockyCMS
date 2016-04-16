@@ -1,0 +1,22 @@
+members_login:
+    contenttype: member
+    fields:
+        - username
+        - password
+    manager: '\Blocky\Members\Form\LoginFormManager'
+members_signup:
+    contenttype: member
+    store: true
+    manager: '\Blocky\Members\Form\SignupFormManager'
+    success_message: 'Sikeres regisztráció!'
+    success_redirect: '/members/login'
+members_lostpassword:
+    contenttype: member
+    fields:
+        - email
+    manager: '\Blocky\Members\Form\LostPasswordFormManager'
+members_update:
+    contenttype: member
+    fields:
+        - password
+    manager: '\Blocky\Members\Form\UpdateFormManager'

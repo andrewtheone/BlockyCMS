@@ -47,6 +47,11 @@ class BaseContentManager
 						if(strlen($value) == 0) 
 							throw new Exception\ContentSaveException($validator['message'], $inputName);
 					} else 
+					if($validator['regexp'] == 'unique') {
+						$list = $this->content->getContentType()->getContents("where ".$inputName." = ?", [$value]);
+						if(count($list) > 0)
+							throw new Exception\ContentSaveException($validator['message'], $inputName);
+					} else
 					if(preg_match($validator['regexp'], $value) !== 1) {
 						throw new Exception\ContentSaveException($validator['message'], $inputName);
 					}

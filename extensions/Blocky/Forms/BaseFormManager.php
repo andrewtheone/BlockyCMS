@@ -144,6 +144,9 @@ class BaseFormManager
 	 **/
 	public function onProcess($process, $etc = null)
 	{
+		if($process == self::PROCESS_VALIDATION_ERROR) {
+			$this->valid = false;
+		}
 		return true;
 	}
 

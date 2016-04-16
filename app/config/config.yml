@@ -41,5 +41,6 @@ extensions:
 - Blocky\Ecommerce\EcommerceExtension
 - Blocky\Logger\LoggerExtension
 - Blocky\Setup\SetupExtension
+- Blocky\Members\MembersExtension
 - Blocky\Frontend\FrontendExtension
 ...
