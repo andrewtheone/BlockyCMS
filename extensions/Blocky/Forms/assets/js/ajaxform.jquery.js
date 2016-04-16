@@ -24,7 +24,7 @@
  	}
 
  	simpleHandler.prototype.onSubmit = function() {
-
+ 		this.form.find("input, select, textarea").click(this.resetErrorMessages.bind(this))
  		$.ajax(this.form.attr('action'), {
  			data: this.form.find("input, select, textarea").serializeObject(),
  			type: 'post',
@@ -62,6 +62,12 @@
 
  	simpleHandler.prototype.onKeyDown = function() {
 
+ 	}
+
+ 	simpleHandler.prototype.resetErrorMessages = function() {
+ 		this.form.find("input, select, textarea").each(function() {
+ 			$( $(this).attr('data-error-element') ).html('');
+ 		})
  	}
 
  	simpleHandler.prototype.unregister = function() {

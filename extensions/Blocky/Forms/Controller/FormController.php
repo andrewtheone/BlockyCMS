@@ -41,9 +41,9 @@ class FormController extends SimpleController
 			$manager->onProcess(BaseFormManager::PROCESS_INITIAL);
 
 			if(array_key_exists('store', $form) && ($form['store'])) {
-				$bean = $this->app['storage']->createBean($contentType->getSlug());
-				
-				if( ($content = $manager->getContent()) == null) { 
+				$content = $manager->getContent();
+				if( $content == null) { 
+					$bean = $this->app['storage']->createBean($contentType->getSlug());
 					$content = new Content($contentType, $bean);
 					$content->fromArray($values);
 				}
@@ -113,7 +113,13 @@ class FormController extends SimpleController
 		if($type == "ajax") {
 			$data = $manager->onProcess(BaseFormManager::PROCESS_GET_RESPONSE_JSON);
 			if(!is_array($data))
-				$data = ['success' => 1, 'redirect' => (array_key_exists('success_redirect', $form)?$form['success_redirect']:'__none__'), 'messages' => (array_key_exists('success_message', $form)?[$form['success_message']]:[]), 'errors' => [], '__fallback' => true];
+				$data = [
+					'success' => 1,
+					'redirect' => (array_key_exists('success_redirect', $form)?$form['success_redirect']:'__none__'),
+					'messages' => (array_key_exists('success_message', $form)?[$form['success_message']]:[]),
+					'errors' => [],
+					'__fallback' => true
+				];
 			$this->json($data);
 		}
 

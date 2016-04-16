@@ -37,6 +37,15 @@ class MembersService extends BaseService
 	public function boot()
 	{
 		$this->config = YamlWrapper::parse( $this->app['path']->to('config', 'members.yml') );
+
+		$member = $this->app['session']->get('member', null);
+		if($member) {
+			$content = $this->app['content']->getContents($this->config['contenttype'], $this->config['login']['username_field']." = ?", [ $member[$this->config['login']['username_field']] ]);
+
+			if(count($content) > 0) {
+				$this->member = $content[0];
+			}
+		}
 	}
 
 	/**
@@ -48,6 +57,17 @@ class MembersService extends BaseService
 	public function isLoggedIn()
 	{
 		return ($this->member != null);
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getMemberContent()
+	{
+		return $this->member;
 	}
 
 

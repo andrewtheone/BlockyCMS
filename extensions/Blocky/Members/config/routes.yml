@@ -10,3 +10,9 @@ members_signup:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@members/pages/signup.twig'
+members_update:
+  path: "/members/update"
+  handler:
+    _controller: Blocky\Frontend\Controller\FrontendController
+    _action: templateView
+  template: '@members/pages/update.twig'

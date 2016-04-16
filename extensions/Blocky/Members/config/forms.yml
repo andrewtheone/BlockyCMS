@@ -17,6 +17,9 @@ members_lostpassword:
     manager: '\Blocky\Members\Form\LostPasswordFormManager'
 members_update:
     contenttype: member
+    store: true
     fields:
         - password
     manager: '\Blocky\Members\Form\UpdateFormManager'
+    success_message: 'Sikeres adat módosítás'
+    success_redirect: '__self__'

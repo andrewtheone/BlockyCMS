@@ -106,7 +106,8 @@ class Content
 						$this->bean->{$inputName} = $val;
 					}
 				} else {
-					$this->bean->{$inputName} = $this->getContentType()->getFieldType($inputName)->processInput($this, null, $options);
+					if(!isset($this->bean->{$inputName}))
+						$this->bean->{$inputName} = $this->getContentType()->getFieldType($inputName)->processInput($this, null, $options);
 				}
 			}
 		}

@@ -1,0 +1,19 @@
+{% extends "@theme/_layout.twig" %}
+
+{% block page %}
+	{% set pageVars = pageVars|default({})|merge({
+		title: 'Adatmódosítás'
+	}) %}
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+	{% set contentVars = contentVars|default({})|merge({
+		title: 'Adatmódosítás',
+		subtitle: ''
+	}) %}
+
+	{{ parent() }}
+	{{ forms_ajaxForm('members_update') }}
+
+{% endblock %}
