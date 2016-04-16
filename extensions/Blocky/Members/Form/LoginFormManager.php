@@ -28,6 +28,7 @@ class LoginFormManager extends BaseFormManager
 
 			if(!$loginResult) {
 				throw new ContentSaveException("Hibás felhasználónév vagy jelszó!", $this->app['members']->config['login']['username_field']);
+				return false;
 			}
 
 			return true;
