@@ -94,4 +94,17 @@ class MembersService extends BaseService
 
 		return false;
 	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function logout()
+	{
+		$this->app['event']->trigger('Members::LoggingOut');
+		$this->app['session']['member'] = null;
+		$this->app['event']->trigger('Members::LoggedOut');
+	}
 } // END class Service

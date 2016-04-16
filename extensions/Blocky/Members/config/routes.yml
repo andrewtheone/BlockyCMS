@@ -16,3 +16,8 @@ members_update:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@members/pages/update.twig'
+members_logout:
+  path: "/members/logout"
+  handler:
+    _controller: Blocky\Members\Controller\MemberController
+    _action: logout
