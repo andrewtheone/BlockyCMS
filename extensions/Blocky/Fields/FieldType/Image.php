@@ -41,7 +41,12 @@ class Image extends SimpleField implements SimpleFieldInterface
 	 * @author 
 	 **/
 	public function extractValue(Content $content, $value, $options) {
-		return json_decode($value, 1);
+		$opts = json_decode($value, 1);
+		if(array_key_exists('watermark', $options) && (array_key_exists('path', $opts))) {
+			$opts['watermark'] = $options['watermark'];
+		}
+
+		return $opts;
 	}
 
 	/**

@@ -8,7 +8,7 @@ site:
   description: '...'
   keywords: '...'
 assets:
-  minify: false
+  minify: true
 theme: default
 mail:
   transportation:

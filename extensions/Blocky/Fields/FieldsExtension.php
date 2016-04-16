@@ -131,13 +131,40 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 		return $imagick;
 	}
 
+	public function addWatermark($image, $sprite) {
+
+		$imageWidth = $image->getImageWidth();
+		$imageHeight = $image->getImageHeight();
+
+		// scale the sprite. 0 means 'scale height
+		// proportionally'. Let's make it 1/3 of image width
+		$sprite->scaleImage($imageWidth / 3, 0);
+
+		$spriteWidth = $sprite->getImageWidth();
+		$spriteHeight = $sprite->getImageHeight();
+
+		// Calculate coordinates of top left corner
+		// of the sprite inside of the image
+	        // "- 10" stands for offset to image border
+		$left = $imageWidth - $spriteWidth - 10;
+		$top = $imageHeight - $spriteHeight - 10;
+
+		$image->compositeImage($sprite,
+				\Imagick::COMPOSITE_DEFAULT,
+				$left, $top);
+
+		return $image; // return if you want to output
+	        // it or write the result to another file
+
+	}
+
 	/**
 	 * undocumented function
 	 *
 	 * @return void
 	 * @author 
 	 **/
-	public function twigImageFilter($a, $b, $image, $size = null)
+	public function twigImageFilter($a, $b, $image, $size = null, $watermark = null)
 	{
 		$path = null;
 		$isImageField = true;
@@ -149,11 +176,17 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 		} else {
 			if(array_key_exists('path', $image)) {
 				$path = $this->app['path']['files'].$image['path'];
+				if(array_key_exists('watermark', $image)) {
+					$watermark = $image['watermark'];
+				}
 			}
 		}
 		if(($path == null) || (!is_file($path)))
 			return "";
 
+		if($watermark) {
+			$watermark = str_replace("@root", $this->app['path']['root'], $watermark);
+		}
 		
 		// todo: themes/default/assets/images.png|image([400,400])
 
@@ -163,19 +196,33 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			$file = $resized_path[count($resized_path)-1];
 			$file_parts = explode(".", $file);
 			$file_parts[0] .= "_".implode("_", $size);
-			$resized_path[count($resized_path)-1] = implode(".", $file_parts);
-			$resized_path = implode("/", $resized_path);
-
-			if(!file_exists($resized_path)) {
-				$imagick = new \Imagick($path);
-				$this->resizeImage($imagick, $size[0], $size[1], \Imagick::FILTER_LANCZOS, 0.7, false, false);
-
-				file_put_contents($resized_path, $imagick->getImageBlob());
+			
+			if($watermark) {
+				$file_parts[0] .= "_wt";
 			}
 
+			$resizedName = implode(".", $file_parts);
+			/*
+			$resized_path[count($resized_path)-1] = implode(".", $file_parts);
+			$resized_path = implode("/", $resized_path);
+			*/
+
+			if(!file_exists( $this->app['path']['files']."/cache/".$resizedName /*$resized_path*/)) {
+				$imagick = new \Imagick($path);
+				$this->resizeImage($imagick, $size[0], $size[1], \Imagick::FILTER_LANCZOS, 0.7, false, false);
+				$imagick->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
+				if($watermark) {
+					$sprite = new \Imagick($watermark);
+					$imagick = $this->addWatermark($imagick, $sprite);
+				}
+				file_put_contents( $this->app['path']['files']."/cache/".$resizedName /*$resized_path*/, $imagick->getImageBlob());
+			}
+
+			return $this->app['path']['files_url']."/cache/".$resizedName;
 			if($isImageField) {
 				return str_replace($this->app['path']['files'], $this->app['path']['files_url'], $resized_path);
 			}
+
 			return str_replace($this->app['path']['root'], $this->app['config']['host'], $resized_path);
 		}
 
