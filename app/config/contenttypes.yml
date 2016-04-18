@@ -2,6 +2,8 @@
 test:
   name: Tests
   singular_name: Test
+  middlewares:
+    - '\Blocky\Members\Middleware\Auth::onlyLoggedIn'
   fields:
     title:
       label: Title

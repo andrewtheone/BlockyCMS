@@ -26,6 +26,12 @@ class FrontendController extends SimpleController
 		$slug = $this->route->getAttribute('slug');
 
 		$contentType = $this->app['content']->getContentType($contentType);
+
+		$mds = $contentType->getOption('middlewares', []);
+		foreach($mds as $m) {
+			$this->middleware($m);
+		}
+
 		$content = $this->app['content']->getContents($contentType->getSlug(), 'slug = ?', [$slug]);
 		$content = $content[0];
 		$this->render( $contentType->record_view , [

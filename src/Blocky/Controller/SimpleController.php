@@ -52,6 +52,26 @@ class SimpleController
 	 **/
 	public function beforeRoute()
 	{
+
+		if($this->route->offsetExists('middlewares')) {
+			$mds = $this->route['middlewares'];
+
+			foreach($mds as $m) {
+				$this->middleware($m);
+			}
+		}
+	}
+	// oktobor 27
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function middleware($md)
+	{
+		$parts = explode("::", $md);
+		call_user_func_array([$parts[0], $parts[1]], [&$this->app, &$this->request, &$this->route]);
 	}
 
 	/**
