@@ -84,10 +84,13 @@ class Select extends SimpleField implements SimpleFieldInterface
 
 			$ct = $this->app['content']->getContentType($foreignContentType);
 
-			$beans = R::find('relations', "`from` = :from and from_id = :from_id and `to` = :to", [
+			$beans = R::find('relations', "(`from` = :from and from_id = :from_id and `to` = :to) or (`from` = :fromB and to_id = :to_id and `to` = :toB)", [
 				'from' =>$content->getContentType()->getSlug(),
 				'from_id' =>$content->getID(),
-				'to' =>$ct->getSlug()
+				'to' => $ct->getSlug(),
+				'fromB' => $ct->getSlug(),
+				'to_id' =>$content->getID(),
+				'toB' => $content->getContentType()->getSlug()
 			]);
 
 			$results = [];

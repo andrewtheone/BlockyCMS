@@ -69,7 +69,7 @@ class MailService extends BaseService
 	{
 		if(is_array($data)) {
 			$data['app'] = &$this->app;
-
+			
 			$content = $this->app['view']->twig->render($content, $data);
 		}
 

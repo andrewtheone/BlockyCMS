@@ -44,7 +44,7 @@ class PathService extends BaseService implements \ArrayAccess
 	 **/
 	public function link($link)
 	{
-		if($link[0] != '/') {
+		if(strpos($link, "/") !== 0) {
 			$link = $this->app['router']->map->getRoute($link);
 			$link = $link->path;
 		}
@@ -59,7 +59,7 @@ class PathService extends BaseService implements \ArrayAccess
 	 **/
 	public function redirect($to)
 	{
-		if($to[0] != '/') {
+		if(strpos($to, "/") !== 0) {
 			$to = $this->app['router']->map->getRoute($to);
 			$to = $to->path;
 		}
