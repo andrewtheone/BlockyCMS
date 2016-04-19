@@ -168,7 +168,9 @@ class ViewService extends BaseService
 	 **/
 	public function boot()
 	{
-		$this->loader = new \Twig_Loader_Filesystem([$this->app['path']['views']]);
+		$this->loader = new TwigLoader([$this->app['path']['views']]);
+		$this->loader->setApp($this->app);
+		
 		$this->loader->addPath($this->app['path']['theme'], 'theme');
 		$this->twig = new \Twig_Environment($this->loader);
 		$this->twig->addExtension(new \Twig_Extensions_Extension_I18n());

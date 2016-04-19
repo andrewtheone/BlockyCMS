@@ -15,6 +15,13 @@ class ConfigService extends BaseService implements \ArrayAccess
 
     private $values = array();
 
+    /**
+     * undocumented class variable
+     *
+     * @var string
+     **/
+    public $mobileDetect;
+
 	/**
 	 * undocumented function
 	 *
@@ -37,7 +44,31 @@ class ConfigService extends BaseService implements \ArrayAccess
         if(!array_key_exists('backend_menu', $this->values)) {
             $this->values['backend_menu'] = [];
         }
+
+        $this->mobileDetect = new MobileDetect();
 	}
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function isMobile()
+    {
+        return $this->mobileDetect->isMobile();
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function isTablet()
+    {
+        return $this->mobileDetect->isTablet();
+    }
 
     public function offsetSet($id, $value)
     {

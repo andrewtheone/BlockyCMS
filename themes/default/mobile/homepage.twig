@@ -1,0 +1,20 @@
+{% extends "@theme/_layout.twig" %}
+
+{% block page %}
+	{% set pageVars = pageVars|default({})|merge({
+		meta_description: 'Kezdőlap',
+		meta_keywords: '1,2,3,4,,5,6',
+		title: 'Kezdőlap'
+	}) %}
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+	{% set contentVars = contentVars|default({})|merge({
+		title: 'Kezdőlap',
+		subtitle: 'Hi'
+	}) %}
+
+	{{ parent() }}
+	MOBILE
+{% endblock %}
