@@ -161,6 +161,24 @@ class ViewService extends BaseService
 	}
 
 	/**
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getMenu($a, $b, $key, $template)
+	{
+		$data = [
+			'app' => $this->app,
+			'items' => [],
+			'menu_name' => $key
+		];
+		if(array_key_exists($key, $this->app['config']['menu'])) {
+			$data['items'] = $this->app['config']['menu'][$key];
+		} 
+		return new \Twig_Markup($b->render($template, $data), 'utf-8');
+	}
+
+	/**
 	 * @inherit
 	 *
 	 * @return void
@@ -170,12 +188,16 @@ class ViewService extends BaseService
 	{
 		$this->loader = new TwigLoader([$this->app['path']['views']]);
 		$this->loader->setApp($this->app);
-		
+
 		$this->loader->addPath($this->app['path']['theme'], 'theme');
 		$this->twig = new \Twig_Environment($this->loader);
 		$this->twig->addExtension(new \Twig_Extensions_Extension_I18n());
 		$snippetFn = new \Twig_SimpleFunction("snippet", [$this, 'getSnippets']);
 		$this->twig->addFunction($snippetFn);
+
+		$menuFn = new \Twig_SimpleFunction("menu", [$this, 'getMenu'], ['needs_context' => true, 'needs_environment' => true]);
+		$this->twig->addFunction($menuFn);
+		
 	}
 
 } // END class Service

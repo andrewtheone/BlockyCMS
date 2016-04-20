@@ -45,6 +45,7 @@ class ConfigService extends BaseService implements \ArrayAccess
             $this->values['backend_menu'] = [];
         }
 
+        $this->values['menu'] = YamlWrapper::parse($this->app['path']->to('config', 'menu.yml'));
         $this->mobileDetect = new MobileDetect();
 	}
 
