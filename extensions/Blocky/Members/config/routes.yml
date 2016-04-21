@@ -21,3 +21,8 @@ members_logout:
   handler:
     _controller: Blocky\Members\Controller\MemberController
     _action: logout
+members_passport:
+  path: "/members/passport"
+  handler:
+    _controller: Blocky\Members\Controller\MemberController
+    _action: passport

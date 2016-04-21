@@ -1,0 +1,13 @@
+Facebook:
+    badge: '...'
+    enabled: true
+    mapper: 'Blocky\Members\Passport\SimpleMapper'
+    mappper_options:
+        email: email
+        profileImage: avatar
+        name: name
+    passwordRoute: ~
+    scope: 'email, public_profile, user_friends'
+    keys:
+        id: 418183491697387
+        secret: c2e6383182b8fe359eff78911f26c285

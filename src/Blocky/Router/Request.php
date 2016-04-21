@@ -229,6 +229,8 @@ class Request implements ServerRequestInterface
      * @return mixed
      */
     public function getAttribute($name, $default = null) {
+        $name = str_replace(".", "_", $name);
+        
     	if(array_key_exists($name, $_POST)) {
     		return $_POST[$name];
     	}

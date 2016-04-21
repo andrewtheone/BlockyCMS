@@ -17,7 +17,8 @@ $loader->registerNamespaceFallbacks([__DIR__.'/../extensions']);
 
 $loader->registerPrefixes([
 	'Twig_' => __DIR__.'/../vendors/Twig/src',
-	'Swift_' => __DIR__.'/../vendors/SwiftMailer/src'
+	'Swift_' => __DIR__.'/../vendors/SwiftMailer/src',
+	'Hybrid_' => __DIR__.'/../vendors/Hybrid/src'
 ]);
 
 $loader->register();

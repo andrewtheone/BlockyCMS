@@ -30,6 +30,7 @@ class MembersExtension extends SimpleExtension  implements ServiceProvider
 		$this->extendConfig("forms.yml", "forms.yml");
 		$this->extendConfig("members.yml", "members.yml");
 		$this->extendConfig("routes.yml", "routes.yml");
+		$this->extendConfig("passports.yml", "passports.yml");
 	}
 
 	/**
@@ -55,6 +56,11 @@ class MembersExtension extends SimpleExtension  implements ServiceProvider
 				$members = new Service\MembersService($app);
 				$members->boot();
 				return $members;
+			},
+			'passport' => function($app) {
+				$passport = new Service\PassportService($app);
+				$passport->boot();
+				return $passport;
 			}
 		];
 	}
