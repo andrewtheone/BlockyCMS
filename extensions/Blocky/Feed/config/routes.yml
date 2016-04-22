@@ -1,0 +1,8 @@
+feed_view:
+  path: "/feed/{name}.{type}"
+  handler:
+    _controller: Blocky\Feed\Controller\FeedController
+    _action: view
+  tokens:
+    name: '[a-zA-Z\_\-]+'
+    type: '[a-z]+'

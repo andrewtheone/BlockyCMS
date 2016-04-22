@@ -36,6 +36,17 @@ class ContentList implements \ArrayAccess, \Iterator, \Countable
         $this->recordSize = count($list);
     }
 
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function getItems()
+    {
+        return $this->values;
+    }
+
     public function count()
     {
         return $this->recordSize;

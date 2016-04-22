@@ -1,0 +1,15 @@
+feedname:
+    contenttype: newsitem
+    feeder: 'Blocky\Feed\Feeder\SimpleFeeder'
+    types:
+        xml: 
+            render: 'Blocky\Feed\Feeder\SimpleFeeder::renderXml'
+            root: 'news'
+            item: 'newsitem'
+            header: 'text/xml'
+        json: 
+            template: '@feed/_json.twig'
+            header: 'application/json'
+        csv: 
+            render: 'Blocky\Feed\Feeder::renderCSV'
+            header: 'text/csv'

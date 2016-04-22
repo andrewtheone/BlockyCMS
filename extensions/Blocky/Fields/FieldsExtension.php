@@ -88,6 +88,15 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			},
 			'in_array' => function($a, $b, $array, $value) {
 				return in_array($value, $array);
+			},
+			'is_array' => function($a, $b, $arr) {
+				return is_array($arr);
+			},
+			'is_string' => function($a, $b, $arr) {
+				return is_string($arr);
+			},
+			'is_integer' => function($a, $b, $arr) {
+				return is_integer($arr);
 			}
 		];
 	}
@@ -276,7 +285,7 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 
 					file_put_contents( $this->app['path']['files']."/cache/".$resizedName, $imagick->getImageBlob());
 				}
-				
+
 				$filePath = $this->app['path']['files_url']."/cache/".$resizedName;
 			}
 		}

@@ -16,7 +16,7 @@ class YamlWrapper
 	 * @var string
 	 **/
 	public static $app;
-	
+
 	/**
 	 * undocumented function
 	 *
@@ -25,14 +25,16 @@ class YamlWrapper
 	 **/
 	static function parse($path)
 	{
-
 		return self::$app['cache']->get($path, function() use(&$path) {
-			return @yaml_parse_file($path);
+			$content = @yaml_parse_file($path);
+
+			return ($content)?$content:[];
+			//return @yaml_parse_file($path);
 		}, 60);
 
-		$content = @yaml_parse_file($path);
+		/*$content = @yaml_parse_file($path);
 
-		return ($content)?$content:[];
+		return ($content)?$content:[];*/
 	}
 
 	/**

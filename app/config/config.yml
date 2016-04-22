@@ -42,5 +42,6 @@ extensions:
 - Blocky\Logger\LoggerExtension
 - Blocky\Setup\SetupExtension
 - Blocky\Members\MembersExtension
+- Blocky\Feed\FeedExtension
 - Blocky\Frontend\FrontendExtension
 ...

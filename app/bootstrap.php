@@ -36,7 +36,7 @@ $application['path']['cache'] = __DIR__."/cache";
 
 $application['cache'] = function(&$c) {
 	$service = new Blocky\Cache\CacheService($c);
-	$strategy = new Blocky\Cache\Strategy\FileStrategy($c['path']['cache']."/cache.data");
+	$strategy = new Blocky\Cache\Strategy\NoStrategy($c['path']['cache']."/cache.data");
 
 	$service->boot();
 	$service->setStrategy($strategy);
