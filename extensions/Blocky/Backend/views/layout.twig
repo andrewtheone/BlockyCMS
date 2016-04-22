@@ -76,7 +76,7 @@
 							<li class="dropdown profile_details_drop">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 									<div class="profile_img">	
-										<span style="background:url({{ app.admin.user.avatar|image([40,40]) }}) no-repeat center"> </span> 
+										<span style="background:url({{ app.admin.user.avatar|image({size: [40,40], onlySrc: true}) }}) no-repeat center"> </span> 
 										 <div class="user-name">
 											<p>{{ app.admin.user.username }}<span></span></p>
 										 </div>

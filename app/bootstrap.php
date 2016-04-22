@@ -34,6 +34,18 @@ $application['path']['views'] = __DIR__."/views";
 $application['path']['extensions'] = __DIR__."/../extensions";
 $application['path']['cache'] = __DIR__."/cache";
 
+$application['cache'] = function(&$c) {
+	$service = new Blocky\Cache\CacheService($c);
+	$strategy = new Blocky\Cache\Strategy\FileStrategy($c['path']['cache']."/cache.data");
+
+	$service->boot();
+	$service->setStrategy($strategy);
+
+	return $service;
+};
+
+/* reference to $app in yamlwrapper was added because of cache service access */
+Blocky\Config\YamlWrapper::$app = $application;
 
 $application['event']->trigger("Blocky::BootsrapFinished");
 $application['event']->trigger("Blocky::Halting");

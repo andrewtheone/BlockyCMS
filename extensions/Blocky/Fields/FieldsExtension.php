@@ -164,69 +164,146 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 	 * @return void
 	 * @author 
 	 **/
-	public function twigImageFilter($a, $b, $image, $size = null, $watermark = null)
+	public function twigImageFilter($a, $b, $image, $options)
 	{
+		$this->addAsset("js", "@this/assets/js/lazyload.jquery.js");
+		$this->addAsset("style", "@this/assets/css/lazyload.css");
+
+		$options = array_merge([], [
+			'size' => null,
+			'watermark' => null,
+			'class' => '',
+			'lazyLoad' => true,
+			'onlySrc' => false,
+			'alt' => '',
+			'title' => '',
+			'quality' => null,
+			'data' => []
+		], $options);
+
+		$filePath = null;
 		$path = null;
-		$isImageField = true;
-
 		if(!is_array($image)) {
-			$isImageField = false;
-
 			$path = $this->app['path']['root'].$image;
+			$filePath = $this->app['config']['host'].$image;
 		} else {
 			if(array_key_exists('path', $image)) {
+				$filePath = $this->app['path']['files_url'].$image['path'];
 				$path = $this->app['path']['files'].$image['path'];
 				if(array_key_exists('watermark', $image)) {
-					$watermark = $image['watermark'];
+					$options['watermark'] = $image['watermark'];
 				}
+				if(array_key_exists('alt', $image)) {
+					$options['alt'] = $image['alt'];
+				}
+				if(array_key_exists('title', $image)) {
+					$options['title'] = $image['title'];
+				}
+			} else {
+				die("Not alrighty...");
 			}
 		}
 		if(($path == null) || (!is_file($path)))
 			return "";
 
-		if($watermark) {
-			$watermark = str_replace("@root", $this->app['path']['root'], $watermark);
+		$watermarkPath = null;
+		if($options['watermark']) {
+			$watermarkPath = str_replace("@root", $this->app['path']['root'], $options['watermark']);
 		}
 		
 		// todo: themes/default/assets/images.png|image([400,400])
 
-		if($size) {
+		if($options['size']) {
+			
+			$options['quality'] = $options['quality']?$options['quality']:80;
+
 			$resized_path = explode("/", $path);
 			
 			$file = $resized_path[count($resized_path)-1];
 			$file_parts = explode(".", $file);
-			$file_parts[0] .= "_".implode("_", $size);
+			$file_parts[0] .= "_".implode("_", $options['size']);
 			
-			if($watermark) {
+			$file_parts[0] .= "_".$options['quality'];
+
+			if($watermarkPath) {
 				$file_parts[0] .= "_wt";
 			}
 
 			$resizedName = implode(".", $file_parts);
-			/*
-			$resized_path[count($resized_path)-1] = implode(".", $file_parts);
-			$resized_path = implode("/", $resized_path);
-			*/
 
-			if(!file_exists( $this->app['path']['files']."/cache/".$resizedName /*$resized_path*/)) {
+			if(!file_exists( $this->app['path']['files']."/cache/".$resizedName)) {
+
 				$imagick = new \Imagick($path);
-				$this->resizeImage($imagick, $size[0], $size[1], \Imagick::FILTER_LANCZOS, 0.7, false, false);
+				$this->resizeImage($imagick, $options['size'][0], $options['size'][1], \Imagick::FILTER_LANCZOS, $options['quality']/100, false, false);
 				$imagick->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
-				if($watermark) {
-					$sprite = new \Imagick($watermark);
+
+				if($watermarkPath) {
+					$sprite = new \Imagick($watermarkPath);
 					$imagick = $this->addWatermark($imagick, $sprite);
 				}
-				file_put_contents( $this->app['path']['files']."/cache/".$resizedName /*$resized_path*/, $imagick->getImageBlob());
+
+				file_put_contents( $this->app['path']['files']."/cache/".$resizedName, $imagick->getImageBlob());
 			}
 
-			return $this->app['path']['files_url']."/cache/".$resizedName;
-			if($isImageField) {
-				return str_replace($this->app['path']['files'], $this->app['path']['files_url'], $resized_path);
-			}
+			$filePath = $this->app['path']['files_url']."/cache/".$resizedName;
+		} else {
+			if($options['quality']) {
 
-			return str_replace($this->app['path']['root'], $this->app['config']['host'], $resized_path);
+				$resized_path = explode("/", $path);
+				
+				$file = $resized_path[count($resized_path)-1];
+				$file_parts = explode(".", $file);
+				$file_parts[0] .= "_default_default";
+				
+				$file_parts[0] .= "_".$options['quality'];
+
+				if($watermarkPath) {
+					$file_parts[0] .= "_wt";
+				}
+
+				$resizedName = implode(".", $file_parts);
+
+				if(!file_exists( $this->app['path']['files']."/cache/".$resizedName)) {
+
+					$imagick = new \Imagick($path);
+					$this->resizeImage($imagick, $imagick->getImageWidth(), $imagick->getImageHeight(), \Imagick::FILTER_LANCZOS, $options['quality']/100, false, false);
+					$imagick->setInterlaceScheme(\Imagick::INTERLACE_PLANE);
+
+					if($watermarkPath) {
+						$sprite = new \Imagick($watermarkPath);
+						$imagick = $this->addWatermark($imagick, $sprite);
+					}
+
+					file_put_contents( $this->app['path']['files']."/cache/".$resizedName, $imagick->getImageBlob());
+				}
+				
+				$filePath = $this->app['path']['files_url']."/cache/".$resizedName;
+			}
 		}
 
-		return $this->app['path']['files_url'].$image['path'];
+		if($options['onlySrc'])
+			return $filePath;
+
+		$dataTags = '';
+		foreach($options['data'] as $k => $v) {
+			$dataTags .= ' data-'.$k.'="'.$v."'";
+		}
+
+		$dimensionTags = '';
+		if($options['size']) {
+			$dimensionTags = ' width="'.$options['size'][0].'px" height="'.$options['size'][1].'px" ';
+		}
+
+		$metaTags = 'alt="'.$options['alt'].'" title="'.$options['title'].'"';
+
+		$output = '';
+		if($options['lazyLoad']) {
+			$output = '<img data-original="'.$filePath.'" class="lazy '.$options['class'].'" '.$metaTags.' '.$dimensionTags.' '.$dataTags.' /><noscript><img src="'.$filePath.'" class="'.$options['class'].'" '.$metaTags.' '.$dimensionTags.' '.$dataTags.' /></noscript>';
+		} else {
+			$output = '<img src="'.$filePath.'" class="'.$options['class'].'" '.$metaTags.' '.$dimensionTags.' '.$dataTags.' />';
+		}
+
+		return new \Twig_Markup($output, 'utf-8');
 	}
 
 	/**

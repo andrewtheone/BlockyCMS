@@ -26,7 +26,7 @@ class ViewService extends BaseService
 	 *
 	 * @var array
 	 **/
-	public $snippets;
+	public $snippets = [];
 
 	/**
 	 * undocumented class variable
@@ -58,9 +58,8 @@ class ViewService extends BaseService
 		if(!array_key_exists($priority, $this->assets[$type])) 
 			$this->assets[$type][$priority] = [];
 
-		$this->assets[$type][$priority][] = $path;
-
-		$this->snippets = [];
+		if(!in_array($path, $this->assets[$type][$priority]))
+			$this->assets[$type][$priority][] = $path;
 	}
 
 	/**

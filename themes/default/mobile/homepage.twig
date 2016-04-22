@@ -17,4 +17,7 @@
 
 	{{ parent() }}
 	MOBILE
+	{% for i in 1..100 %}
+	{{ "/themes/default/assets/images/squirell.jpg"|image({quality: 70, size: [200+i,200+i]}) }}<br />
+	{% endfor %}
 {% endblock %}
