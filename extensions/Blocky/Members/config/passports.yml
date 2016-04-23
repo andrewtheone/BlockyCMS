@@ -2,10 +2,11 @@ Facebook:
     badge: '...'
     enabled: true
     mapper: 'Blocky\Members\Passport\SimpleMapper'
-    mappper_options:
+    mapper_options:
         email: email
-        profileImage: avatar
-        name: name
+        displayName: username
+    foreign_id_key: email
+    local_id_key: email
     passwordRoute: ~
     scope: 'email, public_profile, user_friends'
     keys:

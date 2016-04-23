@@ -70,6 +70,23 @@ class MembersService extends BaseService
 		return $this->member;
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getMemberByKey($key, $val)
+	{
+		$contentType = $this->app['content']->getContentType($this->config['contenttype']);
+		$content = $this->app['content']->getContents($contentType->getSlug(), $key." = ?", [$val]);
+
+		if(count($content) < 1)
+			return null;
+
+		return $content[0];
+	}
+
 
 	/**
 	 * undocumented function

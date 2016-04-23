@@ -1,7 +1,7 @@
 members_login:
     contenttype: member
     fields:
-        - username
+        - email
         - password
     manager: '\Blocky\Members\Form\LoginFormManager'
 members_signup:

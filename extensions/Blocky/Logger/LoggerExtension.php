@@ -45,8 +45,9 @@ class LoggerExtension extends SimpleExtension implements FieldTypeProvider
 		$this->drafts = [];
 
 		$self = $this;
-
 		$this->app['event']->on("Blocky::contentBeforeSave", function($data) use(&$self) {
+			if($self->app['site'] != "backend")
+				return;
 			$eventContent = $data['content'];
 			$contentType = $eventContent->getContentType();
 
@@ -75,6 +76,8 @@ class LoggerExtension extends SimpleExtension implements FieldTypeProvider
 		});
 
 		$this->app['event']->on("Blocky::contentSaved", function($data) use(&$self) {
+			if($self->app['site'] != "backend")
+				return;
 			$eventContent = $data['content'];
 			$contentType = $eventContent->getContentType();
 

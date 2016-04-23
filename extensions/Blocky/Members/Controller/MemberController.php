@@ -3,6 +3,7 @@
 namespace Blocky\Members\Controller;
 
 use Blocky\Controller\SimpleController;
+use Blocky\Event\EventData;
 
 /**
  * undocumented class
@@ -38,7 +39,17 @@ class MemberController extends SimpleController
 		} else {
 			$providerName = $this->request->getAttribute('provider');
 			$provider = $this->app['passport']->getPassport($providerName);
-			$provider->onAuthenticate();
+			$member = $provider->onAuthenticate();
+
+			$this->app['session']['member'] = $member->toArray();
+
+			$eventData = new EventData();
+			$eventData->member = $member;
+			$eventData->provider = $provider;
+
+			$this->app['event']->trigger("Passport::MemberLoggedIn", $eventData);
+
+			$this->app['path']->redirect("/");
 		}
 	}
 } // END class MemberController

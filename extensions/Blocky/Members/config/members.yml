@@ -1,6 +1,6 @@
 contenttype: member
 login:
-    username_field: username
+    username_field: email
     password_field: password
 redirects:
     not_authorized: '/'
