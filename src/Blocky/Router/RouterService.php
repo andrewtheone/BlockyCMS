@@ -38,6 +38,13 @@ class RouterService extends BaseService
 	public $request;
 
 	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	public $route;
+
+	/**
 	 * @inherit
 	 *
 	 * @return void
@@ -111,18 +118,18 @@ class RouterService extends BaseService
 	 **/
 	public function onRequest()
 	{
-		$route = $this->router->getMatcher()->match($this->request);
+		$this->route = $this->router->getMatcher()->match($this->request);
 		$routeData = null;
-		if($route) {
-			$routeData = $route->handler;
+		if($this->route) {
+			$routeData = $this->route->handler;
 		} else {
 			$routeData = $this->map->getRoute('not_found')->handler;
 		}
 
 		$eventData = new EventData();
 		$eventData['routeData'] = $routeData;
-		if($route) {
-			$eventData['routeData']['attributes'] = $route->attributes;
+		if($this->route) {
+			$eventData['routeData']['attributes'] = $this->route->attributes;
 		}
 		$this->app['event']->trigger('Blocky::onRouteFound', $eventData);
 	}

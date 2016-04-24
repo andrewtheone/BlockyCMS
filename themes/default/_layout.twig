@@ -1,8 +1,4 @@
-{% set pageVars = pageVars|default({})|merge({
-	meta_description: 'Rusty CMF',
-	meta_keywords: '',
-	title: null
-}) %}
+
 {% spaceless %}
 
 {% block page %}
@@ -13,11 +9,8 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ pageVars.meta_description }}">
-    <meta name="keywords" content="{{ pageVars.meta_keywords }}">
-    <meta name="author" content="">
-    <title>{% if(pageVars.title) %}{{ pageVars.title }} - {% endif %}{{app.config.site_title}}</title>
+
+    {{ metatags() }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

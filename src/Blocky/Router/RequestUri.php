@@ -162,6 +162,22 @@ class RequestUri implements UriInterface
         return $path;
     }
 
+    public function getFullPath() {
+        $path = $this->request->getServerParams();
+        
+        if(!array_key_exists('REQUEST_URI', $path))
+            return '/';
+        
+        $path = $path['REQUEST_URI'];
+
+        //Remove starting subfolder from url. e.g. /Blocky/admin/?test=1 -> /admin/?test=1
+        if( $this->request->config['subfolder'] && (($length = strlen($this->request->config['subfolder'])) > 0) ) {
+            $path = substr($path, $length+1);
+        }
+        
+        return $path;
+    }
+
     /**
      * Retrieve the query string of the URI.
      *

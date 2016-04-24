@@ -13,4 +13,6 @@ homepage:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@theme/homepage.twig'
+  site:
+    title: 'Kezdőlap'
 ...
