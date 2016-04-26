@@ -32,7 +32,7 @@ There are two (+1) ways to create a content type.
 - Your extension may $this->extendConfig(..) at install.
 
 Sample contenttype with every possible option:
-```
+```yaml
 test: # Unique slug of the contentype
   name: Tests # Plugral name of the contenttype
   singular_name: Test # Singular name of the contettype
@@ -63,7 +63,7 @@ test: # Unique slug of the contentype
 In BCMS all contenttype's field is handled via a class, called FieldType class. A new FieldType can be registered through an extension, and it has to implement the Blocky\Content\SimpleFieldInterface and extend Blocky\Content\SimpleField class.
 
 Sample of a Text field type:
-```
+```yaml
 class Text extends SimpleField implements SimpleFieldInterface
 {
 
@@ -90,7 +90,7 @@ class Text extends SimpleField implements SimpleFieldInterface
 Fields and their options are located under the 'fields' keys in every contenttype. Each field have to have a type, which is the same what a FieldType::getName() would return.
 
 Sample field under fields key in a contenttype with every option:
-```
+```yaml
   username:
       type: text
       label: Username
@@ -113,27 +113,27 @@ Sample field under fields key in a contenttype with every option:
 There a few un-ordinary field types which can have different options as well, like:
 
 slug:
-```
+```yaml
   uses: title  # The key of the field which will be used to generate slug
 ```
 
 timestamp:
-```
+```yaml
   default: now
 ```
 
 random:
-```
+```yaml
   visible: false # A random field will always HAVE TO BE INVISIBLE
 ```
 
 password:
-```
+```yaml
   uses: keyOfRandomField # This field will be used as a salt when encrypting the plain password
 ```
 
 repeater:
-```
+```yaml
   fields: # Repeater is a special field which lets you content editors to repeat a certion section in a content. A field with type repeater always have a fields key which can be filled with fields just like the contenttype's fields key BUT you cannot use field fieldtype SLUG. Each repeatable field is called a section, and it can hold >= 0 elements in itself, which all have the fields represented under the fields keys. The elements in a repeateable section can be organized and sorted. 
     attribute:
       type: text
@@ -142,11 +142,11 @@ repeater:
 ```
 
 image:
-```
+```yaml
   watermark: 'path to the watermark file'
 ```
 
 grid:
-```
+```yaml
   columns: A, B, C, D
 ```
