@@ -63,7 +63,7 @@ test: # Unique slug of the contentype
 In BCMS all contenttype's field is handled via a class, called FieldType class. A new FieldType can be registered through an extension, and it has to implement the Blocky\Content\SimpleFieldInterface and extend Blocky\Content\SimpleField class.
 
 Sample of a Text field type:
-```yaml
+```php
 class Text extends SimpleField implements SimpleFieldInterface
 {
 
@@ -150,3 +150,30 @@ grid:
 ```yaml
   columns: A, B, C, D
 ```
+
+select:
+```yaml
+  foreign: foreign_content_type # If ommited options key will be used for options. The foreign contenttype have to have a field called title!
+  multiple: true
+  options:  # foreign have a higher precedence, if foreign key exists options will be ignored!
+    key1: text1
+    key2: text2
+```
+
+Bultin FieldTypes which are shipped with Blocky:
+- text
+- slug
+- html
+- random
+- password
+- image
+- grid
+- repeater
+- timestamp
+- select
+
+# Bultin Extensions
+
+## Members
+
+todo..
