@@ -174,6 +174,26 @@ Bultin FieldTypes which are shipped with Blocky:
 
 # Bultin Extensions
 
+## Fields
+
+Fields extension provides the default fields - listed above - and a few twig functionalities. Notables are:
+- ```|image()``` filter which accepts an object as a parameter, sample object to be passed: 
+```json
+{
+size: [w, h],
+quality: 100,
+watermark: '...',
+alt: '...',
+title: '...',
+lazy: true,
+onlySource: false,
+data: {},
+class: ''
+}
+```
+
+## Forms
+
 ## Members
 
-todo..
+## Members / Passport
