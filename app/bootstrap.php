@@ -10,7 +10,8 @@ $loader->registerNamespaces([
 	'Aura' => __DIR__.'/../vendors/Aura/src',
 	'Psr' => __DIR__.'/../vendors/Psr/src',
 	'Pimple' => __DIR__.'/../vendors/Pimple/src',
-	'MatthiasMullie' => __DIR__.'/../vendors/MatthiasMullie/src'
+	'MatthiasMullie' => __DIR__.'/../vendors/MatthiasMullie/src',
+	'Asm89' => __DIR__.'/../vendors/Asm89/src'
 ]);
 
 $loader->registerNamespaceFallbacks([__DIR__.'/../extensions']);
@@ -36,10 +37,10 @@ $application['path']['cache'] = __DIR__."/cache";
 
 $application['cache'] = function(&$c) {
 	$service = new Blocky\Cache\CacheService($c);
-	$strategy = new Blocky\Cache\Strategy\NoStrategy($c['path']['cache']."/cache.data");
 
 	$service->boot();
-	$service->setStrategy($strategy);
+	$service->addStrategy(new Blocky\Cache\Strategy\FileStrategy($c['path']['cache']."/cache.data"));
+	$service->addStrategy(new Blocky\Cache\Strategy\NoStrategy());
 
 	return $service;
 };

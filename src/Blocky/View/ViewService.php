@@ -6,6 +6,10 @@ use Blocky\BaseService;
 use Blocky\Extension\TwigFilterProvider;
 use Blocky\Extension\TwigFunctionProvider;
 use MatthiasMullie\Minify;
+use Blocky\Cache\Twig\CacheProvider as TwigCache;
+use Asm89\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
+use Asm89\Twig\CacheExtension\Extension as CacheExtension;
+
 /**
  * undocumented class
  *
@@ -196,7 +200,12 @@ class ViewService extends BaseService
 
 		$menuFn = new \Twig_SimpleFunction("menu", [$this, 'getMenu'], ['needs_context' => true, 'needs_environment' => true]);
 		$this->twig->addFunction($menuFn);
-		
+
+		$cacheProvider  = new TwigCache($this->app);
+		$cacheStrategy  = new LifetimeCacheStrategy($cacheProvider);
+		$cacheExtension = new CacheExtension($cacheStrategy);
+
+		$this->twig->addExtension($cacheExtension);
 	}
 
 } // END class Service

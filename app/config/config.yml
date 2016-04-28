@@ -3,6 +3,7 @@ host: http://rusty.bonzoportal.hu
 subfolder: ~
 site_title: Blocky
 environment: dev
+database: 'sqlite: ../../tmp/dbfile.db'
 site:
   title: Blocky
   description: '...'

@@ -8,6 +8,19 @@
 	}) %}
 
 	{{ parent() }}
+
+<p>
+Put /?asd=some_string in the url<br>
+This block refreshes every 10 seconds:<br>
+{% cache "file|something" 10 %}
+{{ app.router.request.getAttribute('asd') }}
+{% endcache %}
+<br>This block refreshes instantly:<br>
+{% cache "no|something" 10 %}
+{{ app.router.request.getAttribute('asd') }}
+{% endcache %}
+</p>
+
 	chitti chatty <span class="glyphicon glyphicon-glass"></span>
 <span class="glyphicon glyphicon-glass" aria-hidden="true"></span>
 	{{ forms_ajaxForm('contactus', null, {

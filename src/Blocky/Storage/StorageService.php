@@ -24,7 +24,7 @@ class StorageService extends BaseService
 	 **/
 	public function boot()
 	{
-		R::setup('sqlite: ../../tmp/dbfile.db' );
+		R::setup( $this->app['config']['database'] );
 	}
 
 	/**

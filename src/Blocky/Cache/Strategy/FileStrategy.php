@@ -71,11 +71,37 @@ class FileStrategy implements StrategyInterface
 		if(!array_key_exists($key, $this->cacheData))
 			return false;
 
-		if( ($this->cacheData[$key]['addedAt']+$this->cacheData[$key]['ttl']) >= time()) {
+		if( ($this->cacheData[$key]['addedAt']+$this->cacheData[$key]['ttl']) <= time()) {
 			return false;
 		}
 
 		return true;
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function fetch($key)
+	{
+		if($this->exists($key)) {
+			return $this->cacheData[$key]['payload'];
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getName()
+	{
+		return "file";
+	}
 } // END class ApcStrategy	

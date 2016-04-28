@@ -18,7 +18,7 @@ class CacheService extends BaseService
      *
      * @var string
      **/
-    public $strategy;
+    public $strategies;
 
 	/**
 	 * undocumented function
@@ -37,9 +37,9 @@ class CacheService extends BaseService
      * @return void
      * @author 
      **/
-    public function setStrategy($strategy)
+    public function addStrategy($strategy)
     {
-        $this->strategy = $strategy;
+        $this->strategies[$strategy->getName()] = $strategy;
     }
 
     /**
@@ -48,9 +48,50 @@ class CacheService extends BaseService
      * @return void
      * @author 
      **/
-    public function get($key, $provider, $ttl)
+    public function get($key, $provider, $ttl, $strategy = 'default')
     {
-        return $this->strategy->get($key, $provider, $ttl);
+        $strategy = $this->getStrategy($strategy);
+
+        return $this->strategies[$strategy]->get($key, $provider, $ttl);
     }
 
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function fetch($key, $strategy = 'default')
+    {
+        $strategy = $this->getStrategy($strategy);
+        return $this->strategies[$strategy]->fetch($key);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function exists($key, $strategy = 'default')
+    {
+        $strategy = $this->getStrategy($strategy);
+        return $this->strategies[$strategy]->exists($key);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     * @author 
+     **/
+    public function getStrategy($strategy)
+    {
+        if($strategy == 'default' && (!array_key_exists($strategy, $this->strategies))) {
+            $keys = array_keys($this->strategies);
+            return $keys[0];
+        }
+
+        return $strategy;
+    }
 } // END class Service
