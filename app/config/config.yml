@@ -41,7 +41,6 @@ extensions:
 - Blocky\Seo\SeoExtension
 - Blocky\Forms\FormsExtension
 - Blocky\Backend\BackendExtension
-- Blocky\Ecommerce\EcommerceExtension
 - Blocky\Logger\LoggerExtension
 - Blocky\Setup\SetupExtension
 - Blocky\Members\MembersExtension

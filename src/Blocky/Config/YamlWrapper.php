@@ -27,7 +27,13 @@ class YamlWrapper
 	{
 		return self::$app['cache']->get($path, function() use(&$path) {
 			$content = @yaml_parse_file($path);
+			if(!$content) {
 
+				if((strpos($path, "contenttypes.yml") !== false) || (strpos($path, "routes.yml") !== false) ) {
+			die("Config fájl üresen jött vissza.. ". $path);
+		}
+
+			}
 			return ($content)?$content:[];
 			//return @yaml_parse_file($path);
 		}, 60);

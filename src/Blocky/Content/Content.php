@@ -37,7 +37,7 @@ class Content
 	 * @return void
 	 * @author 
 	 **/
-	public function __construct(&$contentType, $bean)
+	public function __construct(&$contentType, &$bean)
 	{
 		$this->contentType = $contentType;
 		$this->bean = $bean;

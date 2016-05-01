@@ -143,7 +143,7 @@ class ContentService extends BaseService
 	 * @return void
 	 * @author 
 	 **/
-	public function storeContent(Content $ct)
+	public function storeContent(Content &$ct)
 	{
 
 		$eventData = new EventData();
@@ -152,10 +152,11 @@ class ContentService extends BaseService
 		$this->app['event']->trigger('Blocky::contentBeforeSave', $eventData);
 
 		$this->app['storage']->storeBean($ct->getBean());
+
 		$eventData['content'] = $ct;
 
-		$ct->getManager()->afterSave();
 		$this->app['event']->trigger('Blocky::contentSaved', $eventData);
+		$ct->getManager()->afterSave();
 	}
 
 	/**

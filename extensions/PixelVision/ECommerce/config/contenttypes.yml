@@ -1,0 +1,49 @@
+comcategory:
+  name: Kategóriák
+  singular_name: Kategória
+  manager: '\PixelVision\ECommerce\Content\CategoryManager'
+  fields:
+    title:
+      type: text
+    fqn:
+      type: text
+      visible: false
+    slug:
+      type: slug
+      uses: fqn
+      visible: false
+    parent:
+      type: select
+      foreign: comcategory
+      valueKey: fqn
+comproduct:
+  name: Termékek
+  singular_name: Termék
+  manager: '\PixelVision\ECommerce\Content\ProductManager'
+  fields:
+    title:
+      type: text
+    slug:
+        type: slug
+        uses: title
+    price:
+        type: text
+    discount_price:
+        type: text
+    short_description:
+        type: html
+    long_description:
+        type: html
+    coverimage:
+        type: image
+    images:
+        label: Képek
+        type: repeater
+        fields:
+            image:
+                type: image
+    categories:
+        type: select
+        foreign: comcategory
+        valueKey: fqn
+        multiple: true

@@ -13,13 +13,16 @@ adminlog:
     fields:
         title:
             type: text
+            searchable: false
         slug:
             type: slug
             uses: title
         contenttype:
             type: text
+            searchable: false
         content_slug:
             type: text
+            searchable: false
         content_before:
             type: loghistory
         content_after:
@@ -29,6 +32,7 @@ adminlog:
             foreign: adminuser
         search_query:
             type: text
+            searchable: false
         locale:
             type: text
         date:

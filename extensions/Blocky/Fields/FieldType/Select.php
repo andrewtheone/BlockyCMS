@@ -37,13 +37,20 @@ class Select extends SimpleField implements SimpleFieldInterface
 			$this->app['event']->on('Blocky::contentSaved', function($data) use(&$content, $input, $options, $app) {
 
 				if($content == $data['content']) {
+					$keyField = (array_key_exists('keyKey', $options)?$options['keyKey']:'id');
+					$valueField = (array_key_exists('valueKey', $options)?$options['valueKey']:'title');
 					$foreignContentType = $options['foreign'];
+
+					$keyValue = $data['content']->getID();
+					if($keyField != 'id') {
+						$keyValue = $data['content']->getValue($keyField);
+					}
 
 					$ct = $app['content']->getContentType($foreignContentType);
 
 					$beans = R::find('relations', '`from` = ? and from_id = ? and `to` = ?', [
 						$content->getContentType()->getSlug(),
-						$data['content']->getID(),
+						$keyValue,
 						$ct->getSlug()
 					]);
 
@@ -58,7 +65,7 @@ class Select extends SimpleField implements SimpleFieldInterface
 					foreach($input as $id) {
 						$bean = R::dispense('relations');
 						$bean->from = $content->getContentType()->getSlug();
-						$bean->from_id = $data['content']->getID();
+						$bean->from_id = $keyValue;
 						$bean->to = $ct->getSlug();
 						$bean->to_id = $id;
 						R::store($bean);
@@ -80,17 +87,26 @@ class Select extends SimpleField implements SimpleFieldInterface
 	 **/
 	public function extractValue(Content $content, $value, $options) {
 		if(array_key_exists('foreign', $options)) {
+
+			$keyField = (array_key_exists('keyKey', $options)?$options['keyKey']:'id');
+			$valueField = (array_key_exists('valueKey', $options)?$options['valueKey']:'title');
+
+			$keyValue = $content->getID();
+			if($keyField != 'id') {
+				$keyValue = $content->getValue($keyField);
+			}
+
 			$foreignContentType = $options['foreign'];
 
 			$ct = $this->app['content']->getContentType($foreignContentType);
 
-			$beans = R::find('relations', "(`from` = :from and from_id = :from_id and `to` = :to) or (`from` = :fromB and to_id = :to_id and `to` = :toB)", [
+			$beans = R::find('relations', "(`from` = :from and from_id = :from_id and `to` = :to)"/* or (`from` = :fromB and to_id = :to_id and `to` = :toB)"*/, [
 				'from' =>$content->getContentType()->getSlug(),
-				'from_id' =>$content->getID(),
-				'to' => $ct->getSlug(),
+				'from_id' => $keyValue,
+				'to' => $ct->getSlug()/*,
 				'fromB' => $ct->getSlug(),
-				'to_id' =>$content->getID(),
-				'toB' => $content->getContentType()->getSlug()
+				'to_id' => $keyValue,
+				'toB' => $content->getContentType()->getSlug()*/
 			]);
 
 			$results = [];
@@ -99,7 +115,7 @@ class Select extends SimpleField implements SimpleFieldInterface
 				$ids[] = $bean->to_id;
 			}
 
-			$d = $this->app['content']->getContents($ct->getSlug(), 'where id in ('.R::genSlots( $ids ).')', $ids);
+			$d = $this->app['content']->getContents($ct->getSlug(), 'where '.$keyField.' in ('.R::genSlots( $ids ).')', $ids);
 			return $d;
 		}
 

@@ -12,6 +12,13 @@ class BaseContentManager
 {
 
 	/**
+	 * undocumented class variable
+	 *
+	 * @var string
+	 **/
+	public $content;
+	
+	/**
 	 * undocumented function
 	 *
 	 * @return void

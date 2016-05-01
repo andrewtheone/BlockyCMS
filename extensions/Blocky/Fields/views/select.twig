@@ -5,12 +5,14 @@
 	{% endif %}
 	<div class="{% if label != false %} col-sm-12 {% else %} col-sm-10 {% endif %}">
 		{% if(foreign) %}
+		{% set keyField = keyKey|default('id') %}
+		{% set valueField =  valueKey|default('title') %}
 		<div class="input-group" style="width: 100%; margin: 0px;">
 			{% set options = getContents(foreign) %}
 			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
-
+				<option>-</option>
 			{% for k, option in options %}
-				<option value="{{ option.getID() }}" {% if value|isIDContained(option.getID()) %} selected {% endif %}>{{option.title}}</option>
+				<option value="{{ attribute(option, keyField) }}" {% if value|isKeyContained( keyField, attribute(option, keyField) ) %} selected {% endif %}>{{ attribute(option, valueField) }}</option>
 			{% endfor %}
 			</select>
 		</div>

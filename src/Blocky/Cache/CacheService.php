@@ -51,7 +51,6 @@ class CacheService extends BaseService
     public function get($key, $provider, $ttl, $strategy = 'default')
     {
         $strategy = $this->getStrategy($strategy);
-
         return $this->strategies[$strategy]->get($key, $provider, $ttl);
     }
 

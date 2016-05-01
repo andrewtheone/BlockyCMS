@@ -81,8 +81,20 @@ class SimpleExtension
 		if(file_exists($this->app['path']['config']."/".$config)) {
 			$destConfig = YamlWrapper::parse($this->app['path']['config']."/".$config);
 		}
-
+		/*if($this->getName() == "Blocky::SetupExtension") {
+			if($config == "routes.yml") {
+				print_r($destConfig);
+			}
+		}*/
 		$destConfig = array_merge([], $destConfig, $data);
+
+		/*if($this->getName() == "Blocky::SetupExtension") {
+			if($config == "routes.yml") {
+				print_r($destConfig);
+				print_r($data);
+				die();
+			}
+		}*/
 
 		YamlWrapper::emit($this->app['path']['config']."/".$config, $destConfig);
 	}

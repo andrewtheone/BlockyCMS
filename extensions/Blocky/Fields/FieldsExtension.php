@@ -86,6 +86,19 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 
 				return false;
 			},
+			'isKeyContained' => function($a, $b, $array, $key, $value) {
+				foreach($array as $a) {
+					if($key == 'id') {
+						if($a->getID() == $value)
+							return true;
+					} else {
+						if($a->getValue($key) == $value)
+							return true;
+					}
+				}
+
+				return false;
+			},
 			'in_array' => function($a, $b, $array, $value) {
 				return in_array($value, $array);
 			},
