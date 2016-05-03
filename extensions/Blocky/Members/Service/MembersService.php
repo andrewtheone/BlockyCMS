@@ -105,7 +105,10 @@ class MembersService extends BaseService
 		$content = $content[0];
 		$passwordOptions = $contentType->getField('password');
 		if(md5($content->getValue($passwordOptions['uses']).$password) == $content->password) {
+
+			$this->app['event']->trigger('Members::LoggingIn');
 			$this->app['session']['member'] = $content->toArray();
+			$this->app['event']->trigger('Members::LoggedIn');
 			return true;
 		}
 

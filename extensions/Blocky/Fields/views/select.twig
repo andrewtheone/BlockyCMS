@@ -17,6 +17,7 @@
 			</select>
 		</div>
 		{% else %}
+			{% set options = call_provider(options) %}
 		<div class="input-group" style="width: 100%; margin: 0px;">
 			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
 

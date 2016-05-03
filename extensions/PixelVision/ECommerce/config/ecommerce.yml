@@ -1,0 +1,46 @@
+views:
+    layout: '@theme/_layout.twig' # layout to be used
+    cartview: '@ecommerce/cartview.twig' # cart main view
+    _cartitem: '@ecommerce/_cartitem.twig' # a product line in cartview
+    _cartitemgift: '@ecommerce/_cartitemgift.twig' # a gift product line in cartview
+    product: '@ecommerce/product.twig' # main product view
+    results: '@ecommerce/results.twig' # search results, which is mostly a wrapper for ajax_results
+    ajaxresults: '@ecommerce/ajaxresults.twig' # is used because filtering is ajax powered so, this template is included in 'results'
+    _results_product: '@ecommerce/_results_product.twig' # an item in results
+    _results_filter: '@ecommerce/_results_filter.twig' # top and bottom filter (sort, etc)
+    _categorytree: '@ecommerce/_category_tree.twig' # simple category tree
+    checkout: '@ecommerce/checkout.twig' # checkout view
+    thankyou: '@ecommerce/thankyou.twig' # thankyou view
+    paymentgateway: '@ecommerce/paymentgateway.twig' # this is used to provide a jump button to the payment provider site
+    _searchfilter: '@ecommerce/_search_filter.twig' # is a pagelet, mostly on the left side, so you can filter your result set
+    myorders: '@ecommerce/myorders.twig' # my orders
+    orderview: '@ecommerce/order.twig' # and order in my orders
+    _reviews: '@ecommerce/_reviews.twig' # product reviews pagelet
+    _checkouts: '@ecommerce/_checkouts.twig' # checkouts pagelet in cart view
+    _coupon: '@ecommerce/_coupon.twig' # coupon pagelet in cart view
+    _overview: '@ecommerce/_overview.twig' # overview pagelet in cart view
+
+emails:
+    layout: '@ecommerce/email/_layout.twig'
+    status_change: '@ecommerce/email/status_change.twig'
+    order_received: '@ecommerce/email/order_received.twig'
+    order_modified: '@ecommerce/email/order_modified.twig'
+
+cache:
+    strategy: no
+    ttl: 0
+
+contenttypes:
+    product: comproduct
+    category: comcategory
+    order: comorder
+    orderitem: comorderitem
+    checkout: comcheckout
+    coupon: comcoupon
+    status: comstatus
+    filter: comfilter
+    ban: comban
+    cart: comcart
+
+guest_purchase: true
+

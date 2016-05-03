@@ -5,6 +5,7 @@ namespace Blocky\Fields;
 use Blocky\Extension\SimpleExtension;
 use Blocky\Extension\FieldTypeProvider;
 use Blocky\Extension\TwigFilterProvider;
+use Blocky\Extension\TwigFunctionProvider;
 
 /**
  * undocumented class
@@ -12,7 +13,7 @@ use Blocky\Extension\TwigFilterProvider;
  * @package default
  * @author 
  **/
-class FieldsExtension extends SimpleExtension implements FieldTypeProvider, TwigFilterProvider
+class FieldsExtension extends SimpleExtension implements FieldTypeProvider, TwigFilterProvider, TwigFunctionProvider
 {
 
 	/**
@@ -58,6 +59,34 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			new FieldType\Password(),
 			new FieldType\Random(),
 			new FieldType\Timestamp()
+		];
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getTwigFunctions()
+	{
+		$self = $this;
+		return [
+			'call_provider' => function($a, $b, $provider, $args) use($self) {
+
+				if(!is_string($provider))
+					return $provider;
+
+				if(strpos($provider, ".") !== false) {
+					$providerParts = explode(".", $provider);
+					list($service, $method) = $providerParts;
+					return $self->app[$service]->$method();
+				}
+
+				$providerParts = explode("::", $provider);
+				
+				return call_user_func_array($providerParts, $args);
+			}
 		];
 	}
 
