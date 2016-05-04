@@ -144,6 +144,11 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'dashboard']
 			],
 			[
+				'name' => 'backend_select2',
+				'path' => '/admin/select2',
+				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'select2']
+			],
+			[
 				'name' => 'backend_omnisearch',
 				'path' => '/admin/search',
 				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'search']

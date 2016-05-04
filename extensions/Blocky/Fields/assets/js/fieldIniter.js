@@ -131,6 +131,31 @@ var initRepeaterField = function(container) {
 
 var initSelect2Field = function(container) {
 	container.find("select").each(function() {
+		var parent = $(this).closest("[data-field-type='select']");
+		if(parent.attr('data-ajax') && (parent.attr('data-ajax') == 'true')) {
+			console.log("ajax driven");
+
+			var ct = $(this).attr('data-contenttype');
+			var key = $(this).attr('data-key');
+			var value = $(this).attr('data-value');
+			$(this).select2({
+				ajax: {
+					url: '/admin/select2?contenttype='+ct+'&key='+key+'&value='+value,
+			        processResults: function (data) {
+			        	data = JSON.parse(data);
+			            return {
+			                results: $.map(data.items, function (item) {
+			                    return {
+			                        text: item.text,
+			                        id: item.id
+			                    }
+			                })
+			            };
+			        }
+				}
+			})
+			return;
+		}
 		$(this).select2();
 	})
 }

@@ -68,6 +68,7 @@ product:
     newitems:
       label: select news
       type: select
+      ajax: true
       multiple: true
       foreign: newsitem
     attributes:

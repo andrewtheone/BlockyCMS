@@ -317,6 +317,47 @@ class BackendController extends SimpleController
 		$this->render("@backend/search_results.twig", ['results' => $results]);
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function select2()
+	{
+		$contenttype = $this->request->getAttribute('contenttype');
+		$keyField = $this->request->getAttribute('key');
+		$valueField = $this->request->getAttribute('value');
+		$term = $this->request->getAttribute('term');
+
+		$results = [];
+		$ct = $this->app['content']->getContentType($contenttype);
+
+		$searchableFields = $ct->getFieldsByType('text');
+		$where = [];
+		$whereArgs = [];
+
+		foreach($searchableFields as $field) {
+			$where[] = $field." like ?";
+			$whereArgs[] = "%".$term."%";
+		}
+
+		$contents = $this->app['content']->getContents($ct->getSlug(), "where ".implode(" OR ", $where), $whereArgs);
+		foreach($contents as $c) {
+
+			$results[] = [
+				'id' => $c->getID(),
+				'slug' => $c->getValue($keyField),
+				'text' => $c->getValue($valueField)
+			];
+			//$results[] = $c;
+		}
+
+		die(json_encode([
+			'items' => $results,
+			'totalcount' => count($results)
+		]));
+	}
 
 	/**
 	 * undocumented function

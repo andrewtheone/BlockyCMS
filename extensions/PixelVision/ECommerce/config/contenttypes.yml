@@ -1,3 +1,15 @@
+comcart:
+    name: Kosarak
+    singular_name: Kosár
+    show_menu: false
+    fields:
+        email:
+            type: text
+        slug:
+            type: slug
+            uses: email
+        data:
+            type: text
 comcategory:
   name: Kategóriák
   singular_name: Kategória
@@ -47,3 +59,20 @@ comproduct:
         foreign: comcategory
         valueKey: fqn
         multiple: true
+comorder:
+    name: Rendelések
+    singular_name: Rendelés
+    fields:
+        hash:
+            type: text
+        slug:
+            type: slug
+            uses: hash
+        customer_info:
+            type: json
+        order_info:
+            type: json
+        customer:
+            type: select
+            foreign: member
+            ajax: true

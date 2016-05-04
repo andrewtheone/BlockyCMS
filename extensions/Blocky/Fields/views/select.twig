@@ -1,5 +1,5 @@
 
-<div class="form-group" data-field-type="{{ data_field_type|default('select') }}">
+<div class="form-group" data-field-type="{{ data_field_type|default('select') }}" data-ajax="{% if (ajax) %}true{% else %}false{% endif %}">
 	{% if label != false %}
 	<label for="{{name}}" class="col-sm-2 control-label">{{ label|default(name) }}</label>
 	{% endif %}
@@ -8,8 +8,12 @@
 		{% set keyField = keyKey|default('id') %}
 		{% set valueField =  valueKey|default('title') %}
 		<div class="input-group" style="width: 100%; margin: 0px;">
-			{% set options = getContents(foreign) %}
-			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
+			{% if(ajax) %}
+				{% set options = value %}
+			{% else %}
+				{% set options = getContents(foreign) %}
+			{% endif %}
+			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%" data-contenttype="{{ foreign }}" data-key="{{ keyField }}" data-value="{{ valueField }}">
 				<option>-</option>
 			{% for k, option in options %}
 				<option value="{{ attribute(option, keyField) }}" {% if value|isKeyContained( keyField, attribute(option, keyField) ) %} selected {% endif %}>{{ attribute(option, valueField) }}</option>

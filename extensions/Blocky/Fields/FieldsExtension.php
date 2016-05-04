@@ -72,7 +72,7 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 	{
 		$self = $this;
 		return [
-			'call_provider' => function($a, $b, $provider, $args) use($self) {
+			'call_provider' => function($a, $b, $provider, $args = []) use($self) {
 
 				if(!is_string($provider))
 					return $provider;
