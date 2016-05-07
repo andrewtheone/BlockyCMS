@@ -23,8 +23,8 @@ mail:
     email: info@host.hu
     name: Info
   layout: '@theme/mail/_layout.twig'
-default_locale: en_GB
-fallback_locale: en_US
+default_locale: hu_HU
+fallback_locale: hu_HU
 pager:
   page_attribute: oldal
   contenttype_attribute: tartalom

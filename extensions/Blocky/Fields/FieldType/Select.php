@@ -41,6 +41,11 @@ class Select extends SimpleField implements SimpleFieldInterface
 					$valueField = (array_key_exists('valueKey', $options)?$options['valueKey']:'title');
 					$foreignContentType = $options['foreign'];
 
+					$relationName = $content->getContentType()->getSlug()."_".$foreignContentType;
+					if(array_key_exists('relation_name', $options)) {
+						$relationName = $options['relation_name'];
+					}
+
 					$keyValue = $data['content']->getID();
 					if($keyField != 'id') {
 						$keyValue = $data['content']->getValue($keyField);
@@ -48,10 +53,11 @@ class Select extends SimpleField implements SimpleFieldInterface
 
 					$ct = $app['content']->getContentType($foreignContentType);
 
-					$beans = R::find('relations', '`from` = ? and from_id = ? and `to` = ?', [
+					$beans = R::find('relations', '`from` = ? and from_id = ? and `to` = ? and `relation` = ?', [
 						$content->getContentType()->getSlug(),
 						$keyValue,
-						$ct->getSlug()
+						$ct->getSlug(),
+						$relationName
 					]);
 
 					foreach($beans as $bean) {
@@ -68,6 +74,7 @@ class Select extends SimpleField implements SimpleFieldInterface
 						$bean->from_id = $keyValue;
 						$bean->to = $ct->getSlug();
 						$bean->to_id = $id;
+						$bean->relation = $relationName;
 						R::store($bean);
 					}
 				}
@@ -98,12 +105,18 @@ class Select extends SimpleField implements SimpleFieldInterface
 
 			$foreignContentType = $options['foreign'];
 
+			$relationName = $content->getContentType()->getSlug()."_".$foreignContentType;
+			if(array_key_exists('relation_name', $options)) {
+				$relationName = $options['relation_name'];
+			}
+
 			$ct = $this->app['content']->getContentType($foreignContentType);
 
-			$beans = R::find('relations', "(`from` = :from and from_id = :from_id and `to` = :to)"/* or (`from` = :fromB and to_id = :to_id and `to` = :toB)"*/, [
+			$beans = R::find('relations', "(`from` = :from and from_id = :from_id and `to` = :to and `relation` = :relation)"/* or (`from` = :fromB and to_id = :to_id and `to` = :toB)"*/, [
 				'from' =>$content->getContentType()->getSlug(),
 				'from_id' => $keyValue,
-				'to' => $ct->getSlug()/*,
+				'to' => $ct->getSlug(),
+				'relation' => $relationName/*,
 				'fromB' => $ct->getSlug(),
 				'to_id' => $keyValue,
 				'toB' => $content->getContentType()->getSlug()*/

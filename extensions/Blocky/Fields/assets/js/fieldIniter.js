@@ -1,4 +1,4 @@
-
+Dropzone.autoDiscover = false;
 var initImageField = function(container) {
 	var dropzoneDiv = container.find(".dropzone");
 	var dropzone = dropzoneDiv.dropzone({
@@ -17,6 +17,163 @@ var initImageField = function(container) {
 		container.removeClass('has-image');
 		return false;
 	})
+}
+
+var initImageListField = function(container) {
+
+	var elements = $(container).find(".elements input");
+	var self = container;
+
+
+	var _remove = function(index) {
+
+		var elements = $(self).find(".elements input");
+		var toRemove = $(self).find(".elements input[data-image-index='"+index+"']");
+
+		toRemove.each(function() {
+			$(this).remove();
+		});
+
+		/*var length = 0;
+		if(elements.length > 1) {
+			length = (elements.length-1)/3;
+		}*/
+
+		var ii = 0;
+		$(self).find(".elements input[data-image-index]").each(function() {
+			var newID = parseInt(ii/3);
+			$(this).attr("name", $(this).attr("name").replace( $(this).attr("data-image-index"), newID ) );
+			$(this).attr("data-image-index", newID);
+			ii++;
+		})
+
+		initializeImages();
+	}
+
+	var dropzoneDiv = container.find(".dropzone");
+	var dropzone = dropzoneDiv.dropzone({
+		url: container.attr('data-dz-url'),
+		success: function(a, data, c) {
+			var data = JSON.parse(data);
+
+			var elements = $(self).find(".elements input");
+			var temp = $(self).find("[data-template]").clone();
+			temp.removeAttr("data-template");
+
+			var length = 0;
+			if(elements.length > 1) {
+				length = (elements.length-1)/3;
+			}
+			temp.attr('name', temp.attr('data-name').replace("_id_", length));
+			var src = temp.clone();
+			src.attr({
+				"data-image-path": 'true',
+				"data-image-index": length,
+				"name": src.attr("name").replace("_type_", "path"),
+				"value": container.attr('data-files-url')+data.path
+			})
+
+			var title = temp.clone();
+			title.attr({
+				"data-image-title": 'true',
+				"data-image-index": length,
+				"name": title.attr("name").replace("_type_", "title"),
+				"value": ""
+			})
+
+			var alt = temp.clone();
+			alt.attr({
+				"data-image-alt": 'true',
+				"data-image-index": length,
+				"name": alt.attr("name").replace("_type_", "alt"),
+				"value": ""
+			})
+
+			$(self).find(".elements").append(src);
+			$(self).find(".elements").append(title);
+			$(self).find(".elements").append(alt);
+
+			initializeImages();
+			/*$(container).find("[data-dz-thumbnail]").each(function() {
+				if($(this).attr('data-index'))
+					return;
+
+				$(this).attr('data-index', length);
+				$(this).click(function() {
+					_remove(length);
+				})
+			})*/
+		}
+	})
+
+	var initializeImages = function() {
+		var elements = $(self).find(".elements input");
+		dropzoneDiv.get(0).dropzone.removeAllFiles();
+		for(var i = 0; i < (elements.length-1)/3; i++) {
+			var src = $(container).find("input[data-image-path][data-image-index='"+i+"']").val();
+			/*var title = $(this).find("input[data-image-title data-image-index='"+i+"']").val();
+			var alt = $(this).find("input[data-image-alt data-image-index='"+i+"']").val();*/
+
+			var file = {
+			    name: src,
+			    size: 0,
+			    status: Dropzone.ADDED,
+			    accepted: true
+			};
+			dropzoneDiv.get(0).dropzone.emit("addedfile", file);                                
+			dropzoneDiv.get(0).dropzone.emit("thumbnail", file, src);
+			dropzoneDiv.get(0).dropzone.emit("complete", file);
+			dropzoneDiv.get(0).dropzone.files.push(file);
+
+			$(container).find("[data-dz-thumbnail]").each(function() {
+				if($(this).attr('data-index'))
+					return;
+
+				$(this).attr('data-index', i);
+
+				$(this).click(function() {
+
+					var i = $(this).attr('data-index');
+					var self = $(this);
+
+
+					var modal = $(".image-list-modal").clone().removeClass("image-list-modal").addClass("image-list-clone-modal");
+					$("body").append(modal);
+					modal.on('hidden.bs.modal', function () {
+					    $(this).remove();
+					})
+					var imageData = {
+						path: $(container).find(".elements input[data-image-path][data-image-index='"+i+"']").val() || '',
+						title: $(container).find(".elements input[data-image-title][data-image-index='"+i+"']").val() || '',
+						alt: $(container).find(".elements input[data-image-alt][data-image-index='"+i+"']").val() || '',
+						id: i
+					};
+
+
+					modal.find("[data-image-path]").attr("src", imageData.path);
+					modal.find("[data-image-title]").attr("value", imageData.title);
+					modal.find("[data-image-alt]").attr("value", imageData.alt);
+
+					modal.find("[data-image-remove]").click(function() {
+						_remove( imageData.id );
+						modal.modal('hide');
+					});
+					
+					modal.find("[data-image-save]").click(function() {
+						$(container).find("input[data-image-title][data-image-index='"+imageData.id+"']").val( modal.find("[data-image-title]").val() );
+						$(container).find("input[data-image-alt][data-image-index='"+imageData.id+"']").val( modal.find("[data-image-alt]").val() );
+						modal.modal('hide');
+					});
+
+					modal.modal('show');
+				})
+			})
+
+			$(container).find(".dz-details").remove();
+		}
+	}
+
+	initializeImages();
 }
 
 var initRepeatable = function(repeatable) {
@@ -114,6 +271,7 @@ var initRepeaterField = function(container) {
 		})
 		initRepeatable(template);
 		initSelect2Field(template)
+		initTagField(template)
 		template.find("[data-field-type='image']").each(function() {
 			initGridField( $(this) )
 		})
@@ -124,6 +282,7 @@ var initRepeaterField = function(container) {
 	container.find('[data-repeatable]').each(function() {
 		initRepeatable($(this))
 		initSelect2Field($(this))
+		initTagField($(this))
 		//initGridField($(this))
 		initHtmlField($(this));
 	})
@@ -131,6 +290,8 @@ var initRepeaterField = function(container) {
 
 var initSelect2Field = function(container) {
 	container.find("select").each(function() {
+		if($(this).attr('data-tag') == "1")
+			return;
 		var parent = $(this).closest("[data-field-type='select']");
 		if(parent.attr('data-ajax') && (parent.attr('data-ajax') == 'true')) {
 			console.log("ajax driven");
@@ -157,6 +318,17 @@ var initSelect2Field = function(container) {
 			return;
 		}
 		$(this).select2();
+	})
+}
+
+var initTagField = function(container) {
+	container.find("select").each(function() {
+		if($(this).attr('data-tag') != "1")
+			return;
+		$(this).select2({
+			tag: true,
+			tags: true
+		});
 	})
 }
 
@@ -267,6 +439,11 @@ $(document).ready(function() {
 			initImageField( $(this) )
 	})
 
+	$("[data-field-type='imagelist']").each(function() {
+		if(isInitable($(this)))
+			initImageListField( $(this) )
+	})
+
 	$("[data-field-type='repeater']").each(function() {
 		if(isInitable($(this)))
 			initRepeaterField( $(this) )
@@ -275,6 +452,11 @@ $(document).ready(function() {
 	$("[data-field-type='select']").each(function() {
 		if(isInitable($(this)))
 			initSelect2Field($(this))
+	})
+
+	$("[data-field-type='tag']").each(function() {
+		if(isInitable($(this)))
+			initTagField($(this))
 	})
 
 	$("[data-field-type='grid']").each(function() {

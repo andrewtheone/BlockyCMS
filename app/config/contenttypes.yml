@@ -42,6 +42,7 @@ newsitem:
       type: slug
     cover:
       label: cover
+      big: true
       type: image
     text:
       type: html
@@ -65,6 +66,8 @@ product:
       placeholder: "Ment\xE9s sor\xE1n aut\xF3matikusan kit\xF6lt\u0151dik.."
       uses: title
       type: slug
+    tags:
+      type: tag
     newitems:
       label: select news
       type: select
@@ -206,4 +209,116 @@ extrainception:
                   fields:
                     icon:
                       type: image
+comcart:
+    name: Kosarak
+    singular_name: Kosár
+    show_menu: false
+    fields:
+        email:
+            type: text
+        slug:
+            type: slug
+            uses: email
+        data:
+            type: text
+comcategory:
+  name: Kategóriák
+  singular_name: Kategória
+  manager: '\PixelVision\ECommerce\Content\CategoryManager'
+  fields:
+    title:
+      type: text
+    fqn:
+      type: text
+      visible: false
+    slug:
+      type: slug
+      uses: fqn
+      visible: false
+    parent:
+      type: select
+      foreign: comcategory
+      valueKey: fqn
+comproduct:
+  name: Termékek
+  singular_name: Termék
+  manager: '\PixelVision\ECommerce\Content\ProductManager'
+  fields:
+    title:
+        label: 'Megnevezés'
+        type: text
+        group: Alap adatok
+    slug:
+        type: slug
+        uses: title
+        visible: false
+    price:
+        label: 'Ár'
+        type: text
+        affix: 'Ft'
+    discount_price:
+        label: 'Akciós ár'
+        type: text
+        affix: 'Ft'
+    stock:
+        label: 'Készlet'
+        type: text
+        affix: 'Db'
+    categories:
+        label: 'Kategóriák'
+        type: select
+        foreign: comcategory
+        valueKey: fqn
+        multiple: true
+    tags:
+        label: 'Cimkék'
+        type: tag
+    short_description:
+        type: html
+        label: 'Bevezető'
+        group: Leírás
+    long_description:
+        label: 'Leírás'
+        type: html
+    coverimage:
+        type: image
+        label: 'Boritókép'
+        group: Képek
+        big: true
+    images:
+      label: Képek
+      type: imagelist
+    variations:
+        label: 'Variációk'
+        type: repeater
+        group: 'Variációk / Kiegészítők'
+        fields:
+            group:
+                type: text
+                label: 'Csoport'
+                help: 'Pl. szín, méret, kivítel, garancia'
+            options:
+                type: tag
+                label: 'Opciók'
+    accessories:
+        label: 'Kiegészítők'
+        type: grid
+        columns: "Megnevezés, Ár"
+comorder:
+    name: Rendelések
+    singular_name: Rendelés
+    fields:
+        hash:
+            type: text
+        slug:
+            type: slug
+            uses: hash
+        customer_info:
+            type: json
+        order_info:
+            type: json
+        customer:
+            type: select
+            foreign: member
+            ajax: true
 ...

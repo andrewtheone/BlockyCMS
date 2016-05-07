@@ -36,6 +36,10 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			$this->addAsset('style', '@this/assets/css/dropzone.css');
 			$this->addAsset('style', '@this/assets/css/handsontable.min.css');
 			$this->addAsset('style', '@this/assets/css/select2.min.css');
+
+			$this->app['view']->addSnippet("BLOCKY::END_BODY", function($app) {
+				return $app['view']->twig->render("@fields/_gallery_image_modal.twig");
+			});
 			//$this->addAsset('style', '@this/assets/js/ckeditor/.css');
 		}
 	}
@@ -52,8 +56,10 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			new FieldType\Text(),
 			new FieldType\Slug(),
 			new FieldType\Image(),
+			new FieldType\ImageList(),
 			new FieldType\Repeater(),
 			new FieldType\Select(),
+			new FieldType\Tag(),
 			new FieldType\Grid(),
 			new FieldType\Html(),
 			new FieldType\Password(),

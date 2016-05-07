@@ -34,31 +34,68 @@ comproduct:
   manager: '\PixelVision\ECommerce\Content\ProductManager'
   fields:
     title:
-      type: text
+        label: 'Megnevezés'
+        type: text
+        group: Alap adatok
     slug:
         type: slug
         uses: title
+        visible: false
     price:
+        label: 'Ár'
         type: text
+        affix: 'Ft'
     discount_price:
+        label: 'Akciós ár'
         type: text
-    short_description:
-        type: html
-    long_description:
-        type: html
-    coverimage:
-        type: image
-    images:
-        label: Képek
-        type: repeater
-        fields:
-            image:
-                type: image
+        affix: 'Ft'
+    stock:
+        label: 'Készlet'
+        type: text
+        affix: 'Db'
     categories:
+        label: 'Kategóriák'
         type: select
         foreign: comcategory
         valueKey: fqn
         multiple: true
+    family:
+        label: 'Család'
+        type: text
+    tags:
+        label: 'Cimkék'
+        type: tag
+    short_description:
+        type: html
+        label: 'Bevezető'
+        group: Leírás
+    long_description:
+        label: 'Leírás'
+        type: html
+    coverimage:
+        type: image
+        label: 'Boritókép'
+        group: Képek
+        big: true
+    images:
+      label: Képek
+      type: imagelist
+    variations:
+        label: 'Variációk'
+        type: repeater
+        group: 'Variációk / Kiegészítők'
+        fields:
+            group:
+                type: text
+                label: 'Csoport'
+                help: 'Pl. szín, méret, kivítel, garancia'
+            options:
+                type: tag
+                label: 'Opciók'
+    accessories:
+        label: 'Kiegészítők'
+        type: grid
+        columns: "Megnevezés, Ár"
 comorder:
     name: Rendelések
     singular_name: Rendelés

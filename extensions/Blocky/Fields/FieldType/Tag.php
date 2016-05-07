@@ -12,7 +12,7 @@ use Blocky\Content\Content;
  * @package default
  * @author 
  **/
-class ImageList extends SimpleField implements SimpleFieldInterface
+class Tag extends SimpleField implements SimpleFieldInterface
 {
 	/**
 	 * undocumented function
@@ -21,7 +21,7 @@ class ImageList extends SimpleField implements SimpleFieldInterface
 	 * @author 
 	 **/
 	public function getTemplate() {
-		return "@fields/imagelist.twig";
+		return "@fields/tag.twig";
 	}
 
 	/**
@@ -31,7 +31,9 @@ class ImageList extends SimpleField implements SimpleFieldInterface
 	 * @author 
 	 **/
 	public function processInput(Content $content, $input, $options) {
-		return json_encode($input, 1);
+		if(!is_array($input))
+			$input = [$input];
+		return implode("|", $input);
 	}
 
 	/**
@@ -41,16 +43,7 @@ class ImageList extends SimpleField implements SimpleFieldInterface
 	 * @author 
 	 **/
 	public function extractValue(Content $content, $value, $options) {
-		$images = json_decode($value, 1);
-
-		foreach($images as &$img) {
-			if(array_key_exists('watermark', $options) && (array_key_exists('path', $img))) {
-				$img['watermark'] = $options['watermark'];
-			}
-		}
-
-
-		return $images;
+		return explode("|", $value);
 	}
 
 	/**
@@ -60,7 +53,7 @@ class ImageList extends SimpleField implements SimpleFieldInterface
 	 * @author 
 	 **/
 	public function getName() {
-		return "imagelist";
+		return "tag";
 	}
 
 } // END class Text

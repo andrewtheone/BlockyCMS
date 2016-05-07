@@ -14,14 +14,17 @@
 	data-dz-url="{{vars.dropzone.url}}"
 	data-dz-type="{{vars.dropzone.type}}"
 	>
-	<label for="{{name}}" class="col-sm-2 control-label">{{ label|default(name) }}</label>
+
+
+	<label for="{{name}}" class="{% if big %} col-sm-12 {% else %}col-sm-2{% endif %} control-label" {% if big %} style="text-align: left"{% endif %}>{{ label|default(name) }}</label>
 	<input class="image_path" data-image-path type="hidden" name="{{inputKey}}[path]" value="{{vars.currentImage}}">
-	<div class="col-sm-10">
+	
+	<div class="{% if big %} col-sm-12 {% else %}col-sm-10{% endif %}">
 		<div class="row preview">
-			<div class="col-lg-3">
+			<div class="{% if big %} col-lg-6 {% else %}col-lg-3{% endif %}">
 			<img data-preview src="{{ app.path.files_url ~ '/' ~ vars.currentImage }}" width="100%" height="100%">
 			</div>
-			<div class="col-lg-7">
+			<div class="{% if big %} col-lg-6 {% else %}col-lg-7{% endif %}">
 				<div class="input-group" style="width: 100%; margin: 0px 0px 10px 0px;">
 					<input type="text" name="{{inputKey}}[attribs][alt]" class="form-control1" value="{{vars.currentAttributes.alt|default('')}}" placeholder="Alt">
 					<div class="input-group-addon"><i class="fa fa-pencil"></i></div>

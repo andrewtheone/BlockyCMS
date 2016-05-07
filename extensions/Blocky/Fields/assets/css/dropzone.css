@@ -400,3 +400,7 @@
 .form-group.has-image .preview {
   display: block;
 }
+
+div[data-field-type='imagelist'] img[data-dz-thumbnail] {
+  width: 100%;
+}
