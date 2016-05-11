@@ -176,6 +176,160 @@ var initImageListField = function(container) {
 	initializeImages();
 }
 
+var initFileField = function(container) {
+	var dropzoneDiv = container.find(".dropzone");
+	var dropzone = dropzoneDiv.dropzone({
+		url: container.attr('data-dz-url'),
+		success: function(a, data, c) {
+			var data = JSON.parse(data);
+			container.addClass("has-image");
+			container.find("[data-file-path-show]").attr('value', container.attr('data-files-url')+data.path);
+			container.find("[data-file-path]").val(data.path);
+			container.find("[data-file-name]").val(data.name);
+			this.removeAllFiles();
+		}
+	})
+
+	container.find("[data-remove]").click(function() {
+		container.find("[data-file-path]").val('');
+		container.removeClass('has-image');
+		return false;
+	})
+}
+var initFileListField = function(container) {
+
+	var elements = $(container).find(".elements input");
+	var self = container;
+
+
+	var _remove = function(index) {
+
+		var elements = $(self).find(".elements input");
+		var toRemove = $(self).find(".elements input[data-file-index='"+index+"']");
+
+		toRemove.each(function() {
+			$(this).remove();
+		});
+
+		/*var length = 0;
+		if(elements.length > 1) {
+			length = (elements.length-1)/3;
+		}*/
+
+		var ii = 0;
+		$(self).find(".elements input[data-file-index]").each(function() {
+			var newID = parseInt(ii/2);
+			$(this).attr("name", $(this).attr("name").replace( $(this).attr("data-file-index"), newID ) );
+			$(this).attr("data-file-index", newID);
+			ii++;
+		})
+
+		initializeFiles();
+	}
+
+	var dropzoneDiv = container.find(".dropzone");
+	var dropzone = dropzoneDiv.dropzone({
+		url: container.attr('data-dz-url'),
+		success: function(a, data, c) {
+			var data = JSON.parse(data);
+
+			var elements = $(self).find(".elements input");
+			var temp = $(self).find("[data-template]").clone();
+			temp.removeAttr("data-template");
+
+			var length = 0;
+			if(elements.length > 1) {
+				length = (elements.length-1)/2;
+			}
+			temp.attr('name', temp.attr('data-name').replace("_id_", length));
+			var src = temp.clone();
+			src.attr({
+				"data-file-path": 'true',
+				"data-file-index": length,
+				"name": src.attr("name").replace("_type_", "path"),
+				"value": data.path
+			})
+
+			var name = temp.clone();
+			name.attr({
+				"data-file-name": 'true',
+				"data-file-index": length,
+				"name": name.attr("name").replace("_type_", "name"),
+				"value": data.name
+			})
+
+			$(self).find(".elements").append(src);
+			$(self).find(".elements").append(name);
+
+			initializeFiles();
+		}
+	})
+
+	var initializeFiles = function() {
+		var elements = $(self).find(".elements input");
+		dropzoneDiv.get(0).dropzone.removeAllFiles();
+		for(var i = 0; i < (elements.length-1)/2; i++) {
+			var src = $(container).find("input[data-file-path][data-file-index='"+i+"']").val();
+
+			var file = {
+			    name: src,
+			    size: 0,
+			    status: Dropzone.ADDED,
+			    accepted: true
+			};
+			dropzoneDiv.get(0).dropzone.emit("addedfile", file);                                
+			dropzoneDiv.get(0).dropzone.emit("thumbnail", file, "https://i.vimeocdn.com/portrait/6130169_300x300.jpg");
+			dropzoneDiv.get(0).dropzone.emit("complete", file);
+			dropzoneDiv.get(0).dropzone.files.push(file);
+
+			$(container).find("[data-dz-thumbnail]").each(function() {
+				if($(this).attr('data-index'))
+					return;
+
+				$(this).attr('data-index', i);
+
+				$(this).click(function() {
+
+					var i = $(this).attr('data-index');
+					var self = $(this);
+
+
+					var modal = $(".file-list-modal").clone().removeClass("file-list-modal").addClass("file-list-modal-clone");
+					$("body").append(modal);
+					modal.on('hidden.bs.modal', function () {
+					    $(this).remove();
+					})
+					var fileData = {
+						path: $(container).find(".elements input[data-file-path][data-file-index='"+i+"']").val() || '',
+						name: $(container).find(".elements input[data-file-name][data-file-index='"+i+"']").val() || '',
+						id: i
+					};
+
+
+					modal.find("[data-file-path]").attr("value", fileData.path);
+					modal.find("[data-file-name]").attr("value", fileData.name);
+
+					modal.find("[data-file-remove]").click(function() {
+						_remove( fileData.id );
+						modal.modal('hide');
+					});
+					
+					modal.find("[data-file-save]").click(function() {
+						$(container).find("input[data-file-name][data-file-index='"+fileData.id+"']").val( modal.find("[data-file-name]").val() );
+						modal.modal('hide');
+					});
+
+					modal.modal('show');
+				})
+			})
+
+			$(container).find(".dz-details").remove();
+		}
+	}
+
+	initializeFiles();
+}
+
 var initRepeatable = function(repeatable) {
 	var removeButton = repeatable.find('[data-repeatable-remove]').click(function() {
 		$(this).closest('[data-repeatable]').remove();
@@ -268,6 +422,9 @@ var initRepeaterField = function(container) {
 		//.insertBefore(template);
 		template.find("[data-field-type='image']").each(function() {
 			initImageField( $(this) )
+		})
+		template.find("[data-field-type='file']").each(function() {
+			initFileField($(this))
 		})
 		initRepeatable(template);
 		initSelect2Field(template)
@@ -442,6 +599,16 @@ $(document).ready(function() {
 	$("[data-field-type='imagelist']").each(function() {
 		if(isInitable($(this)))
 			initImageListField( $(this) )
+	})
+
+	$("[data-field-type='file']").each(function() {
+		if(isInitable($(this)))
+			initFileField( $(this) )
+	})
+
+	$("[data-field-type='filelist']").each(function() {
+		if(isInitable($(this)))
+			initFileListField( $(this) )
 	})
 
 	$("[data-field-type='repeater']").each(function() {

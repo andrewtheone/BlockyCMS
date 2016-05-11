@@ -270,11 +270,16 @@ class BackendController extends SimpleController
 			$exp = explode(".", $_FILES['file']['name']);
 			$ext = $exp[count($exp)-1];
 
+			$name = $_FILES['file']['name'];
+			$name = explode("/", $name);
+			$name = array_pop($name);
+
 			@mkdir($path);
 			move_uploaded_file($tmp_name, $path."/".$file_name.".".$ext);
 
 			die(json_encode([
-				'path' => "/".date("y-m")."/".$file_name.".".$ext
+				'path' => "/".date("y-m")."/".$file_name.".".$ext,
+				'name' => $name
 			]));
 	}
 

@@ -454,5 +454,7 @@ class ContentType
 			if($options['type'] == $type)
 				return $key;
 		}
+
+		return null;
 	}
 } // END class SimpleField

@@ -24,6 +24,10 @@ test:
       label: "Iz\xE9"
       placeholder: "Iz\xE9 placeholder"
       help: "valami sz\xF6vegmutyi"
+    file:
+      type: file
+    filelist:
+      type: filelist
 newsitem:
   name: "H\xEDrek"
   singular_name: "H\xEDr"

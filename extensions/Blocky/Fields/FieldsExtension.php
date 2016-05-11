@@ -40,6 +40,9 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			$this->app['view']->addSnippet("BLOCKY::END_BODY", function($app) {
 				return $app['view']->twig->render("@fields/_gallery_image_modal.twig");
 			});
+			$this->app['view']->addSnippet("BLOCKY::END_BODY", function($app) {
+				return $app['view']->twig->render("@fields/_filelist_file_modal.twig");
+			});
 			//$this->addAsset('style', '@this/assets/js/ckeditor/.css');
 		}
 	}
@@ -57,6 +60,8 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 			new FieldType\Slug(),
 			new FieldType\Image(),
 			new FieldType\ImageList(),
+			new FieldType\File(),
+			new FieldType\FileList(),
 			new FieldType\Repeater(),
 			new FieldType\Select(),
 			new FieldType\Tag(),

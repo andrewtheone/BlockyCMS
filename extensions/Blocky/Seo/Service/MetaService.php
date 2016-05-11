@@ -61,6 +61,42 @@ class MetaService extends BaseService
 	 * @return void
 	 * @author 
 	 **/
+	public function useContent($content)
+	{
+		$textField = $content->getContentType()->getFieldByType("text");
+		$metaField = $content->getContentType()->getFieldByType("meta");
+		$image = $content->getContentType()->getFieldByType("image");
+		$gallery = $content->getContentType()->getFieldByType("imagelist");
+
+		if($textField) {
+			$this->set("title", $content->getValue($textField));
+		}
+
+		if($metaField) {
+			$meta = $content->getValue($metaField);
+			$this->set("keywords", $meta['keywords']);
+			$this->set("description", $meta['description']);
+		}
+
+		if($gallery) {
+			$images = $content->getValue($image);
+			$imagesArr = [];
+			foreach($images as $s) {
+				$imagesArr[] = $this->app['path']['files_url'].$s['path'];
+			}
+			$this->set("image", $imagesArr);
+		} elseif($image) {
+			$image = $content->getValue($image);
+			$this->set("image", $image['path']);
+		}
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
 	public function set($key, $value)
 	{
 		$this->fields[$key] = $value;

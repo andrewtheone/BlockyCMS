@@ -1,13 +1,13 @@
-{% set images = value|default([]) %}
+{% set files = value|default([]) %}
 {% set vars = {
     dropzone: {
-    	url: app.path.link('/admin/upload')~'?type=image',
-    	type: 'image'
+    	url: app.path.link('/admin/upload')~'?type=file',
+    	type: 'file'
     }
 } %}
 <div 
 	class="form-group"
-	data-field-type="imagelist"
+	data-field-type="filelist"
 	data-files-url="{{app.path.files_url}}"
 	data-dz-url="{{vars.dropzone.url}}"
 	data-dz-type="{{vars.dropzone.type}}"
@@ -18,10 +18,9 @@
 
 	<div style="display: none" class="elements">
 	<input data-template type="hidden" data-name="{{inputKey}}[_id_][_type_]" value="">
-	{% for index, image in images %}
-	<input data-image-path data-image-index="{{ index }}" type="hidden" name="{{inputKey}}[{{ index }}][path]" value="{{image.path}}">
-	<input data-image-title data-image-index="{{ index }}" type="hidden" name="{{inputKey}}[{{ index }}][title]" value="{{image.title}}">
-	<input data-image-alt data-image-index="{{ index }}" type="hidden" name="{{inputKey}}[{{ index }}][alt]" value="{{image.alt}}">
+	{% for index, file in files %}
+	<input data-file-path data-file-index="{{ index }}" type="hidden" name="{{inputKey}}[{{ index }}][path]" value="{{file.path}}">
+	<input data-file-name data-file-index="{{ index }}" type="hidden" name="{{inputKey}}[{{ index }}][name]" value="{{file.name}}">
 	{% endfor %}
 	</div>
 	<div class="col-sm-10">
