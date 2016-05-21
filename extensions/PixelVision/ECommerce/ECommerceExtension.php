@@ -67,6 +67,18 @@ class ECommerceExtension extends SimpleExtension implements ServiceProvider, Fie
 				$e->boot();
 
 				return $e;
+			},
+			'ecommerce.cart' => function($app) {
+				$e = new Service\ECommerceCartService($app);
+				$e->boot();
+
+				return $e;
+			},
+			'ecommerce.checkout' => function($app) {
+				$e = new Service\ECommerceCheckoutService($app);
+				$e->boot();
+
+				return $e;
 			}
 		];
 	}

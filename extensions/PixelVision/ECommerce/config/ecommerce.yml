@@ -44,3 +44,7 @@ contenttypes:
 
 guest_purchase: true
 
+checkouts:
+    - '\PixelVision\Checkout\SimpleCheckout'
+    - '\PixelVision\Checkout\PostalCheckout'
+

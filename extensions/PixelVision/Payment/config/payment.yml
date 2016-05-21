@@ -1,0 +1,5 @@
+providers:
+	borgun:
+		handler: '\PixelVision\Payment\Provider\BorgunProvider'
+		options:
+			merchant_id: 12312312

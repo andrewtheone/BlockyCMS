@@ -1,0 +1,20 @@
+payment_back:
+  path: "/payment/back"
+  handler:
+    _controller: PixelVision\Payment\Controller\PaymentController
+    _action: back
+payment_ipn:
+  path: "/payment/ipn"
+  handler:
+    _controller: PixelVision\Payment\Controller\PaymentController
+    _action: ipn
+payment_start:
+  path: "/payment/start"
+  handler:
+    _controller: PixelVision\Payment\Controller\PaymentController
+    _action: start
+payment_cancel:
+  path: "/payment/cancel"
+  handler:
+    _controller: PixelVision\Payment\Controller\PaymentController
+    _action: cancel
