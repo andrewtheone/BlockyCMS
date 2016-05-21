@@ -1,10 +1,10 @@
 <?php
 
-namespace Blocky\ECommerce;
+namespace PixelVision\ECommerce;
 
 use Blocky\Extension\SimpleExtension;
 use Blocky\Extension\ServiceProvider;
-
+use Blocky\Extension\FieldTypeProvider;
 
 /**
  * undocumented class
@@ -12,7 +12,7 @@ use Blocky\Extension\ServiceProvider;
  * @package default
  * @author 
  **/
-class ECommerceExtension extends SimpleExtension implements ServiceProvider
+class ECommerceExtension extends SimpleExtension implements ServiceProvider, FieldTypeProvider
 {
 
 
@@ -26,6 +26,7 @@ class ECommerceExtension extends SimpleExtension implements ServiceProvider
 	{
 		$this->extendConfig("contenttypes.yml", "contenttypes.yml");
 		$this->extendConfig("ecommerce.yml", "ecommerce.yml");
+		$this->extendConfig("routes.yml", "routes.yml");
 	}
 
 	/**
@@ -38,6 +39,10 @@ class ECommerceExtension extends SimpleExtension implements ServiceProvider
 	{
 		parent::boot();
 
+		if($this->app['site'] == "backend") {
+			$this->addAsset('js', '@this/assets/js/backend.js', 700);
+		}
+
 		$this->app['event']->on("Newsletter::Subscribed", function() {
 			// if session's cart is not associated with an email, then associate it
 			// for further reminders
@@ -46,6 +51,37 @@ class ECommerceExtension extends SimpleExtension implements ServiceProvider
 		$this->app['event']->on("Members::LoggedIn", function() {
 			// same as before
 		});
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getServices()
+	{
+		return [
+			'ecommerce' => function($app) {
+				$e = new Service\ECommerceService($app);
+				$e->boot();
+
+				return $e;
+			}
+		];
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getFieldTypes()
+	{
+		return [
+			new FieldType\Properties()
+		];
 	}
 
 

@@ -91,6 +91,11 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 				$service = new Service\AdminService($app);
 				$service->boot();
 				return $service;
+			},
+			'schedule' => function($app) {
+				$service = new Service\ScheduleService($app);
+				$service->boot();
+				return $service;
 			}
 		];
 	}
@@ -178,9 +183,9 @@ class BackendExtension extends SimpleExtension implements ServiceProvider, Field
 				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'upload']
 			],
 			[
-				'name' => 'backend_ckeditor',
-				'path' => '/admin/getCKEditorWidgets',
-				'handler' => ['_controller' => 'Blocky\Backend\Controller\BackendController', '_action' => 'ckeditorWidgets']
+				'name' => 'backend_schedule_tick',
+				'path' => '/admin/schedule/tick',
+				'handler' => ['_controller' => 'Blocky\Backend\Controller\ScheduleController', '_action' => 'tick']
 			]
 		];
 	}

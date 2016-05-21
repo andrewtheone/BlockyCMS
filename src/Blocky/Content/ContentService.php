@@ -61,7 +61,8 @@ class ContentService extends BaseService
 		}
 
 		$bean = $this->app['storage']->findBean($ct->getSlug(), 'id = :id', [':id' => $id]);
-		return new Content($ct, array_pop($bean));
+		$bean = array_pop($bean);
+		return new Content($ct, $bean);
 	}
 
 	/**

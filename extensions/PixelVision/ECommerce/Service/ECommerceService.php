@@ -31,8 +31,12 @@ class ECommerceService extends BaseService
 	 * @return void
 	 * @author 
 	 **/
-	public function getCheckoutOptions()
+	public function getCheckoutOptionsList()
 	{
+		return [[
+			'id' => 1,
+			'title' => 'teszt 1'
+		]];
 	}
 
 	/**

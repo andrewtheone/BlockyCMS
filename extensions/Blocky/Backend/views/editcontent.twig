@@ -27,6 +27,8 @@
 								<li role="presentation" class="{% if itr == 0 %}active{% endif %}"><a href="#{{name}}" role="tab" data-toggle="tab">{{data.name}}</a></li>
 								{% set itr = itr+1 %}
 							{% endfor %}
+
+								<li role="presentation" class=""><a href="#schedules" role="tab" data-toggle="tab">Időzítések</a></li>
 							</ul>
 
 							<div class="tab-content">
@@ -41,10 +43,40 @@
 									</div>
 									{% set itr = itr+1 %}
 								{% endfor %}
+								<div role="tabpanel" class="tab-pane {% if itr == 0 %}active{% endif %}" id="schedules">
+									{% for _id, schedule in schedules %}
+										<div class="row">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#schedule-data{{_id}}" aria-expanded="false" aria-controls="schedule-data{{_id}}">
+										  {{schedule.prior_at}} - {{schedule.applied?'Futtatva':'Függőben'}}
+										</button>
+										<div class="collapse" id="schedule-data{{_id}}">
+										  <div class="well">
+										    <table class="table">
+										    	{% set _data = schedule.data|json_decode %}
+
+										    	{% for key, value in _data %}
+										    		{% set _field = content.getContentType().getField(key) %}
+										    		<tr>
+										    		<td>
+										    			<strong>{{ _field.label|default(key) }}</strong>
+										    		</td>
+										    		<td>
+										    			{% if(_field.type != 'text' ) %}
+										    				Az érték nem szövegalapú!
+										    			{% else %}
+										    				{{ value }}
+										    			{% endif %}
+										    		</td>
+										    		</tr>
+										    	{% endfor %}
+										    </table>
+										  </div>
+										</div>
+										</div>
+									{% endfor %}
+								</div>
 							</div>
 						</div>
-
-						<input type="submit">
 
 				</div>
 			</div>
@@ -80,6 +112,26 @@
 							{% include app.content.getField('select').getTemplate() with {data_field_type: "select", label: "backend.site_type"|trans, options: {'both': 'backend.site_type.both'|trans, 'dev': 'backend.site_type.dev'|trans, 'prod':'backend.site_type.prod'|trans}, value: content.bean.site, content: content, inputKey: 'content[site]'} %}
 							</div>
 						{% endif %}
+						<div class="row">
+								<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseScheduled" aria-expanded="false" aria-controls="collapseScheduled" style="width: 100%">
+								  Időzítés
+								</button>
+								<div class="collapse" id="collapseScheduled">
+								  <div class="well">
+										<div class="form-group" data-field-type="text">
+											<div class="col-sm-12">
+												<div class="input-group" style="width: 100%; margin: 0px;">
+													<input type="datetime" name="schedule" class="form-control1" id="schedule" value="" placeholder="0000-00-00 00:00:00">
+												</div>
+												<p class="help-block">A módosítások ekkor lépnek életbe!</p>
+											</div>
+										</div>
+								  </div>
+								</div>
+						</div>
+						<div class="row">
+							<input type="submit" class="button btn-success" value="Mentés" style="width: 100%">
+						</div>
 					</div>
 				</div>
 			<div class="panel-body panel-body2">

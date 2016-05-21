@@ -24,12 +24,16 @@
 			{% set options = call_provider(options) %}
 		<div class="input-group" style="width: 100%; margin: 0px;">
 			<select {% if multiple %} name="{{ inputKey }}[]"  multiple="multiple" {% else %} name="{{ inputKey }}" {% endif%}  style="width: 100%">
-
-			{% for k, option in options %}
-				{% if valueKeyName is defined %}
-				<option value="{{k}}" {% if value==k %} selected {% endif %}>{{ attribute(option, valueKeyName) }}</option>
+				{% if valueKey is defined %}
+				<option value="0" {% if value==null %} selected {% endif %}>-</option>
 				{% else %}
-				<option value="{{k}}" {% if value==k %} selected {% endif %}>{{option}}</option>
+				<option value="0" {% if value==null %} selected {% endif %}>-</option>
+				{% endif %}
+			{% for k, option in options %}
+				{% if valueKey is defined %}
+				<option value="{{k}}" {% if (value==k) and (value != null) %} selected {% endif %}>{{ attribute(option, valueKey) }}</option>
+				{% else %}
+				<option value="{{k}}" {% if (value==k) and (value != null) %} selected {% endif %}>{{option}}</option>
 				{% endif %}
 			{% endfor %}
 			</select>

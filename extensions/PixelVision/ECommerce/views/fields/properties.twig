@@ -1,0 +1,53 @@
+{% set values = value|default([]) %}
+
+<div 
+	class="form-group "
+	data-field-type="properties"
+	data-url="{{app.path.link('/admin/ecommerce/properties')}}"
+	>
+
+
+	<label for="{{name}}" class="{% if big %} col-sm-12 {% else %}col-sm-2{% endif %} control-label" {% if big %} style="text-align: left"{% endif %}>{{ label|default(name) }}</label>
+		<textarea data-template>
+			<tr>
+				<td>
+					<select style="width: 100%" type="text" name="{{ inputKey }}[_id_][attribute]" value="_attr_" data-type="attribute"></select>
+				</td>
+				<td>
+					<select style="width: 100%" type="text" name="{{ inputKey }}[_id_][value]" value="_value_" data-type="value"></select>
+				</td>
+				<td>
+					<span data-remove>Törlés</span>
+				</td>
+			</tr>
+		</textarea>
+		<table class="table">
+			<tr>
+				<th>Tulajdonság</th>
+				<th>Érték</th>
+				<th data-add>Új</th>
+			</tr>
+			<tbody>
+				{% set i = 0 %}
+				{% for k, v in values %}
+					<tr>
+						<td>
+							<select style="width: 100%" type="text" name="{{ inputKey }}[{{ i }}][attribute]" value="{{ v.attribute }}" data-type="attribute">
+								<option value="{{ v.attribute }}" selected>{{ v.attribute }}</option>
+							</select>
+						</td>
+						<td>
+							<select style="width: 100%" type="text" name="{{ inputKey }}[{{ i }}][value]" value="{{ v.value }}" data-type="value">
+								<option value="{{ v.value }}" selected>{{ v.value }}</option>
+							</select>
+						</td>
+						<td>
+							<span data-remove>Törlés</span>
+						</td>
+					</tr>
+					{% set i = i+1 %}
+				{% endfor %}
+			</tbody>
+		</table>
+		<p class="help-block">{{ help|default('') }}</p>
+</div>

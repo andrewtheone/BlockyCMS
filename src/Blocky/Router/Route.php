@@ -52,7 +52,9 @@ class Route implements \ArrayAccess
      **/
     public function getName()
     {
-        return $this->values['name'];
+        if(array_key_exists('name', $this->values))
+            return $this->values['name'];
+        return null;
     }
 
     /**

@@ -17,7 +17,6 @@ class StorageService extends BaseService
 	/**
 	 * @inherit
 	 * Sets up database connection based on config.yml
-	 * @todo USE CONFIG.YML
 	 *
 	 * @return void
 	 * @author 

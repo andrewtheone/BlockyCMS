@@ -22,14 +22,15 @@ class BackendController extends SimpleController
 	 **/
 	public function beforeRoute()
 	{
+		$this->middleware("Blocky\Backend\Middleware\Admin::onlyLoggedIn");
 
-		if($this->route->getName() != 'backend_login') {
+		/*if($this->route->getName() != 'backend_login') {
 			if($this->app['admin']->isLoggedIn()) {
 				return;
 			}
 			$this->app['path']->redirect("/admin/login");
 			exit();
-		}
+		}*/
 	}
 
 	/**
@@ -182,13 +183,19 @@ class BackendController extends SimpleController
 			}
 			try {
 				$postData = $this->request->getAttribute('content');
-				$content->fromArray($postData);
+				$schedule = $this->request->getAttribute("schedule", null);
 
-				if(array_key_exists('site', $postData)) {
-					$content->bean->site = $postData['site'];
+				if($schedule && strlen($schedule) > 2) {
+					$this->app['schedule']->add($content, $postData, $schedule);
+				} else {
+					$content->fromArray($postData);
+
+					if(array_key_exists('site', $postData)) {
+						$content->bean->site = $postData['site'];
+					}
+
+					$this->app['content']->storeContent($content);
 				}
-
-				$this->app['content']->storeContent($content);
 			} catch(ContentSaveException $ex) {
 				$this->app['session']->setFlashMessage('error', $ex->getMessage());
 			}
@@ -197,7 +204,7 @@ class BackendController extends SimpleController
 			exit();
 		}
 
-		$this->render($content->getContentType()->getOption('backend_content_edit'), ['content' => $content]);
+		$this->render($content->getContentType()->getOption('backend_content_edit'), ['content' => $content, 'schedules' => $this->app['schedule']->getFor($content)]);
 	}
 
 	/**

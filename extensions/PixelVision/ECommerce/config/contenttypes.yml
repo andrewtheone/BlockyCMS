@@ -95,7 +95,20 @@ comproduct:
     accessories:
         label: 'Kiegészítők'
         type: grid
-        columns: "Megnevezés, Ár"
+        columns: 'Megnevezés, Ár'
+    extra_shipping:
+        label: 'Extra szállítási díj'
+        group: 'Szállítási opciók'
+        type: repeater
+        fields:
+            price:
+                type: text
+                affix: 'Ft'
+                label: 'Plusz költség'
+            checkout_id:
+                type: select
+                options: 'ecommerce.getCheckoutOptionsList'
+                valueKey: title
 comorder:
     name: Rendelések
     singular_name: Rendelés

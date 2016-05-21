@@ -1,0 +1,5 @@
+backend_ecom_properties:
+  path: "/admin/ecommerce/properties"
+  handler:
+    _controller: PixelVision\ECommerce\Controller\BackendController
+    _action: properties

@@ -6,7 +6,13 @@
 	<div class="col-sm-10">
 		<div class="input-group" style="width: 100%; margin: 0px;">
 			<input type="text" name="{{ inputKey }}" class="form-control1" id="{{name}}" value="{{value|default('')}}" placeholder="{{ placeholder|default(name ~ '...') }}">
-			<div class="input-group-addon"><i class="fa fa-pencil"></i></div>
+			<div class="input-group-addon">
+				{% if affix %}
+					{{ affix }}
+				{% else %}
+					<i class="fa fa-pencil"></i>
+				{% endif %}
+			</div>
 		</div>
 		<p class="help-block">{{ help|default('') }}</p>
 	</div>

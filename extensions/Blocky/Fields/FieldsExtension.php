@@ -90,7 +90,9 @@ class FieldsExtension extends SimpleExtension implements FieldTypeProvider, Twig
 
 				if(strpos($provider, ".") !== false) {
 					$providerParts = explode(".", $provider);
-					list($service, $method) = $providerParts;
+					$method = array_pop($providerParts);
+					$service = implode(".", $providerParts);
+
 					return $self->app[$service]->$method();
 				}
 

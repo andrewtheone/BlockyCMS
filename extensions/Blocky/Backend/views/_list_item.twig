@@ -14,7 +14,12 @@
 		{% if (i == 0) %}
 		<td><a href="{{ app.path.link('/admin/content/edit/' ~ contentType.getSlug() ~ '/' ~ content.getValue(contentType.getSlugName()) ) }}">{{ content.getValue(input) }}<a/></td>
 		{% else %}
-		<td>{{ content.getValue(input) }}</td>
+		<td>{{ content.getValue(input) }}
+			{% set _field = content.getContentType().getField(input) %}
+			{% if _field.affix %}
+				{{ _field.affix }} 
+			{% endif %}
+		</td>
 		{% endif %}
 	{% endfor %}
 </tr>
