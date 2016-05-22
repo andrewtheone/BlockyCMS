@@ -1,6 +1,6 @@
 <?php
 
-namespace PixelVision\ECommerce;
+namespace PixelVision\Payment;
 
 use Blocky\Extension\SimpleExtension;
 use Blocky\Extension\ServiceProvider;
@@ -49,6 +49,12 @@ class PaymentExtension extends SimpleExtension implements ServiceProvider, Field
 	public function getServices()
 	{
 		return [
+			'payment' => function($app) {
+				$payment = new Service\PaymentService($app);
+				$payment->boot();
+
+				return $payment;
+			}
 		];
 	}
 

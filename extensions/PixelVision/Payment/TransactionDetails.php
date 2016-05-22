@@ -86,6 +86,7 @@ class TransactionDetails
 	 **/
 	public function getProvider()
 	{
+		return $this->content->getValue('provider');
 	}
 
 	/**
@@ -94,8 +95,10 @@ class TransactionDetails
 	 * @return void
 	 * @author 
 	 **/
-	public function getProviderClass()
+	public function getProviderHandler()
 	{
+		$class = $this->app['payment']->getProviderByName($this->getProvider());
+		return $class;
 	}
 
 	/**
@@ -106,6 +109,8 @@ class TransactionDetails
 	 **/
 	public function start()
 	{
+		$handler = $this->getProviderHandler();
+		return $handler->start($this);
 	}
 
 	/**
@@ -116,6 +121,11 @@ class TransactionDetails
 	 **/
 	public function cancel()
 	{
+		$this->content->fromArray([
+			'status' => 3
+		]);
+
+		$this->app['payment']->storeTransaction($this);
 	}
 
 	/**
@@ -124,7 +134,7 @@ class TransactionDetails
 	 * @return void
 	 * @author 
 	 **/
-	public function ipn($data = [])
+	public function callCallback($params = [])
 	{
 	}
 } // END class BasePaymentProvider

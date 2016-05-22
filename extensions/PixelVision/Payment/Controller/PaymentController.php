@@ -15,8 +15,6 @@ use Blocky\Content\Exception\ContentSaveException;
 class PaymentController extends SimpleController
 {
 
-
-
 	/**
 	 * undocumented function
 	 *
@@ -25,8 +23,40 @@ class PaymentController extends SimpleController
 	 **/
 	public function start()
 	{
-		
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function cancel()
+	{
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function back()
+	{
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function ipn()
+	{
+		$providerName = $this->route->getAttribute('provider');
+
+		$provider = $this->app['payment']->getProviderByName($providerName);
+		$provider->onResponse($this->request);
+	}
 
 } // END class BackendController

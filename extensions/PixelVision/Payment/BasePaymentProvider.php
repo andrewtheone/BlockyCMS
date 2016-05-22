@@ -53,7 +53,7 @@ class BasePaymentProvider implements PaymentProviderInterface
 	 * @return void
 	 * @author 
 	 **/
-	public function setupTransaction() {}
+	public function start($details) {}
 
 	/**
 	 * undocumented function
@@ -61,5 +61,5 @@ class BasePaymentProvider implements PaymentProviderInterface
 	 * @return void
 	 * @author 
 	 **/
-	public function onResponse($response) {}
+	public function onResponse($request) {}
 } // END class BasePaymentProvider

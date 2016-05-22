@@ -1,24 +1,24 @@
 transactions:
-	show_menu: false
-	name: Fizetések
-	singular_name: Fizetés
-	fields:
-		transaction:
-			type: random
-			visible: false
-		slug:
-			uses: transaction
-		type:
-			type: text
-			label: Fizetési típus
-		status:
-			type: select
-			options:
-				- Függőben
-				- Sikeres
-				- Sikertelen
-				- Lemondva
-			label: Állapot
-		data:
-			type: text
-			label: Adatok
+    show_menu: false
+    name: Fizetések
+    singular_name: Fizetés
+    fields:
+        transaction:
+            type: random
+            visible: false
+        slug:
+            uses: transaction
+        type:
+            type: text
+            label: Fizetési típus
+        status:
+            type: select
+            options:
+                - Függőben
+                - Sikeres
+                - Sikertelen
+                - Lemondva
+            label: Állapot
+        data:
+            type: text
+            label: Adatok

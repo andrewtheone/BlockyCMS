@@ -1,5 +1,10 @@
 providers:
-	borgun:
-		handler: '\PixelVision\Payment\Provider\BorgunProvider'
-		options:
-			merchant_id: 12312312
+    borgun:
+        handler: '\PixelVision\Payment\Provider\BorgunProvider'
+        options:
+            merchant_id: 12312312
+    payu:
+        handler: '\PixelVision\Payment\Provider\PayUProvider'
+        options:
+            MERCHANT: "P151701"
+            SECRET_KEY: "h8k*05]0q5!O9_23#y&2"

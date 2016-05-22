@@ -3,6 +3,7 @@
 namespace PixelVision\Payment\Service;
 
 use Blocky\BaseService;
+use Blocky\Config\YamlWrapper;
 
 /**
  * undocumented class
@@ -21,6 +22,7 @@ class PaymentService extends BaseService
 	 **/
 	public function boot()
 	{
+		$this->config = YamlWrapper::parse( $this->app['path']->to('config', 'payment.yml') );
 	}
 
 	/**
@@ -77,7 +79,23 @@ class PaymentService extends BaseService
 		$details = new TransactionDetails($this->app, $ct);
 
 		$this->storeTransaction($details);
-		
+
 		return $details;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function &getProviderByName($provider)
+	{
+		$details = $this->config['providers'][$provider];
+
+		$class = new $details['handler']();
+		$class->boot($this->app, $details);
+		
+		return $class;
 	}
 } // END class PaymentService extends BaseService

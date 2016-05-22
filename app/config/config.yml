@@ -46,5 +46,6 @@ extensions:
 - Blocky\Members\MembersExtension
 - Blocky\Feed\FeedExtension
 - PixelVision\ECommerce\ECommerceExtension
+- PixelVision\Payment\PaymentExtension
 - Blocky\Frontend\FrontendExtension
 ...

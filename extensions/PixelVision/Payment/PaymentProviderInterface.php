@@ -33,7 +33,7 @@ interface PaymentProviderInterface
 	 * @return void
 	 * @author 
 	 **/
-	public function setupTransaction();
+	public function start($details);
 
 	/**
 	 * undocumented function
