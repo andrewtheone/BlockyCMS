@@ -4,6 +4,7 @@ namespace Blocky\Members\Form;
 
 use Blocky\Forms\BaseFormManager;
 use Blocky\Content\Content;
+use Blocky\Event\EventData;
 
 /**
  * undocumented class
@@ -22,6 +23,11 @@ class SignupFormManager extends BaseFormManager
 	 **/
 	public function onProcess($step, $etc = null)
 	{
+		if($step == self::PROCESS_VALIDE) {
+			$args = new EventData();
+			$args['member'] = $this->content;
+			$this->app['event']->trigger("Members::onSignup", $args);
+		}
 		return parent::onProcess($step, $etc);
 	}
 } // END class LoginFormManager

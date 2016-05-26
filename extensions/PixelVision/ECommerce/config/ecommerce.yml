@@ -21,10 +21,15 @@ views:
     _overview: '@ecommerce/_overview.twig' # overview pagelet in cart view
 
 emails:
-    layout: '@ecommerce/email/_layout.twig'
-    status_change: '@ecommerce/email/status_change.twig'
-    order_received: '@ecommerce/email/order_received.twig'
-    order_modified: '@ecommerce/email/order_modified.twig'
+    status_change: 
+        template: '@ecommerce/email/status_change.twig'
+        subject: 'Rendelésed státusza megváltozott'
+    order_received: 
+        template: '@ecommerce/email/order_received.twig'
+        subject: 'Rendelésedet rögzítettük'
+    order_modified: 
+        template: '@ecommerce/email/order_modified.twig'
+        subject: 'Rendelésed tartalma módosult'
 
 cache:
     strategy: no

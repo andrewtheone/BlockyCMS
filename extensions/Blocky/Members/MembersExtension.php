@@ -41,6 +41,14 @@ class MembersExtension extends SimpleExtension  implements ServiceProvider
 	 **/
 	public function boot()
 	{
+		$self = $this;
+		$this->app['event']->on("Members::onSignup", function($data) use($self){
+			if( !$self->app['members']->config['emails']['signup']['subject'] && strlen( $self->app['members']->config['emails']['signup']['subject']) == 0 ) 
+				return;
+			$self->app['mail']->send($data['member']->getValue('email'), $self->app['members']->config['emails']['signup']['subject'], $self->app['members']->config['emails']['signup']['template'], [
+				'member' => $data['member']
+			]);
+		});
 	}
 
 	/**

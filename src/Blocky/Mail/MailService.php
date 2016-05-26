@@ -74,7 +74,7 @@ class MailService extends BaseService
 		}
 
 		// Create a message
-		$message = \Swift_Message::newInstance($subject)
+		$message = \Swift_Message::newInstance($this->app['config']['mail']['subject_prefix'].$subject)
 		  ->setFrom([$this->config['sender']['email'] => $this->config['sender']['name']])
 		  ->setTo($to)
 		  ->setBody($content, 'text/html');

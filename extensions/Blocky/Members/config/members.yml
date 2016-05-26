@@ -2,5 +2,12 @@ contenttype: member
 login:
     username_field: email
     password_field: password
+emails:
+    signup:
+        template: '@members/mail/signup.twig'
+        subject: 'Sikeres regisztráció'
+    forgotpassword:
+        template: '@members/mail/forgotpassword.twig'
+        subject: 'Elfelejtetted a jelszavad?'
 redirects:
     not_authorized: '/'
