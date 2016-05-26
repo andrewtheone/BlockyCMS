@@ -3,6 +3,7 @@
 namespace PixelVision\Payment\Provider;
 
 use PixelVision\Payment\BasePaymentProvider;
+use PixelVision\Payment\ResponseView;
 
 require_once __DIR__."/../libs/payu/PayUPayment.class.php";
 
@@ -34,6 +35,7 @@ class PayUProvider extends BasePaymentProvider
 	 **/
 	public function start($details)
 	{
+		return new ResponseView('@payment/provider/payu.twig', []);
 	}
 
 	/**

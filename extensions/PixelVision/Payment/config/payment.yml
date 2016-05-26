@@ -2,9 +2,13 @@ providers:
     borgun:
         handler: '\PixelVision\Payment\Provider\BorgunProvider'
         options:
-            merchant_id: 12312312
+            merchantid: 9275444
+            secretkey: 99887766
+            merchantemail: 'test@test.hu'
+            paymentgatewayid: 16
+            test: 1
     payu:
         handler: '\PixelVision\Payment\Provider\PayUProvider'
         options:
             MERCHANT: "P151701"
-            SECRET_KEY: "h8k*05]0q5!O9_23#y&2"
+            SECRET_KEY: 'h8k*05]0q5!O9_23#y&2'

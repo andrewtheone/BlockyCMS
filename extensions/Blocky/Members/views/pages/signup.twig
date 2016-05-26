@@ -1,11 +1,5 @@
-{% extends "@theme/_layout.twig" %}
+{% extends app.config.view.layout %}
 
-{% block page %}
-	{% set pageVars = pageVars|default({})|merge({
-		title: 'Regisztráció'
-	}) %}
-	{{ parent() }}
-{% endblock %}
 
 {% block content %}
 	{% set contentVars = contentVars|default({})|merge({

@@ -4,6 +4,7 @@ namespace PixelVision\Payment\Service;
 
 use Blocky\BaseService;
 use Blocky\Config\YamlWrapper;
+use PixelVision\Payment\TransactionDetails;
 
 /**
  * undocumented class
@@ -33,10 +34,11 @@ class PaymentService extends BaseService
 	 **/
 	public function findTransaction($transaction_nr)
 	{
-		$contents = $this->app['content']->getContents("transactions", "where transaction = ?", [$transaction_nr]);
+		$contents = $this->app['content']->getContents("transactions", "WHERE transid = ?", [$transaction_nr]);
 		
-		if(count($contents) == 0)
+		if(count($contents) == 0) {
 			return null;
+		}
 
 		$content = $contents[0];
 
@@ -61,18 +63,20 @@ class PaymentService extends BaseService
 	 * @return void
 	 * @author 
 	 **/
-	public function createTransaction($provider, $cart = [], $callback = null)
+	public function createTransaction($provider, $cart = [], $callback = null, $custom = [])
 	{
 		$ct = $this->app['content']->createContent("transactions");
 		
 		$data = [
 			'cart' => $cart,
-			'callback' => $callback
+			'callback' => $callback,
+			'custom' => $custom
 		];
 
 		$ct->fromArray([
 			'provider' => $provider,
-			'status' => 0,
+			'refnumber' => '',
+			'status' => '0',
 			'data' => json_encode($data)
 		]);
 
@@ -95,7 +99,7 @@ class PaymentService extends BaseService
 
 		$class = new $details['handler']();
 		$class->boot($this->app, $details);
-		
+
 		return $class;
 	}
 } // END class PaymentService extends BaseService

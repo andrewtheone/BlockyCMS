@@ -34,7 +34,13 @@ class Random extends SimpleField implements SimpleFieldInterface
 	public function processInput(Content $content, $input, $options) {
 		if( ($s = $content->getValue($options['inputName'])) ) return $s;
 
-		return md5(base64_encode(time()*rand()));
+		$s = md5(base64_encode(time()*rand()));
+
+		if(array_key_exists('length', $options) && ($options['length'] > 1)) {
+			$s = substr($s, 0, $options['length']);
+		}
+
+		return $s;
 	}
 
 	/**

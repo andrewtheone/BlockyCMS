@@ -23,6 +23,17 @@ class PaymentController extends SimpleController
 	 **/
 	public function start()
 	{
+		$transactionnr = $this->route->getAttribute('transaction');
+
+		$transaction = $this->app['payment']->findTransaction($transactionnr);
+		$response = $transaction->start(true);
+
+		if($response->isRedirect()) {
+			$this->redirect($response->getRedirect());
+			return;
+		}
+
+		$this->render($response->getTemplate(), $response->getData());
 	}
 
 	/**
@@ -33,6 +44,16 @@ class PaymentController extends SimpleController
 	 **/
 	public function cancel()
 	{
+		$transactionnr = $this->route->getAttribute('transaction');
+		$transaction = $this->app['payment']->findTransaction($transactionnr);
+		$response = $transaction->cancel();
+
+		if($response->isRedirect()) {
+			$this->redirect($response->getRedirect());
+			return;
+		}
+
+		$this->render($response->getTemplate(), $response->getData());
 	}
 
 	/**
@@ -43,6 +64,16 @@ class PaymentController extends SimpleController
 	 **/
 	public function back()
 	{
+		$transactionnr = $this->route->getAttribute('transaction');
+		$transaction = $this->app['payment']->findTransaction($transactionnr);
+		$response = $transaction->back();
+
+		if($response->isRedirect()) {
+			$this->redirect($response->getRedirect());
+			return;
+		}
+
+		$this->render($response->getTemplate(), $response->getData());
 	}
 
 	/**
@@ -56,7 +87,14 @@ class PaymentController extends SimpleController
 		$providerName = $this->route->getAttribute('provider');
 
 		$provider = $this->app['payment']->getProviderByName($providerName);
-		$provider->onResponse($this->request);
+		$response = $provider->onResponse($this->request);
+
+		if($response->isRedirect()) {
+			$this->redirect($response->getRedirect());
+			return;
+		}
+
+		$this->render($response->getTemplate(), $response->getData());
 	}
 
 } // END class BackendController

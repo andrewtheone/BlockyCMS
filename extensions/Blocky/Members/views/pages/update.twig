@@ -1,11 +1,4 @@
-{% extends "@theme/_layout.twig" %}
-
-{% block page %}
-	{% set pageVars = pageVars|default({})|merge({
-		title: 'Adatmódosítás'
-	}) %}
-	{{ parent() }}
-{% endblock %}
+{% extends app.config.view.layout %}
 
 {% block content %}
 	{% set contentVars = contentVars|default({})|merge({

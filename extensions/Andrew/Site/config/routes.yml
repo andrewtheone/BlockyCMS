@@ -1,0 +1,5 @@
+site_payment_start:
+  path: "/site/pay"
+  handler:
+    _controller: Andrew\Site\Controller\FrontendController
+    _action: pay

@@ -1,16 +1,22 @@
 transactions:
     show_menu: false
+    syncable: false
     name: Fizetések
     singular_name: Fizetés
     fields:
-        transaction:
+        transid:
             type: random
+            length: 10
             visible: false
         slug:
-            uses: transaction
-        type:
+            type: slug
+            uses: transid
+        provider:
             type: text
             label: Fizetési típus
+        refnumber:
+            type: text
+            label: Külső azonosító
         status:
             type: select
             options:
