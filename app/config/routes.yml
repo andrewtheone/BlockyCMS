@@ -13,5 +13,5 @@ homepage:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@theme/homepage.twig'
-  site:
+  meta:
     title: "Kezd\u0151lap"

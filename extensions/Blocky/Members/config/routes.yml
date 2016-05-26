@@ -4,18 +4,24 @@ members_login:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@members/pages/login.twig'
+  meta:
+    title: 'Belépés'
 members_signup:
   path: "/members/signup"
   handler:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@members/pages/signup.twig'
+  meta:
+    title: 'Regisztráció'
 members_update:
   path: "/members/update"
   handler:
     _controller: Blocky\Frontend\Controller\FrontendController
     _action: templateView
   template: '@members/pages/update.twig'
+  meta:
+    title: 'Adatmódosítás'
 members_logout:
   path: "/members/logout"
   handler:

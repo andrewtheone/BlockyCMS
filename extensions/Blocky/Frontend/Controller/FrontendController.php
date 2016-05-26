@@ -48,6 +48,13 @@ class FrontendController extends SimpleController
 	public function templateView()
 	{
 		//$this->app['mail']->send("andrewxxtheone@gmail.com", "ahham", "@theme/homepage.twig", []);
+		if( isset($this->route['meta']) ) {
+			$meta = $this->route['meta'];
+
+			foreach($meta as $k => $v) {
+				$this->app['meta']->set($k, $v);
+			}
+		}
 		$this->render( $this->route['template'] );
 	}
 } // END class FrontendController
