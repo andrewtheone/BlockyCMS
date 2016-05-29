@@ -9,6 +9,7 @@ use MatthiasMullie\Minify;
 use Blocky\Cache\Twig\CacheProvider as TwigCache;
 use Asm89\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
 use Asm89\Twig\CacheExtension\Extension as CacheExtension;
+use Leafo\ScssPhp\Compiler;
 
 /**
  * undocumented class
@@ -54,6 +55,33 @@ class ViewService extends BaseService
 	 **/
 	public function addAsset($type, $path, $priority)
 	{
+		//converting .scc files
+		if(($type == "style") && (strpos($path, ".scss") > 0)) {
+
+			//fetch original file path
+			$original = str_replace("@theme", $this->app['path']['root']."/themes/".$this->app['config']['theme'], $path);
+			$original = str_replace("@extensions", $this->app['path']['root']."/extensions", $original);
+
+			// @extensions/Andrew/Shop/assets/css/dashboard.scss
+
+			//get file name
+			$fileName = substr($original, ($lastSlashPos = strrpos($original, "/")) );
+			$filePath = substr($original, 0, $lastSlashPos);
+
+			$newFile = $fileName.".".filemtime($original).".css";
+
+			if(!file_exists($this->app['path']['files']."/cache/".$newFile)) {
+
+				$scss = new Compiler();
+				$scss->addImportPath($filePath);
+				$content = $scss->compile(file_get_contents($original));
+
+				file_put_contents($this->app['path']['files']."/cache/".$newFile, $content);
+			}
+
+			$path = $this->app['path']['files_url']."/cache".$newFile;
+		}
+
 		if((!$this->app['config']['assets']['minify']) || ($this->app['site'] == 'backend')) {
 			$path = str_replace("@theme", $this->app['config']['host']."/themes/".$this->app['config']['theme'], $path);
 			$path = str_replace("@extensions", $this->app['config']['host']."/extensions", $path);

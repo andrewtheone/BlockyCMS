@@ -2,6 +2,7 @@ assets:
     css:
         - '@theme/assets/css/bootstrap.css'
         - '@theme/assets/css/1-col-portfolio.css'
+        - '@theme/assets/css/test.scss'
     js:
         - '@theme/assets/js/jquery.js'
         - '@theme/assets/js/bootstrap.js'

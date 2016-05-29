@@ -11,7 +11,8 @@ $loader->registerNamespaces([
 	'Psr' => __DIR__.'/../vendors/Psr/src',
 	'Pimple' => __DIR__.'/../vendors/Pimple/src',
 	'MatthiasMullie' => __DIR__.'/../vendors/MatthiasMullie/src',
-	'Asm89' => __DIR__.'/../vendors/Asm89/src'
+	'Asm89' => __DIR__.'/../vendors/Asm89/src',
+	'Leafo' => __DIR__.'/../vendors/Leafo/src'
 ]);
 
 $loader->registerNamespaceFallbacks([__DIR__.'/../extensions']);
