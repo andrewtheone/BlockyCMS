@@ -215,4 +215,5 @@ extrainception:
                   fields:
                     icon:
                       type: image
+                      
 ...

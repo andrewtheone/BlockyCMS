@@ -24,5 +24,34 @@ class ECommerceCartService extends BaseService
 	{
 	}
 
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function addItem($slug, $quantity = 1, $variations = [], $accessories = [], $customerdata = [])
+	{
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function addVoucher($code)
+	{
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getItems()
+	{
+	}
 
 } // END class Service

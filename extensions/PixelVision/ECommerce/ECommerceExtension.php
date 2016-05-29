@@ -79,6 +79,12 @@ class ECommerceExtension extends SimpleExtension implements ServiceProvider, Fie
 				$e->boot();
 
 				return $e;
+			},
+			'ecommerce.voucher' => function($app) {
+				$e = new Service\ECommerceVoucherService($app);
+				$e->boot();
+
+				return $e;
 			}
 		];
 	}

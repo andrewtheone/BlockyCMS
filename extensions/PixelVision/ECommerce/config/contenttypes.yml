@@ -96,6 +96,20 @@ comproduct:
         label: 'Kiegészítők'
         type: grid
         columns: 'Megnevezés, Ár'
+    customerdata:
+        label: 'Egyedi mezők'
+        type: repeater
+        fields:
+            key:
+                type: text
+                label: 'Mező neve'
+            type:
+                label: 'Mező típusa'
+                type: select
+                options:
+                    - Szöveg mező
+                    - Szám mező
+                    - Hosszú szöveg
     extra_shipping:
         label: 'Extra szállítási díj'
         group: 'Szállítási opciók'

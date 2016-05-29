@@ -47,6 +47,38 @@ class ECommerceService extends BaseService
 	 **/
 	public function getCart()
 	{
+		/*
+			it retrieves ecommerce.cart->getItems and ecommerce.cart.getVoucher
+			it retrieves global vouchers
+
+			it adds voucher discounts to the proper items as 'extra_accessories'
+			'extra accessories key is not saved to the cart, because coupons and vouchers can be timed, so those should always be recalculated
+
+		*/
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getTotal()
+	{
+		/*
+			it retrieves ecommerce.getCart() and iterates through it, returns SUM(item.quantity*(item.price+SUM(item.accessories.price)+SUM(item.extra_accesories.price))
+		*/
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 * @author 
+	 **/
+	public function getActiveVouchers()
+	{
+		/* todo: return cart voucher, and active global vouchers */
 	}
 
 	/**

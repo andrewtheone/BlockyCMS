@@ -12,7 +12,6 @@
 	</div>
 	<div class="panel-body panel-body2" data-repeat-name="{{inputKey}}">
 		{% set rows = value %}
-		{% if rows|length == 0 %} {% set rows = [{}] %} {% endif %}
 
 		<div data-repeatable-template data-plain data-repeat-name="{{inputKey}}" style="display: none">
 			<div class="row" data-repeatable data-repeat-counter="{{itr}}" data-repeat-name="{{inputKey}}">
@@ -46,38 +45,40 @@
 				</div>
 			</div>
 		</div>
-		{% for itr, values in rows %}
-			<div class="row drag-sort" data-repeatable data-repeat-counter="{{itr}}" data-repeat-name="{{inputKey}}">
-				<div class="panel panel-repeat-item">
-					<div class="panel-heading">
-						<div class="col-lg-5">
-							{{ singular_name|default(label|default(name)) }} #{{itr}}
-						</div>
-						<div class="col-lg-1"></div>
-						<div class="col-lg-2">
-							<button class="btn btn-danger" data-repeatable-remove>Törlés</button>
-						</div>
-						<div class="col-lg-4">
-							<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-move-up>UP</button>
-							<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-move-down>DOWN</button>
-							<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-collapse-child-toggle>-</button>
-						</div>
-					</div>
-					<div class="panel-body panel-body2">
-
-						<div class="row">
-						{% for _inputName, _options in fields %}
-							<div class="row">
-								<div class="col-sm-12">
-							{% include app.content.getField(_options.type).getTemplate() with _options|merge({repeated: true, inputKey: inputKey ~ '['~itr~']['~_inputName~']', name: _inputName, label: _options.label|default(_inputName), value: values[_inputName], contentType: content.getContentType()}) %}
-								</div>
+		{% if rows|length > 0 %}
+			{% for itr, values in rows %}
+				<div class="row drag-sort" data-repeatable data-repeat-counter="{{itr}}" data-repeat-name="{{inputKey}}">
+					<div class="panel panel-repeat-item">
+						<div class="panel-heading">
+							<div class="col-lg-5">
+								{{ singular_name|default(label|default(name)) }} #{{itr}}
 							</div>
-						{% endfor %}
+							<div class="col-lg-1"></div>
+							<div class="col-lg-2">
+								<button class="btn btn-danger" data-repeatable-remove>Törlés</button>
+							</div>
+							<div class="col-lg-4">
+								<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-move-up>UP</button>
+								<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-move-down>DOWN</button>
+								<button class="btn btn-primary" data-repeat-name="{{inputKey}}" data-collapse-child-toggle>-</button>
+							</div>
+						</div>
+						<div class="panel-body panel-body2">
+
+							<div class="row">
+							{% for _inputName, _options in fields %}
+								<div class="row">
+									<div class="col-sm-12">
+								{% include app.content.getField(_options.type).getTemplate() with _options|merge({repeated: true, inputKey: inputKey ~ '['~itr~']['~_inputName~']', name: _inputName, label: _options.label|default(_inputName), value: values[_inputName], contentType: content.getContentType()}) %}
+									</div>
+								</div>
+							{% endfor %}
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		{% endif %}
 		<div data-repeat-place data-repeat-name="{{inputKey}}"></div>
 		<div class="row">
 				<div class="col-sm-2"></div>
