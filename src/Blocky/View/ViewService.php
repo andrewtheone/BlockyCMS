@@ -73,7 +73,22 @@ class ViewService extends BaseService
 			if(!file_exists($this->app['path']['files']."/cache/".$newFile)) {
 
 				$scss = new Compiler();
-				$scss->addImportPath($filePath);
+
+				$paths = $this->app['path'];
+				$theme = $this->app['config']['theme'];
+				$scss->addImportPath(function($path) use($paths, $filePath, $theme) {
+
+					$path = str_replace("@theme", $paths['root']."/themes/".$theme, $path);
+					$path = str_replace("@extensions", $paths['root']."/extensions", $path);
+
+				    if (!file_exists($path)) {
+
+				    	return $filePath."/".$path;
+				    }
+
+				    return $path;
+				});
+
 				$content = $scss->compile(file_get_contents($original));
 
 				file_put_contents($this->app['path']['files']."/cache/".$newFile, $content);
